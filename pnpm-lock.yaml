@@ -9,6 +9,9 @@ catalogs:
     '@iconify-json/carbon':
       specifier: ^1.2.8
       version: 1.2.8
+    '@iconify-json/tabler':
+      specifier: ^1.2.17
+      version: 1.2.17
     '@vitejs/plugin-vue':
       specifier: ^5.2.3
       version: 5.2.3
@@ -74,6 +77,12 @@ catalogs:
     '@vueuse/core':
       specifier: ^13.0.0
       version: 13.0.0
+    dayjs:
+      specifier: ^1.11.13
+      version: 1.11.13
+    fuse.js:
+      specifier: ^7.1.0
+      version: 7.1.0
     vue:
       specifier: ^3.5.13
       version: 3.5.13
@@ -93,10 +102,10 @@ importers:
         specifier: catalog:frontend
         version: 13.0.0(vue@3.5.13(typescript@5.8.2))
       dayjs:
-        specifier: ^1.11.13
+        specifier: catalog:frontend
         version: 1.11.13
       fuse.js:
-        specifier: ^7.1.0
+        specifier: catalog:frontend
         version: 7.1.0
       vue:
         specifier: catalog:frontend
@@ -112,7 +121,7 @@ importers:
         specifier: catalog:build
         version: 1.2.8
       '@iconify-json/tabler':
-        specifier: ^1.2.17
+        specifier: catalog:build
         version: 1.2.17
       '@types/node':
         specifier: catalog:dev
