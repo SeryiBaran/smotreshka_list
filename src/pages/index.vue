@@ -144,7 +144,7 @@ function findChannelPrograms(channelId: ChannelID) {
           <img v-if="minMd" class="channelLogo border border-1 border-brand-500 rounded-4 w-50 aspect-video" :src="channel.logoUrl" :alt="`Иконка ${formatKeyNumber(channel.keyNumber)} ${channel.title}`">
           <div>
             <div class="channelTitle flex gap-5 items-center">
-              <span class="channelNumber text-3xl text-brand-700 font-semibold dark:text-brand-300">{{ formatKeyNumber(channel.keyNumber) }}</span>
+              <span class="channelNumber text-3xl text-brand-800 font-semibold dark:text-brand-300">{{ formatKeyNumber(channel.keyNumber) }}</span>
               <span class="channelName text-2xl">{{ channel.title }}</span>
             </div>
             <Programs v-if="showPrograms && channelsPrograms && findChannelPrograms(channel.id) !== undefined" :channel-programs="findChannelPrograms(channel.id)" />

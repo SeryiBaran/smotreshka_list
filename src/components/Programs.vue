@@ -40,7 +40,7 @@ function getTimeTo(scheduledFor: TimeInterval, timeToBegin: boolean) {
 <template>
   <ul v-if="props?.channelPrograms?.programs?.length && props?.channelPrograms?.programs?.length > 0 && filteredPrograms.length > 0">
     <li v-for="program in filteredPrograms" :key="program.id">
-      <span class="font-semibold dark:text-brand-300"><span>{{ dayjs(program.scheduledFor.begin).format('HH:mm') }}</span> / <span>{{ dayjs(program.scheduledFor.end).format('HH:mm') }}</span></span>
+      <span class="text-brand-600 font-semibold dark:text-brand-300"><span>{{ dayjs(program.scheduledFor.begin).format('HH:mm') }}</span> / <span>{{ dayjs(program.scheduledFor.end).format('HH:mm') }}</span></span>
       -
       <span>{{ `${getTimeTo(program.scheduledFor, isCurrentProgram(program.scheduledFor))}` }}</span>
       |||||
