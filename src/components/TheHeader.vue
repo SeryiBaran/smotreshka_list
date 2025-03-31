@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="dark:border-brand-300/50 border-brand-500 mb-4 pb-4 border-b-1">
+  <div class="mb-4 pb-4 border-b-1 border-brand-500 dark:border-brand-300/50">
     <RouterLink to="/" class="headerMainLink inline-flex gap-4">
       <span class="i-tabler:device-tv-old text-6xl inline-block" />
       <div>
@@ -15,6 +15,9 @@
         </p>
       </div>
     </RouterLink>
+    <p class="text-xs">
+      Данные актуальны на момент 01.04.2025 01:48 по МСК
+    </p>
   </div>
 </template>
 

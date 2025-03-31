@@ -43,7 +43,7 @@ function getTimeTo(scheduledFor: TimeInterval, timeToBegin: boolean) {
       <span class="font-semibold dark:text-brand-300"><span>{{ dayjs(program.scheduledFor.begin).format('HH:mm') }}</span> / <span>{{ dayjs(program.scheduledFor.end).format('HH:mm') }}</span></span>
       -
       <span>{{ `${getTimeTo(program.scheduledFor, isCurrentProgram(program.scheduledFor))}` }}</span>
-      ---
+      |||||
       <span>{{ program.title }}</span>
     </li>
   </ul>
