@@ -1,0 +1,15 @@
+html,
+body,
+#app {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* * {
+  line-height: 150%;
+} */
+
+html.dark {
+  color-scheme: dark;
+}
