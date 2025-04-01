@@ -14,14 +14,26 @@ html.dark {
   color-scheme: dark;
 }
 
+.colorsTransition {
+  @apply transition transition-property-[background-color,color] transition-duration-200ms;
+}
+
 .btn {
-  @apply px-4 py-1 rounded inline-block bg-teal-600 text-white cursor-pointer hover:bg-teal-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50;
+  @apply px-4 py-1 rounded inline-block bg-brand-600 dark:bg-brand-700 text-white cursor-pointer hover:not-active:bg-brand-700 dark:hover:not-active:bg-brand-600 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50 outline-brand-600/40 dark:outline-brand-500/50 outline-solid outline-0 focus:outline-4 transition-property-[background-color,color,outline-width];
+}
+
+.btn-circle {
+  @apply rounded-full aspect-square;
 }
 
 .icon-btn {
-  @apply text-[0.9em] inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 hover:text-teal-600;
+  @apply text-[0.9em] inline-block cursor-pointer select-none hover:not-active:text-brand-600;
+}
+
+.btn-with-icon {
+  @apply flex gap-1 items-center;
 }
 
 select {
-  @apply px-2 py-1 rounded bg-neutral-800 border border-brand-500/60 dark:border-brand-300/30;
+  @apply px-2 py-1 rounded dark:bg-neutral-800 border border-brand-500/60 dark:border-brand-300/30;
 }

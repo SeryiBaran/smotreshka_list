@@ -125,11 +125,16 @@ const channelsPrograms = computed(() => {
 function findChannelPrograms(channelId: ChannelID) {
   return channelsPrograms.value!.find(channelPrograms => channelPrograms?.channelId === channelId)! // I AM FUCKED MY MIND ABOUT 2 HOURS WITHOUT THESE `!`.
 }
+
+function resetFilters() {
+  searchValue.value = ''
+  activeGenre.value = null
+}
 </script>
 
 <template>
   <div>
-    <input v-model="searchValue" type="text" class="search px-4 py-3 outline-0 outline-brand-500 outline-solid border-1 border-transparent rounded-2 border-solid bg-brand-500/10 w-full block focus:outline-2 not-focus:border-brand-400 hover:not-focus:bg-brand-500/14" placeholder="Введите запрос...">
+    <input v-model="searchValue" type="text" class="colorsTransition search px-4 py-3 outline-0 outline-brand-500 outline-solid border-1 border-transparent rounded-2 border-solid bg-brand-500/10 w-full block focus:outline-2 not-focus:border-brand-400 hover:not-focus:bg-brand-500/14" placeholder="Введите запрос...">
     <div class="mt-4 flex flex-wrap gap-x-2 gap-y-3">
       <div
         v-for="[genreId, genreName] in genresList" :key="genreId" class="flex" :class="{
@@ -137,18 +142,23 @@ function findChannelPrograms(channelId: ChannelID) {
           favorite: settingsStore.favoriteGenres.includes(genreId),
         }"
       >
-        <button class="genreButton genreButtonGenre" @click="() => handleGenreSelect(genreId)">
+        <button class="colorsTransition genreButton genreButtonGenre" @click="() => handleGenreSelect(genreId)">
           {{ genreName }}
         </button>
 
-        <button class="genreButton genreButtonFavorite" @click="() => settingsStore.favoriteGenreToggle(genreId)">
+        <button class="genreButton colorsTransition genreButtonFavorite" @click="() => settingsStore.favoriteGenreToggle(genreId)">
           <span
-            class="genreButtonFavoriteIcon i-tabler:heart h-1em w-1em block" :class="{ 'i-tabler:heart-filled': settingsStore.favoriteGenres.includes(genreId),
+            class="colorsTransition genreButtonFavoriteIcon i-tabler:heart h-1em w-1em block" :class="{ 'i-tabler:heart-filled': settingsStore.favoriteGenres.includes(genreId),
             }"
           />
         </button>
       </div>
     </div>
+    <button class="colorsTransition btn btn-with-icon my-2" @click="() => resetFilters()">
+      <span
+        class="colorsTransition i-tabler:cancel h-1em w-1em block"
+      />Очистить фильтры
+    </button>
     <p class="my-2">
       Итого: {{ channelsFiltered?.length }} канал(а/ов)
     </p>

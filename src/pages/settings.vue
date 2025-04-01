@@ -4,7 +4,20 @@ import { useSettingsStore } from '~/store/settings'
 
 const colorsList = Object.keys(unoPresetColors)
 
+const colors = Object.entries(unoPresetColors)
+  .map(([key, value]) => {
+    if (typeof value !== 'string' && typeof value === 'object' && !Array.isArray(value) && value !== null) {
+      return { name: key, value }
+    }
+    else {
+      return null
+    }
+  })
+  .filter(e => e !== null)
+
 const settingsStore = useSettingsStore()
+
+const [showColorsTable, toogleShowColorsTable] = useToggle(false)
 </script>
 
 <template>
@@ -17,14 +30,28 @@ const settingsStore = useSettingsStore()
             {{ color }}
           </option>
         </select>
-        <button class="btn ml-2" @click="settingsStore.brandColorReset()">
+        <button class="colorsTransition btn ml-2" @click="settingsStore.brandColorReset()">
           Сброс
         </button>
+        <button class="colorsTransition btn ml-2 block" @click="toogleShowColorsTable()">
+          {{ showColorsTable ? "Закрыть" : "Открыть" }} справку
+        </button>
+        <div v-if="showColorsTable" class="mt-4">
+          <div v-for="color in colors" :key="color.name" class="flex">
+            <span class="text-xs w-16 inline-block">{{ color.name }}</span>
+            <div class="flex">
+              <span v-for="[oneColorKey, oneColorValue] in Object.entries(color.value).sort((a, b) => (a[0] === 'DEFAULT' ? -1 : parseInt(a[0]) - parseInt(b[0])))" :key="color.name + oneColorKey" :style="`background-color: ${oneColorValue};`" class="text-xs h-8 w-8 inline-block [text-shadow:_1px_1px_1px_rgba(0,0,0,1)]">{{ oneColorKey.replaceAll('DEFAULT', 'DFLT') }}</span>
+            </div>
+          </div>
+        </div>
       </li>
+      <li>123</li>
     </ul>
   </div>
 </template>
 
 <style scoped>
-
+li {
+  @apply my-4 p-2 border-l-solid border-l-4 border-brand-500;
+}
 </style>
