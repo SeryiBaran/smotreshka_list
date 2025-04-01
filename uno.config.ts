@@ -5,14 +5,15 @@ import {
   presetAttributify,
   presetIcons,
   presetWebFonts,
+  presetWind4,
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
-import { defaultBrandColor, unoPreset } from './src/shared'
+import { defaultBrandColor } from './src/shared'
 
 export default defineConfig({
   presets: [
-    unoPreset(),
+    presetWind4(),
     presetAttributify(),
     presetIcons({
       scale: 1.2,
