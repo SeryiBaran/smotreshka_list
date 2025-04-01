@@ -45,7 +45,7 @@ const [showColorsTable, toogleShowColorsTable] = useToggle(false)
           </div>
         </div>
       </li>
-      <li>123</li>
+      <li><label><input id="isOpenNewTabCheck" v-model="settingsStore.isOpenNewTab" type="checkbox" name="isOpenNewTabCheck"> Открывать каналы в новой вкладке</label></li>
     </ul>
   </div>
 </template>

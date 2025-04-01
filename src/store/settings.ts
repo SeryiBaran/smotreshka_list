@@ -38,6 +38,10 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
     brandColor.value = defaultBrandColor
   }
 
+  // ...
+
+  const isOpenNewTab = ref(false)
+
   return {
     favoriteGenres,
     favoriteGenreAdd,
@@ -48,5 +52,7 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
     brandColor,
     brandColorSet,
     brandColorReset,
+
+    isOpenNewTab,
   }
 })

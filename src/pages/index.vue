@@ -138,7 +138,7 @@ function resetFilters() {
       Данные актуальны на момент 01.04.2025 01:48 по МСК
     </p>
     <input v-model="searchValue" type="text" class="colorsTransition search px-4 py-3 outline-0 outline-brand-500 outline-solid border-1 border-transparent rounded-2 border-solid bg-brand-500/10 w-full block focus:outline-2 not-focus:border-brand-400 hover:not-focus:bg-brand-500/14" placeholder="Введите запрос...">
-    <div class="mt-4 flex flex-wrap gap-x-2 gap-y-3">
+    <div class="text-lg mt-4 flex flex-wrap gap-x-2 gap-y-3">
       <div
         v-for="[genreId, genreName] in genresList" :key="genreId" class="flex" :class="{
           active: activeGenre === (genreId),
@@ -168,16 +168,17 @@ function resetFilters() {
     </div>
     <ul class="mt-4 flex flex-col gap-4">
       <li v-for="channel in channelsFiltered" :key="channel.id" class="border border-2 border-transparent rounded-4 hover:border-brand-500 hover:bg-brand-500/15 hover:dark:bg-brand-500/12">
-        <a :href="`https://smotreshka.tv/channels/now/${channel.id}/watch`" class="p-4 flex gap-4">
+        <a :href="`https://smotreshka.tv/channels/now/${channel.id}/watch`" class="p-4 flex gap-4" :target="settingsStore.isOpenNewTab ? '_blank' : '_top'">
           <img v-if="minMd" class="channelLogo border border-1 border-brand-500 rounded-4 w-50 aspect-video self-start object-cover" :src="channel.logoUrl" :alt="`Иконка ${formatKeyNumber(channel.keyNumber)} ${channel.title}`">
-          <div>
+          <div class="w-full">
             <div class="channelTitle flex gap-5 items-center">
               <span class="channelNumber text-3xl text-brand-800 font-semibold 2xl:text-5xl dark:text-brand-300">{{ formatKeyNumber(channel.keyNumber) }}</span>
               <span class="channelName text-2xl 2xl:text-4xl">{{ channel.title }}</span>
             </div>
-            <Programs v-if="showPrograms && channelsPrograms && findChannelPrograms(channel.id) !== undefined" :channel-programs="findChannelPrograms(channel.id)" class="2xl:mt-4" />
+            <Programs v-if="showPrograms && channelsPrograms && findChannelPrograms(channel.id) !== undefined" :channel-programs="findChannelPrograms(channel.id)" class="mt-2 2xl:mt-4" />
             <p v-else class="text-sm mt-2">
-              {{ `${channel.description.slice(0, 200)}...` }}
+              <!-- {{ `${channel.description.slice(0, 200)}...` }} -->
+              {{ (programsFetch.isFetching.value || programsComposeTableFetch.isFetching.value) ? 'Загрузка программы, подождите пожалуйста...' : 'Простите, программа отсутствует' }}
             </p>
           </div>
         </a>
