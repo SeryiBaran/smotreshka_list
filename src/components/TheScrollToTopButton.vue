@@ -37,7 +37,7 @@ function handleToTopClick() {
 </script>
 
 <template>
-  <button v-show="true || (lastScrollY !== null) || (directionToTop && (y > 100)) || !directionToTop" class="p-4 rounded-full cursor-pointer bottom-4 right-4 fixed dark:bg-brand-700" @click="() => handleToTopClick()">
+  <button v-show="true || (lastScrollY !== null) || (directionToTop && (y > 100)) || !directionToTop" class="text-white p-4 rounded-full bg-brand-500 cursor-pointer bottom-4 right-4 fixed dark:bg-brand-700" @click="() => handleToTopClick()">
     <span class="i-tabler:arrow-up h-10 w-10 block" :class="{ directionToBottom: !directionToTop }" />
   </button>
 </template>

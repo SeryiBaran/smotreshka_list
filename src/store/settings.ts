@@ -1,8 +1,9 @@
 import type { GenreID } from '~/types'
 import { defineStore } from 'pinia'
+import { defaultBrandColor, defaultFavoriteGenres } from '~/shared'
 
 export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
-  const favoriteGenres = ref<GenreID[]>(['federal', 'kids'])
+  const favoriteGenres = ref<GenreID[]>(defaultFavoriteGenres)
 
   function favoriteGenreAdd(genreId: GenreID) {
     favoriteGenres.value.push(genreId)
@@ -21,10 +22,31 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
     }
   }
 
+  function favoriteGenresReset() {
+    favoriteGenres.value = defaultFavoriteGenres
+  }
+
+  // ...
+
+  const brandColor = ref<string>(defaultBrandColor)
+
+  function brandColorSet(newColor: string) {
+    brandColor.value = newColor
+  }
+
+  function brandColorReset() {
+    brandColor.value = defaultBrandColor
+  }
+
   return {
     favoriteGenres,
     favoriteGenreAdd,
     favoriteGenreRemove,
     favoriteGenreToggle,
+    favoriteGenresReset,
+
+    brandColor,
+    brandColorSet,
+    brandColorReset,
   }
 })
