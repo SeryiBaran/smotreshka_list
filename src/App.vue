@@ -1,6 +1,10 @@
 <script lang="ts" setup>
-import { unoPresetColors } from './shared'
-import { useSettingsStore } from './store/settings'
+import { routesNames, unoPresetColors } from '~/shared'
+import { useSettingsStore } from '~/store/settings'
+
+const route = useRoute()
+
+const routeName = computed(() => routesNames.find(r => r.url === route.name)?.title)
 
 const colorsConfig = unoPresetColors
 
@@ -47,6 +51,9 @@ const css = computed(() => `/* Generated with SeryiBaran unocss_preset_colors_to
     </component>
     <main font-sans p="x-4 y-10" text="gray-700 dark:gray-200">
       <TheHeader />
+      <h1 class="text-4xl">
+        {{ routeName }}
+      </h1>
       <RouterView />
       <TheFooter />
     </main>

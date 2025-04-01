@@ -134,6 +134,9 @@ function resetFilters() {
 
 <template>
   <div>
+    <p class="text-xs my-4">
+      Данные актуальны на момент 01.04.2025 01:48 по МСК
+    </p>
     <input v-model="searchValue" type="text" class="colorsTransition search px-4 py-3 outline-0 outline-brand-500 outline-solid border-1 border-transparent rounded-2 border-solid bg-brand-500/10 w-full block focus:outline-2 not-focus:border-brand-400 hover:not-focus:bg-brand-500/14" placeholder="Введите запрос...">
     <div class="mt-4 flex flex-wrap gap-x-2 gap-y-3">
       <div
@@ -154,14 +157,15 @@ function resetFilters() {
         </button>
       </div>
     </div>
-    <button class="colorsTransition btn btn-with-icon my-2" @click="() => resetFilters()">
-      <span
-        class="colorsTransition i-tabler:cancel h-1em w-1em block"
-      />Очистить фильтры
-    </button>
-    <p class="my-2">
-      Итого: {{ channelsFiltered?.length }} канал(а/ов)
-    </p>
+    <div class="flex flex-wrap gap-4 items-center">
+      <p class="my-2">
+        Итого: {{ channelsFiltered?.length }} канал(а/ов)
+      </p><button class="colorsTransition btn-with-icon btn my-2" @click="() => resetFilters()">
+        <span
+          class="colorsTransition i-tabler:cancel h-1em w-1em block"
+        />Очистить фильтры
+      </button>
+    </div>
     <ul class="mt-4 flex flex-col gap-4">
       <li v-for="channel in channelsFiltered" :key="channel.id" class="border border-2 border-transparent rounded-4 hover:border-brand-500 hover:bg-brand-500/15 hover:dark:bg-brand-500/12">
         <a :href="`https://smotreshka.tv/channels/now/${channel.id}/watch`" class="p-4 flex gap-4">

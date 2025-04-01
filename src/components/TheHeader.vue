@@ -8,11 +8,11 @@
       <RouterLink to="/" class="colorsTransition headerMainLink inline-flex gap-4">
         <span class="i-tabler:device-tv-old text-5xl inline-block sm:text-6xl" />
         <div>
-          <h1 class="text-3xl sm:text-4xl">
+          <span class="text-3xl">
             Смотрёшка
-          </h1>
+          </span>
           <p class="mt-1 block">
-            Список каналов
+            Список от SeryiBaran
           </p>
         </div>
       </RouterLink>
@@ -25,9 +25,6 @@
         </RouterLink>
       </div>
     </div>
-    <p class="text-xs mt-4">
-      Данные актуальны на момент 01.04.2025 01:48 по МСК
-    </p>
   </div>
 </template>
 

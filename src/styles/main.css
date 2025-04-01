@@ -6,10 +6,6 @@ body,
   padding: 0;
 }
 
-/* * {
-  line-height: 150%;
-} */
-
 html.dark {
   color-scheme: dark;
 }
