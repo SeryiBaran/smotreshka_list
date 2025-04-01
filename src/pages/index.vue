@@ -42,16 +42,10 @@ const genres = computed(
     : { },
 )
 
-const activeGenres = ref<GenreID[]>([])
+const activeGenre = ref<GenreID | null>(null)
 
 function handleGenreSelect(genreId: GenreID) {
-  const findIndex = activeGenres.value.findIndex(elem => elem === genreId)
-  if (findIndex >= 0) {
-    activeGenres.value = activeGenres.value.filter(elem => elem !== genreId)
-  }
-  else {
-    activeGenres.value = [...activeGenres.value, genreId]
-  }
+  activeGenre.value = (activeGenre.value !== genreId ? genreId : null)
 }
 
 // watch(activeGenres, (newState) => { console.log(newState) })
@@ -72,10 +66,9 @@ const channelsSorted = computed(() => (
 const channelsFilteredByGenre = computed(() => (
   channelsSorted.value
     ?.filter((channel) => {
-      if (activeGenres.value.length > 0) {
+      if (activeGenre.value) {
         return (
-          channel.relevantGenres.map(genre => genre.genreId).flat(1).some(r => activeGenres.value.includes(r))
-          && activeGenres.value.every(r => channel.relevantGenres.map(genre => genre.genreId).flat(1).includes(r))
+          channel.relevantGenres.map(genre => genre.genreId).flat(1).includes(activeGenre.value)
         ) // don't ask me idk how this works
       }
       return true
@@ -91,7 +84,7 @@ const channelsFiltered = computed(() => {
       keys: ['title', {
         name: 'keyNumber',
         getFn(e) {
-          return formatKeyNumber(e.keyNumber)
+          return (e.keyNumber.toString())
         },
       }],
     })
@@ -139,7 +132,7 @@ function findChannelPrograms(channelId: ChannelID) {
   <div>
     <input v-model="searchValue" type="text" class="search px-4 py-3 outline-0 outline-brand-500 outline-solid border-1 border-transparent rounded-2 border-solid bg-brand-500/10 w-full block focus:outline-2 not-focus:border-brand-400 hover:not-focus:bg-brand-500/14" placeholder="Введите запрос...">
     <div class="mt-4 flex flex-wrap gap-x-2 gap-y-3">
-      <button v-for="[genreId, genreName] in genresList" :key="genreId" class="genreButton" :class="{ active: activeGenres.includes(genreId), favoriteGenre: favoriteGenres.includes(genreId) }" @click="() => handleGenreSelect(genreId)">
+      <button v-for="[genreId, genreName] in genresList" :key="genreId" class="genreButton" :class="{ active: activeGenre === (genreId) }" @click="() => handleGenreSelect(genreId)">
         {{ genreName }}
       </button>
     </div>
@@ -162,7 +155,7 @@ function findChannelPrograms(channelId: ChannelID) {
           </div>
         </a>
       </li>
-      <p v-if="(activeGenres.length > 0) && !channelsFiltered?.length" class="text-lg text-center">
+      <p v-if="(activeGenre || searchValueDebounced.trim() !== '') && !channelsFiltered?.length" class="text-lg text-center">
         Ничего не найдено 😢
       </p>
     </ul>
@@ -176,10 +169,5 @@ function findChannelPrograms(channelId: ChannelID) {
 
 .genreButton.active {
   @apply border-brand-500 dark:bg-brand-500/30 bg-brand-500/33;
-}
-
-.genreButton.favoriteGenre {
-  box-shadow: 0 0 calc(var(--spacing) * 2) calc(var(--spacing) * 0.8)
-    color-mix(in oklch, oklch(0.623 0.214 259.815) 50%, transparent);
 }
 </style>
