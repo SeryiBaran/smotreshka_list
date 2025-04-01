@@ -169,13 +169,13 @@ function resetFilters() {
     <ul class="mt-4 flex flex-col gap-4">
       <li v-for="channel in channelsFiltered" :key="channel.id" class="border border-2 border-transparent rounded-4 hover:border-brand-500 hover:bg-brand-500/15 hover:dark:bg-brand-500/12">
         <a :href="`https://smotreshka.tv/channels/now/${channel.id}/watch`" class="p-4 flex gap-4">
-          <img v-if="minMd" class="channelLogo border border-1 border-brand-500 rounded-4 w-50 aspect-video" :src="channel.logoUrl" :alt="`Иконка ${formatKeyNumber(channel.keyNumber)} ${channel.title}`">
+          <img v-if="minMd" class="channelLogo border border-1 border-brand-500 rounded-4 w-50 aspect-video self-start object-cover" :src="channel.logoUrl" :alt="`Иконка ${formatKeyNumber(channel.keyNumber)} ${channel.title}`">
           <div>
             <div class="channelTitle flex gap-5 items-center">
-              <span class="channelNumber text-3xl text-brand-800 font-semibold dark:text-brand-300">{{ formatKeyNumber(channel.keyNumber) }}</span>
-              <span class="channelName text-2xl">{{ channel.title }}</span>
+              <span class="channelNumber text-3xl text-brand-800 font-semibold 2xl:text-5xl dark:text-brand-300">{{ formatKeyNumber(channel.keyNumber) }}</span>
+              <span class="channelName text-2xl 2xl:text-4xl">{{ channel.title }}</span>
             </div>
-            <Programs v-if="showPrograms && channelsPrograms && findChannelPrograms(channel.id) !== undefined" :channel-programs="findChannelPrograms(channel.id)" />
+            <Programs v-if="showPrograms && channelsPrograms && findChannelPrograms(channel.id) !== undefined" :channel-programs="findChannelPrograms(channel.id)" class="2xl:mt-4" />
             <p v-else class="text-sm mt-2">
               {{ `${channel.description.slice(0, 200)}...` }}
             </p>
