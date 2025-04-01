@@ -2,6 +2,7 @@
 import type { APIChannels, APIPrograms, APIProgramsComposeTable, ChannelID, GenreID } from '~/types'
 import { useFetch } from '@vueuse/core'
 import Fuse from 'fuse.js'
+import { useSettingsStore } from '~/store/settings'
 
 defineOptions({
   name: 'IndexPage',
@@ -34,7 +35,7 @@ const programsComposeTableFetch = useFetch(programsComposeTableFetchURL, {}).get
 const searchValue = ref('')
 const searchValueDebounced = refDebounced(searchValue, 500)
 
-const favoriteGenres = ref(['federal'])
+const settingsStore = useSettingsStore()
 
 const genres = computed(
   () => Array.isArray(channelsFetch.data.value?.channels)
@@ -47,8 +48,6 @@ const activeGenre = ref<GenreID | null>(null)
 function handleGenreSelect(genreId: GenreID) {
   activeGenre.value = (activeGenre.value !== genreId ? genreId : null)
 }
-
-// watch(activeGenres, (newState) => { console.log(newState) })
 
 const channels = computed(
   () => channelsFetch.data.value?.channels,
@@ -95,7 +94,7 @@ const channelsFiltered = computed(() => {
   return filtered
 })
 
-const genresList = computed(() => (Object.entries(genres.value).sort((_a, _b) => favoriteGenres.value.includes(_a[0]) ? -1 : 1)))
+const genresList = computed(() => (Object.entries(genres.value).sort((_a, _b) => settingsStore.favoriteGenres.includes(_a[0]) ? -1 : 1)))
 
 const channelsPrograms = computed(() => {
   let isFinded = true
@@ -132,9 +131,23 @@ function findChannelPrograms(channelId: ChannelID) {
   <div>
     <input v-model="searchValue" type="text" class="search px-4 py-3 outline-0 outline-brand-500 outline-solid border-1 border-transparent rounded-2 border-solid bg-brand-500/10 w-full block focus:outline-2 not-focus:border-brand-400 hover:not-focus:bg-brand-500/14" placeholder="Введите запрос...">
     <div class="mt-4 flex flex-wrap gap-x-2 gap-y-3">
-      <button v-for="[genreId, genreName] in genresList" :key="genreId" class="genreButton" :class="{ active: activeGenre === (genreId) }" @click="() => handleGenreSelect(genreId)">
-        {{ genreName }}
-      </button>
+      <div
+        v-for="[genreId, genreName] in genresList" :key="genreId" class="flex" :class="{
+          active: activeGenre === (genreId),
+          favorite: settingsStore.favoriteGenres.includes(genreId),
+        }"
+      >
+        <button class="genreButton genreButtonGenre" @click="() => handleGenreSelect(genreId)">
+          {{ genreName }}
+        </button>
+
+        <button class="genreButton genreButtonFavorite" @click="() => settingsStore.favoriteGenreToggle(genreId)">
+          <span
+            class="genreButtonFavoriteIcon i-tabler:heart h-1em w-1em block" :class="{ 'i-tabler:heart-filled': settingsStore.favoriteGenres.includes(genreId),
+            }"
+          />
+        </button>
+      </div>
     </div>
     <p class="my-2">
       Итого: {{ channelsFiltered?.length }} канал(а/ов)
@@ -167,7 +180,33 @@ function findChannelPrograms(channelId: ChannelID) {
   @apply cursor-pointer px-3 py-0.5 border border-2 border-transparent rounded-full dark:bg-brand-500/10 bg-brand-500/13 hover:(dark:bg-brand-500/18 bg-brand-500/21);
 }
 
-.genreButton.active {
+.active .genreButton {
   @apply border-brand-500 dark:bg-brand-500/30 bg-brand-500/33;
 }
+
+.genreButtonGenre {
+  @apply rounded-rt-0 rounded-rb-0;
+}
+
+.genreButtonFavorite {
+  @apply rounded-lt-0 rounded-lb-0 px-2 pl-1.5;
+}
+
+.favorite .genreButtonFavorite .genreButtonFavoriteIcon {
+  @apply text-brand-500;
+}
+
+.genreButtonFavorite:not(.active .genreButtonFavorite, .favorite .genreButtonFavorite) {
+  @apply border-transparent;
+}
+
+.active.favorite .genreButtonFavorite {
+  @apply border-brand-500;
+}
+
+.active .genreButtonFavorite {
+  @apply border-l-transparent!;
+}
+
+/* oh shit */
 </style>

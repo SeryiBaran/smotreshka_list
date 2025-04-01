@@ -9,6 +9,7 @@ import VueMacros from 'unplugin-vue-macros/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
 import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
+import vueDevTools from 'vite-plugin-vue-devtools'
 
 export default defineConfig({
   base: '/smotreshka_list',
@@ -60,6 +61,8 @@ export default defineConfig({
     // https://github.com/antfu/unocss
     // see uno.config.ts for config
     UnoCSS(),
+
+    vueDevTools(),
   ],
 
   // https://github.com/vitest-dev/vitest

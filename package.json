@@ -16,6 +16,8 @@
     "@vueuse/core": "catalog:frontend",
     "dayjs": "catalog:frontend",
     "fuse.js": "catalog:frontend",
+    "pinia": "catalog:frontend",
+    "pinia-plugin-persistedstate-2": "catalog:frontend",
     "vue": "catalog:frontend",
     "vue-router": "catalog:frontend"
   },
@@ -41,6 +43,7 @@
     "unplugin-vue-macros": "catalog:build",
     "unplugin-vue-router": "catalog:build",
     "vite": "catalog:build",
+    "vite-plugin-vue-devtools": "catalog:dev",
     "vitest": "catalog:dev",
     "vue-tsc": "catalog:dev"
   },

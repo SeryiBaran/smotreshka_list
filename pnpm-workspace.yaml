@@ -27,6 +27,7 @@ catalogs:
     simple-git-hooks: ^2.12.1
     taze: ^19.0.2
     typescript: ^5.8.2
+    vite-plugin-vue-devtools: ^7.7.2
     vitest: ^3.0.9
     vue-tsc: ^2.2.8
 
@@ -34,6 +35,8 @@ catalogs:
     '@vueuse/core': ^13.0.0
     dayjs: ^1.11.13
     fuse.js: ^7.1.0
+    pinia: ^3.0.1
+    pinia-plugin-persistedstate-2: ^2.0.30
     vue: ^3.5.13
     vue-router: ^4.5.0
 

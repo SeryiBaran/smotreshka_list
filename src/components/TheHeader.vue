@@ -16,18 +16,18 @@
           </p>
         </div>
       </RouterLink>
-      <RouterLink to="/settings" class="">
+      <RouterLink to="/settings" class="settingsLink">
         <span class="i-tabler:settings text-3xl inline-block" />
       </RouterLink>
     </div>
-    <p class="text-xs">
+    <p class="text-xs mt-4">
       Данные актуальны на момент 01.04.2025 01:48 по МСК
     </p>
   </div>
 </template>
 
 <style scoped>
-.headerMainLink:hover {
+:where(.headerMainLink, .settingsLink):hover {
   @apply text-brand-600 dark:text-brand-300;
 }
 </style>
