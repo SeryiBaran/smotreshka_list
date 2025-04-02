@@ -18,6 +18,18 @@ const colors = Object.entries(unoPresetColors)
 const settingsStore = useSettingsStore()
 
 const [showColorsTable, toogleShowColorsTable] = useToggle(false)
+
+const isShowResetDoneMessage = ref(false)
+
+const isShowResetDoneMessageTimeout = useTimeoutFn(() => {
+  isShowResetDoneMessage.value = false
+}, 3000)
+
+function handleAllReset() {
+  settingsStore.$reset()
+  isShowResetDoneMessage.value = true
+  isShowResetDoneMessageTimeout.start()
+}
 </script>
 
 <template>
@@ -46,6 +58,12 @@ const [showColorsTable, toogleShowColorsTable] = useToggle(false)
         </div>
       </li>
       <li><label><input id="isOpenNewTabCheck" v-model="settingsStore.isOpenNewTab" type="checkbox" name="isOpenNewTabCheck"> Открывать каналы в новой вкладке</label></li>
+      <li>
+        <button class="colorsTransition btn ml-2 block" @click="handleAllReset()">
+          СБРОСИТЬ ВСЕ НАСТРОЙКИ
+        </button>
+        <span v-show="isShowResetDoneMessage" class="ml-2">Настройки сброшены!</span>
+      </li>
     </ul>
   </div>
 </template>

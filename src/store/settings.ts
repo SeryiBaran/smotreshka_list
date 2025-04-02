@@ -1,6 +1,6 @@
-import type { GenreID } from '~/types'
+import type { GenreID, UnoCSSColorName } from '~/types'
 import { defineStore } from 'pinia'
-import { defaultBrandColor, defaultFavoriteGenres } from '~/shared'
+import { defaultBrandColor, defaultFavoriteGenres, defaultIsOpenNewTab } from '~/shared'
 
 export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
   const favoriteGenres = ref<GenreID[]>(defaultFavoriteGenres)
@@ -28,9 +28,9 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
 
   // ...
 
-  const brandColor = ref<string>(defaultBrandColor)
+  const brandColor = ref<UnoCSSColorName>(defaultBrandColor)
 
-  function brandColorSet(newColor: string) {
+  function brandColorSet(newColor: UnoCSSColorName) {
     brandColor.value = newColor
   }
 
@@ -40,7 +40,17 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
 
   // ...
 
-  const isOpenNewTab = ref(false)
+  const isOpenNewTab = ref(defaultIsOpenNewTab)
+
+  function isOpenNewTabReset() {
+    isOpenNewTab.value = defaultIsOpenNewTab
+  }
+
+  function $reset() {
+    favoriteGenresReset()
+    brandColorReset()
+    isOpenNewTabReset()
+  }
 
   return {
     favoriteGenres,
@@ -54,5 +64,8 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
     brandColorReset,
 
     isOpenNewTab,
+    isOpenNewTabReset,
+
+    $reset,
   }
 })
