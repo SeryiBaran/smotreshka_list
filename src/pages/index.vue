@@ -2,6 +2,7 @@
 import type { APIChannels, APIPrograms, APIProgramsComposeTable, ChannelID, GenreID } from '~/types'
 import { useFetch } from '@vueuse/core'
 import Fuse from 'fuse.js'
+import { useFiltersStore } from '~/store/filters'
 import { useSettingsStore } from '~/store/settings'
 
 defineOptions({
@@ -32,10 +33,8 @@ const channelsFetch = useFetch(channelsFetchURL, {}).get().json<APIChannels>()
 const programsFetch = useFetch(programsFetchURL, {}).get().json<APIPrograms>()
 const programsComposeTableFetch = useFetch(programsComposeTableFetchURL, {}).get().json<APIProgramsComposeTable>()
 
-const searchValue = ref('')
-const searchValueDebounced = refDebounced(searchValue, 500)
-
 const settingsStore = useSettingsStore()
+const filtersStore = useFiltersStore()
 
 const genres = computed(
   () => Array.isArray(channelsFetch.data.value?.channels)
@@ -43,10 +42,8 @@ const genres = computed(
     : { },
 )
 
-const activeGenre = ref<GenreID | null>(null)
-
 function handleGenreSelect(genreId: GenreID) {
-  activeGenre.value = (activeGenre.value !== genreId ? genreId : null)
+  filtersStore.selectedGenreSetOrToggle(genreId)
 }
 
 const channels = computed(
@@ -65,9 +62,9 @@ const channelsSorted = computed(() => (
 const channelsFilteredByGenre = computed(() => (
   channelsSorted.value
     ?.filter((channel) => {
-      if (activeGenre.value) {
+      if (filtersStore.selectedGenre) {
         return (
-          channel.relevantGenres.map(genre => genre.genreId).flat(1).includes(activeGenre.value)
+          channel.relevantGenres.map(genre => genre.genreId).flat(1).includes(filtersStore.selectedGenre)
         ) // don't ask me idk how this works
       }
       return true
@@ -77,7 +74,7 @@ const channelsFilteredByGenre = computed(() => (
 const channelsFiltered = computed(() => {
   let filtered = channelsFilteredByGenre.value
 
-  const search = searchValueDebounced.value.trim()
+  const search = filtersStore.searchValueDebounced.trim()
   if (filtered && search.length > 0) {
     const fuse = new Fuse(filtered, {
       keys: ['title', {
@@ -127,8 +124,7 @@ function findChannelPrograms(channelId: ChannelID) {
 }
 
 function resetFilters() {
-  searchValue.value = ''
-  activeGenre.value = null
+  filtersStore.$reset()
 }
 </script>
 
@@ -137,11 +133,11 @@ function resetFilters() {
     <p class="text-xs my-4">
       Данные актуальны на момент 01.04.2025 01:48 по МСК
     </p>
-    <input v-model="searchValue" type="text" class="colorsTransition search px-4 py-3 outline-0 outline-brand-500 outline-solid border-1 border-transparent rounded-2 border-solid bg-brand-500/10 w-full block focus:outline-2 not-focus:border-brand-400 hover:not-focus:bg-brand-500/14" placeholder="Введите запрос...">
+    <input v-model="filtersStore.searchValue" type="text" class="colorsTransition search px-4 py-3 outline-0 outline-brand-500 outline-solid border-1 border-transparent rounded-2 border-solid bg-brand-500/10 w-full block focus:outline-2 not-focus:border-brand-400 hover:not-focus:bg-brand-500/14" placeholder="Введите запрос...">
     <div class="text-lg mt-4 flex flex-wrap gap-x-2 gap-y-3">
       <div
         v-for="[genreId, genreName] in genresList" :key="genreId" class="flex" :class="{
-          active: activeGenre === (genreId),
+          active: filtersStore.selectedGenre === (genreId),
           favorite: settingsStore.favoriteGenres.includes(genreId),
         }"
       >
@@ -183,7 +179,7 @@ function resetFilters() {
           </div>
         </a>
       </li>
-      <p v-if="(activeGenre || searchValueDebounced.trim() !== '') && !channelsFiltered?.length" class="text-lg text-center">
+      <p v-if="(filtersStore.selectedGenre || filtersStore.searchValueDebounced.trim() !== '') && !channelsFiltered?.length" class="text-lg text-center">
         Ничего не найдено 😢
       </p>
     </ul>
