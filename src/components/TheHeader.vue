@@ -5,13 +5,15 @@
 <template>
   <div class="mb-4 pb-4 border-b-1 border-brand-500 dark:border-brand-300/50">
     <div class="flex gap-2 justify-between">
-      <RouterLink to="/" class="colorsTransition headerMainLink inline-flex gap-4">
-        <span class="i-tabler:device-tv-old text-5xl inline-block sm:text-6xl" />
+      <RouterLink to="/" class="colorsTransition headerMainLink inline-flex gap-4 items-center">
+        <span class="colorsTransition p-2 border-1 border-brand-700 rounded-2 border-solid bg-brand-100 flex items-center justify-center">
+          <span class="colorsTransition i-tabler:device-tv-old text-3xl text-brand-700 block sm:text-4xl" />
+        </span>
         <div>
-          <span class="text-3xl">
+          <span class="text-2xl sm:text-3xl">
             Смотрёшка
           </span>
-          <p class="mt-1 block">
+          <p class="text-sm mt-1 block sm:text-size-base">
             Список от SeryiBaran
           </p>
         </div>

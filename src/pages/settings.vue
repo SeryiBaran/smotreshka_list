@@ -69,6 +69,6 @@ function handleAllReset() {
 
 <style scoped>
 li {
-  @apply my-4 p-2 border-l-solid border-l-4 border-brand-500;
+  @apply my-4 p-2 border-l-solid border-l-4 border-brand-500 w-full;
 }
 </style>
