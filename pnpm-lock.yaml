@@ -80,6 +80,9 @@ catalogs:
     '@vueuse/core':
       specifier: ^13.0.0
       version: 13.0.0
+    '@vueuse/integrations':
+      specifier: ^13.0.0
+      version: 13.0.0
     dayjs:
       specifier: ^1.11.13
       version: 1.11.13
@@ -111,7 +114,7 @@ importers:
         specifier: catalog:frontend
         version: 13.0.0(vue@3.5.13(typescript@5.8.2))
       '@vueuse/integrations':
-        specifier: ^13.0.0
+        specifier: catalog:frontend
         version: 13.0.0(fuse.js@7.1.0)(vue@3.5.13(typescript@5.8.2))
       dayjs:
         specifier: catalog:frontend
