@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { APIChannels, APIPrograms, APIProgramsComposeTable, ChannelID, GenreID } from '~/types'
 import { useFetch } from '@vueuse/core'
-import Fuse from 'fuse.js'
+import { useFuse } from '@vueuse/integrations/useFuse'
+import { storeToRefs } from 'pinia'
 import { useFiltersStore } from '~/store/filters'
 import { useSettingsStore } from '~/store/settings'
 
@@ -36,6 +37,8 @@ const programsComposeTableFetch = useFetch(programsComposeTableFetchURL, {}).get
 const settingsStore = useSettingsStore()
 const filtersStore = useFiltersStore()
 
+const { searchValueDebouncedTrimmed } = storeToRefs(filtersStore)
+
 const genres = computed(
   () => Array.isArray(channelsFetch.data.value?.channels)
     ? channelsFetch.data.value.genres.reduce((accumulator, genre) => ({ ...accumulator, [genre.id]: genre.title }), {})
@@ -47,21 +50,21 @@ function handleGenreSelect(genreId: GenreID) {
 }
 
 const channels = computed(
-  () => channelsFetch.data.value?.channels,
+  () => channelsFetch.data.value?.channels || [],
 )
 
 const channelsAvailable = computed(() => (
   channels.value
-    ?.filter(channel => availableChannelsNumbers.includes(channel.keyNumber))
+    .filter(channel => availableChannelsNumbers.includes(channel.keyNumber))
 ))
 
 const channelsSorted = computed(() => (
-  channelsAvailable.value?.slice().sort((a, b) => (a.keyNumber - b.keyNumber))
+  channelsAvailable.value.slice().sort((a, b) => (a.keyNumber - b.keyNumber))
 ))
 
 const channelsFilteredByGenre = computed(() => (
   channelsSorted.value
-    ?.filter((channel) => {
+    .filter((channel) => {
       if (filtersStore.selectedGenre) {
         return (
           channel.relevantGenres.map(genre => genre.genreId).flat(1).includes(filtersStore.selectedGenre)
@@ -71,21 +74,22 @@ const channelsFilteredByGenre = computed(() => (
     })
 ))
 
+const find = useFuse(searchValueDebouncedTrimmed, channelsFilteredByGenre, {
+  fuseOptions: {
+    keys: ['title', {
+      name: 'keyNumber',
+      getFn(e) {
+        return (e.keyNumber.toString())
+      },
+    }],
+  },
+})
+
 const channelsFiltered = computed(() => {
   let filtered = channelsFilteredByGenre.value
 
-  const search = filtersStore.searchValueDebounced.trim()
-  if (filtered && search.length > 0) {
-    const fuse = new Fuse(filtered, {
-      keys: ['title', {
-        name: 'keyNumber',
-        getFn(e) {
-          return (e.keyNumber.toString())
-        },
-      }],
-    })
-
-    filtered = fuse.search(search).map(e => e.item)
+  if (filtered && searchValueDebouncedTrimmed.value.length > 0) {
+    filtered = find.results.value.map(e => e.item)
   }
 
   return filtered
@@ -179,7 +183,7 @@ function resetFilters() {
           </div>
         </a>
       </li>
-      <p v-if="(filtersStore.selectedGenre || filtersStore.searchValueDebounced.trim() !== '') && !channelsFiltered?.length" class="text-lg text-center">
+      <p v-if="(filtersStore.selectedGenre || searchValueDebouncedTrimmed !== '') && !channelsFiltered?.length" class="text-lg text-center">
         Ничего не найдено 😢
       </p>
     </ul>

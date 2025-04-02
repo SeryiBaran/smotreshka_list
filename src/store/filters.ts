@@ -4,6 +4,7 @@ import { defineStore } from 'pinia'
 export const useFiltersStore = defineStore('smotreshka_list__filters', () => {
   const searchValue = ref('')
   const searchValueDebounced = refDebounced(searchValue, 500)
+  const searchValueDebouncedTrimmed = computed(() => searchValueDebounced.value.trim())
 
   function searchValueReset() {
     searchValue.value = ''
@@ -33,6 +34,7 @@ export const useFiltersStore = defineStore('smotreshka_list__filters', () => {
   return {
     searchValue,
     searchValueDebounced,
+    searchValueDebouncedTrimmed,
     searchValueReset,
 
     selectedGenre,
