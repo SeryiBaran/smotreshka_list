@@ -55,8 +55,10 @@ function handleAllReset() {
           </div>
         </div>
       </li>
-      <li><label><input id="isOpenNewTabCheck" v-model="settingsStore.isOpenNewTab" type="checkbox" name="isOpenNewTabCheck"> Открывать каналы в новой вкладке</label></li>
-      <li><label><input id="isShowChannelsImagesCheck" v-model="settingsStore.isShowChannelsImages" type="checkbox" name="isShowChannelsImages"> Показывать картинки каналов</label></li>
+      <li><Checkbox v-model="settingsStore.isOpenNewTab" checkbox-label="Открывать каналы в новой вкладке" /></li>
+      <li>
+        <Checkbox v-model="settingsStore.isShowChannelsImages" checkbox-label="Показывать картинки каналов" />
+      </li>
       <li>
         <button class="colorsTransition btn ml-2 block" @click="handleAllReset()">
           СБРОСИТЬ ВСЕ НАСТРОЙКИ
