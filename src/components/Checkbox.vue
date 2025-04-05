@@ -33,8 +33,8 @@ const model = defineModel()
 .checkbox_input {
   position: absolute;
   appearance: none;
-  top: -9999px;
-  left: -9999px;
+  /* top: -9999px;
+  left: -9999px; */
   width: 0;
   height: 0;
   margin: 0;
