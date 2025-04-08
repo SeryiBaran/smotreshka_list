@@ -25,7 +25,7 @@ const channelPrograms = computed(() => {
 
 const currentProgramTitle = computed(() => {
   if (channelPrograms.value) {
-    return channelPrograms.value.programs.find(program => isCurrentProgram(program.scheduledFor))?.title.slice(0, 40)
+    return channelPrograms.value.programs.find(program => isCurrentProgram(program.scheduledFor))?.title
   }
   else {
     return null
@@ -54,7 +54,7 @@ const currentProgramTitle = computed(() => {
           {{ props.isProgramsFetching ? 'Загрузка программы, подождите пожалуйста...' : 'Простите, программа отсутствует' }}
         </p>
         <!-- <p v-else-if="(settingsStore.channelsListMode === 'compact') && channelPrograms" class="text-sm">
-          {{ currentProgramTitle }}
+          {{ currentProgramTitle.slice(0, 40) }}
         </p> -->
       </div>
     </a>
