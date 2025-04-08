@@ -23,9 +23,9 @@ const channelPrograms = computed(() => {
   return props.channelsPrograms!.find(channelPrograms => channelPrograms?.channelId === props.channel.id)! // I AM FUCKED MY MIND ABOUT 2 HOURS WITHOUT THESE `!`.
 })
 
-const currentProgramTitle = computed(() => {
+const currentProgram = computed(() => {
   if (channelPrograms.value) {
-    return channelPrograms.value.programs.find(program => isCurrentProgram(program.scheduledFor))?.title
+    return channelPrograms.value.programs.find(program => isCurrentProgram(program.scheduledFor))
   }
   else {
     return null
@@ -38,9 +38,18 @@ const currentProgramTitle = computed(() => {
     <a :href="`https://smotreshka.tv/channels/now/${props.channel.id}/watch`" class="p-4 flex gap-4 h-full" :target="settingsStore.isOpenNewTab ? '_blank' : '_top'">
       <div class="channelLogoContainer relative">
         <img v-if="(minMd && settingsStore.isShowChannelsImages && !(settingsStore.channelsListMode === 'compact')) || settingsStore.channelsListMode === 'logos'" class="channelLogo border border-1 border-brand-500 rounded-4 w-50 aspect-video self-start object-cover" :src="`${props.channel.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93`" :alt="`Иконка ${formatKeyNumber(props.channel.keyNumber)} ${props.channel.title}`">
-        <div v-if="settingsStore.channelsListMode === 'logos'" class="channelLogoOverlay text-white bg-neutral-900/85 bottom-0 left-0 right-0 top-0 absolute">
-          <p class="font-semibold leading-4 px-2.5 py-1.8 border-0 border-b-1 border-brand-500 border-solid"><span class="text-brand-500">{{ formatKeyNumber(channel.keyNumber) }}</span> {{ channel.title }}</p>
-          <p class="text-sm leading-4 px-2.5 py-1.8">{{ currentProgramTitle }}</p>
+        <div
+          v-if="settingsStore.channelsListMode === 'logos'"
+          class="channelLogoOverlay text-white bottom-0 left-0 right-0 top-0 absolute"
+          :style="{
+            backgroundImage: `url('${currentProgram?.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93')`,
+            backgroundSize: 'cover',
+          }"
+        >
+          <div class="bg-neutral-900/60 h-full">
+            <p class="font-semibold leading-4 px-2.5 py-1.8 border-0 border-b-1 border-brand-500 border-solid"><span class="text-brand-500">{{ formatKeyNumber(channel.keyNumber) }}</span> {{ channel.title }}</p>
+            <p class="text-sm leading-4 px-2.5 py-1.8">{{ currentProgram?.title }}</p>
+          </div>
         </div>
       </div>
       <div v-if="settingsStore.channelsListMode !== 'logos'" class="wrapper w-full">
@@ -54,7 +63,7 @@ const currentProgramTitle = computed(() => {
           {{ props.isProgramsFetching ? 'Загрузка программы, подождите пожалуйста...' : 'Простите, программа отсутствует' }}
         </p>
         <!-- <p v-else-if="(settingsStore.channelsListMode === 'compact') && channelPrograms" class="text-sm">
-          {{ currentProgramTitle.slice(0, 40) }}
+          {{ currentProgram?.title.slice(0, 40) }}
         </p> -->
       </div>
     </a>
