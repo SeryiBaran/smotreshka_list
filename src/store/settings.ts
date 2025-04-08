@@ -5,6 +5,7 @@ import type { GenreID, UnoCSSColorName } from '~/types'
 import { defineStore } from 'pinia'
 import {
   defaultBrandColor,
+  defaultChannelsImagesSize,
   defaultChannelsListMode,
   defaultFavoriteGenres,
   defaultIsOpenNewTab,
@@ -86,6 +87,14 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
 
   // ...
 
+  const channelsImagesSize = ref<number>(defaultChannelsImagesSize)
+
+  function channelsImagesSizeReset() {
+    channelsImagesSize.value = defaultChannelsImagesSize
+  }
+
+  // ...
+
   function $reset() {
     favoriteGenresReset()
     brandColorReset()
@@ -93,6 +102,7 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
     isShowChannelsImagesReset()
     isShowProgramsReset()
     channelsListModeReset()
+    channelsImagesSizeReset()
   }
 
   return {
@@ -118,6 +128,9 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
     channelsListMode,
     channelsListModeSet,
     channelsListModeReset,
+
+    channelsImagesSize,
+    channelsImagesSizeReset,
 
     $reset,
   }

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { channelsListModesNames, denyBrandColors, unoPresetColors } from '~/shared'
+import { channelsListModesNames, defaultChannelsImagesSizeMax, defaultChannelsImagesSizeMin, denyBrandColors, unoPresetColors } from '~/shared'
 import { useSettingsStore } from '~/store/settings'
 
 const colorsList = Object.keys(unoPresetColors).filter(c => !denyBrandColors.includes(c))
@@ -58,6 +58,10 @@ function handleAllReset() {
       <li><Checkbox v-model="settingsStore.isOpenNewTab" checkbox-label="Открывать каналы в новой вкладке" /></li>
       <li>
         <Checkbox v-model="settingsStore.isShowChannelsImages" checkbox-label="Показывать картинки каналов" />
+      </li>
+      <li>
+        <span>Размер картинок каналов (48 - 1920):</span>
+        <input v-model="settingsStore.channelsImagesSize" class="ml-2" type="number" :min="defaultChannelsImagesSizeMin" :max="defaultChannelsImagesSizeMax">
       </li>
       <li>
         <Checkbox v-model="settingsStore.isShowPrograms" checkbox-label="Показывать программы" />

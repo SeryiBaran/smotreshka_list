@@ -49,3 +49,7 @@ select {
 textarea.input {
   @apply h-40;
 }
+
+input[type='number'] {
+  @apply px-2 py-1 rounded dark:bg-neutral-800 border border-brand-500/60 dark:border-brand-300/30;
+}
