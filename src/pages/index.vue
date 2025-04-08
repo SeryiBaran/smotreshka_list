@@ -170,7 +170,7 @@ onKeyStroke(Array.from({ length: 10 }, (_, i) => i.toString()), (event: Keyboard
 <template>
   <div>
     <p v-if="showOverlay" class="text-2xl">
-      {{ numbers.join('') }} {{ keyNumber }} <span v-if="showOverlayError">Ошибка :(</span>
+      {{ numbers.join('') }} <span v-if="showOverlayError">Ошибка :(</span>
     </p>
     <p class="text-xs my-4 mb-0">
       Данные актуальны на момент 01.04.2025 01:48 по МСК
