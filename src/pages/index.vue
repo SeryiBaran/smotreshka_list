@@ -125,7 +125,7 @@ const isProgramsFetching = computed(() => (programsFetch.isFetching.value || pro
     <p class="text-xs my-4">
       Данные актуальны на момент 01.04.2025 01:48 по МСК
     </p>
-    <input v-model="filtersStore.searchValue" type="text" class="colorsTransition search px-4 py-3 outline-0 outline-brand-500 outline-solid border-1 border-transparent rounded-2 border-solid bg-brand-500/10 w-full block focus:outline-2 not-focus:border-brand-400 hover:not-focus:bg-brand-500/14" placeholder="Введите запрос...">
+    <input v-model="filtersStore.searchValue" type="text" class="input" placeholder="Введите запрос...">
     <div class="text-lg mt-4 flex flex-wrap gap-x-2 gap-y-3">
       <template v-if="genresList.length > 0">
         <div

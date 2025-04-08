@@ -71,10 +71,17 @@ function handleAllReset() {
         </select>
       </li>
       <li>
-        <button class="colorsTransition btn ml-2 block" @click="handleAllReset()">
+        <button class="colorsTransition btn ml-2" @click="handleAllReset()">
           СБРОСИТЬ ВСЕ НАСТРОЙКИ
         </button>
         <span v-show="isShowResetDoneMessage" class="ml-2">Настройки сброшены!</span>
+      </li>
+      <li>
+        <RouterLink class="colorsTransition btn btn-with-icon ml-2" to="/available_channels_settings">
+          <span
+            class="colorsTransition i-tabler:list h-1em w-1em"
+          />Просмотр доступных номеров каналов
+        </RouterLink>
       </li>
     </ul>
   </div>

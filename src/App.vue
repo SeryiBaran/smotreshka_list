@@ -14,7 +14,7 @@ useFaviconSettings()
     <TheBrandColorProvider />
     <main font-sans p="x-4 y-10" text="gray-700 dark:gray-200">
       <TheHeader />
-      <h1 class="text-4xl">
+      <h1 class="text-4xl mb-4">
         {{ routeName }}
       </h1>
       <RouterView />
@@ -23,7 +23,3 @@ useFaviconSettings()
     <TheScrollToTopButton />
   </div>
 </template>
-
-<style scoped>
-
-</style>
