@@ -3,7 +3,7 @@ import type { APIChannels, APIPrograms, APIProgramsComposeTable, GenreID } from 
 import { useFetch } from '@vueuse/core'
 import { useFuse } from '@vueuse/integrations/useFuse'
 import { storeToRefs } from 'pinia'
-import { channelsPacks } from '~/shared'
+import { channelsPacks, makeChannelPlayLink } from '~/shared'
 import { useFiltersStore } from '~/store/filters'
 import { useSettingsStore } from '~/store/settings'
 
@@ -118,12 +118,65 @@ function resetFilters() {
 }
 
 const isProgramsFetching = computed(() => (programsFetch.isFetching.value || programsComposeTableFetch.isFetching.value))
+
+// oh shit
+
+const showOverlay = ref(false)
+const numbers = ref<number[]>([])
+
+const showOverlayError = ref(false)
+const hideOverlayTimer = useTimeoutFn(() => {
+  showOverlay.value = false
+  numbers.value = []
+  showOverlayError.value = false
+}, 2000, { immediate: false })
+
+const keyNumber = computed(() => Number.parseInt(numbers.value.join('')))
+const maxNumberLength = 3
+
+const ignoreTags = ['SELECT', 'INPUT', 'TEXTAREA']
+
+const debouncedPlayNumber = useDebounceFn(() => {
+  const channel = channelsAvailable.value.find(channel => channel.keyNumber === keyNumber.value)
+
+  if (channel) {
+    const link = makeChannelPlayLink(channel.id)
+
+    window.open(link, '_blank')
+  }
+  else {
+    showOverlayError.value = true
+  }
+
+  hideOverlayTimer.start()
+}, 5000)
+
+onKeyStroke(Array.from({ length: 10 }, (_, i) => i.toString()), (event: KeyboardEvent) => {
+  if (document.activeElement?.tagName && !ignoreTags.includes(document.activeElement.tagName)) {
+    showOverlay.value = true
+
+    event.preventDefault()
+
+    if (numbers.value.length >= maxNumberLength) {
+      numbers.value.shift()
+    }
+    numbers.value.push(Number(event.key))
+
+    debouncedPlayNumber()
+  }
+})
 </script>
 
 <template>
   <div>
-    <p class="text-xs my-4">
+    <p v-if="showOverlay" class="text-2xl">
+      {{ numbers.join('') }} {{ keyNumber }} <span v-if="showOverlayError">Ошибка :(</span>
+    </p>
+    <p class="text-xs my-4 mb-0">
       Данные актуальны на момент 01.04.2025 01:48 по МСК
+    </p>
+    <p class="text-xs my-4 mt-2">
+      Вы можете начать вводить номер канала, у вас будет на это 5 секунд.
     </p>
     <input v-model="filtersStore.searchValue" type="text" class="input" placeholder="Введите запрос...">
     <div class="text-lg mt-4 flex flex-wrap gap-x-2 gap-y-3">

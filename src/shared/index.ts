@@ -1,4 +1,4 @@
-import type { GenreID, TimeInterval, UnoCSSColorObj } from '~/types'
+import type { ChannelID, GenreID, TimeInterval, UnoCSSColorObj } from '~/types'
 
 import dayjs from 'dayjs'
 
@@ -47,4 +47,8 @@ export function createFaviconUrl(svg: string) {
 
 export function isCurrentProgram(scheduledFor: TimeInterval) {
   return dayjs().isAfter(dayjs(scheduledFor.begin)) && dayjs().isBefore(dayjs(scheduledFor.end))
+}
+
+export function makeChannelPlayLink(channelId: ChannelID) {
+  return `https://smotreshka.tv/channels/now/${channelId}/watch`
 }
