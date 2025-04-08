@@ -23,7 +23,7 @@
           <div class="i-carbon-sun dark:i-carbon-moon text-3xl inline-block md:text-5xl" />
         </button>
         <RouterLink to="/settings" class="colorsTransition icon-btn">
-          <span class="i-tabler:settings text-3xl inline-block md:text-5xl" />
+          <span class="i-carbon:settings text-3xl inline-block md:text-5xl" />
         </RouterLink>
       </div>
     </div>

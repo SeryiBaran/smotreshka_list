@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { denyBrandColors, unoPresetColors } from '~/shared'
+import { channelsListModesNames, denyBrandColors, unoPresetColors } from '~/shared'
 import { useSettingsStore } from '~/store/settings'
 
 const colorsList = Object.keys(unoPresetColors).filter(c => !denyBrandColors.includes(c))
@@ -36,7 +36,7 @@ function handleAllReset() {
       <li>
         <span>Выберите цвет:</span>
         <select v-model="settingsStore.brandColor" name="brandColor" placeholder="Выберите" class="ml-2 max-w-42 w-full inline-block">
-          <option v-for="color in colorsList" :key="color" :style="`color: var(--colors-${color}-500);`" :value="color">
+          <option v-for="color in colorsList" :key="color" :value="color">
             {{ color }}
           </option>
         </select>
@@ -58,6 +58,17 @@ function handleAllReset() {
       <li><Checkbox v-model="settingsStore.isOpenNewTab" checkbox-label="Открывать каналы в новой вкладке" /></li>
       <li>
         <Checkbox v-model="settingsStore.isShowChannelsImages" checkbox-label="Показывать картинки каналов" />
+      </li>
+      <li>
+        <Checkbox v-model="settingsStore.isShowPrograms" checkbox-label="Показывать программы" />
+      </li>
+      <li>
+        <span>Выберите режим списка:</span>
+        <select v-model="settingsStore.channelsListMode" name="channelsListMode" placeholder="Выберите" class="ml-2 max-w-42 w-full inline-block">
+          <option v-for="mode in Object.entries(channelsListModesNames)" :key="mode[0]" :value="mode[0]">
+            {{ mode[1] }}
+          </option>
+        </select>
       </li>
       <li>
         <button class="colorsTransition btn ml-2 block" @click="handleAllReset()">

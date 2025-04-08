@@ -1,26 +1,21 @@
-import { createPinia } from 'pinia'
-import { createPersistedStatePlugin } from 'pinia-plugin-persistedstate-2'
+import dayjs from 'dayjs'
+import localeRu from 'dayjs/locale/ru'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import { createApp } from 'vue'
-import { createRouter, createWebHashHistory } from 'vue-router'
-import { routes } from 'vue-router/auto-routes'
+
+import { router } from '~/router'
+import { pinia } from '~/store'
 import App from './App.vue'
 
 import 'uno.css'
 import './styles/main.css'
 
+dayjs.extend(relativeTime)
+dayjs.locale(localeRu)
+
 const app = createApp(App)
 
-const router = createRouter({
-  routes,
-  history: createWebHashHistory(),
-})
 app.use(router)
-
-const pinia = createPinia()
-const persistedStatePlugin = createPersistedStatePlugin({
-  // plugin options goes here
-})
-pinia.use(persistedStatePlugin)
 app.use(pinia)
 
 app.mount('#app')

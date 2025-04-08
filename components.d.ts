@@ -8,10 +8,12 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ChannelsItem: typeof import('./src/components/ChannelsItem.vue')['default']
     Checkbox: typeof import('./src/components/Checkbox.vue')['default']
     Programs: typeof import('./src/components/Programs.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TheBrandColorProvider: typeof import('./src/components/TheBrandColorProvider.vue')['default']
     TheFooter: typeof import('./src/components/TheFooter.vue')['default']
     TheHeader: typeof import('./src/components/TheHeader.vue')['default']
     TheScrollToTopButton: typeof import('./src/components/TheScrollToTopButton.vue')['default']
