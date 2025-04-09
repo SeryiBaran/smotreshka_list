@@ -214,7 +214,7 @@ onKeyStroke([...allowedTvKeyboardKeys, 'Escape', 'Enter'], (event: KeyboardEvent
     <div v-if="showOverlay" class="tvKeyboardOverlay">
       <div class="flex flex-col gap-2 max-w-md items-center">
         <p class="text-8xl font-mono">
-          <span v-for="(unusedNumber, i) in structuredKeyNumber.unused" :key="unusedNumber.toString() + unusedNumber + i">-</span>
+          <span v-for="(unusedNumber, i) in structuredKeyNumber.unused" :key="unusedNumber.toString() + unusedNumber + i" class="opacity-70">-</span>
           <span v-for="(usedNumber, i) in structuredKeyNumber.used" :key="usedNumber.toString() + usedNumber + i">{{ usedNumber }}</span>
         </p>
         <p v-if="overlayError" class="text-red">
