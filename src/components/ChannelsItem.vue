@@ -64,11 +64,11 @@ const filteredEpg = computed(() => epgFetch.data.value?.pagesWithEvents.reduce<A
 </script>
 
 <template>
-  <li class="flex" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
-    <button class="showEpgBtn colorsTransition btn btn-with-icon max-2xl:hidden" :disabled="epgFetch.isFetching.value" @click="() => handleFetchEPG()">
+  <li class="flex overflow-hidden" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
+    <button v-if="settingsStore.channelsListMode !== 'logos'" class="showEpgBtn colorsTransition btn btn-with-icon max-2xl:hidden" :disabled="epgFetch.isFetching.value" @click="() => handleFetchEPG()">
       <span class="transitionColors i-tabler:list text-4 block" />
     </button>
-    <a :href="makeChannelPlayLink(props.channel.id)" class="p-4 flex gap-4 h-full w-full" :target="settingsStore.isOpenNewTab ? '_blank' : '_top'">
+    <a :href="makeChannelPlayLink(props.channel.id)" class="p-4 flex gap-4 h-full w-full overflow-hidden" :target="settingsStore.isOpenNewTab ? '_blank' : '_top'">
       <div v-if="(minMd && settingsStore.isShowChannelsImages && !(settingsStore.channelsListMode === 'compact')) || settingsStore.channelsListMode === 'logos'" class="channelLogoContainer">
         <img class="channelLogo w-full" :src="`${props.channel.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93`" :alt="`Иконка ${formatKeyNumber(props.channel.keyNumber)} ${props.channel.title}`">
         <div
@@ -87,7 +87,7 @@ const filteredEpg = computed(() => epgFetch.data.value?.pagesWithEvents.reduce<A
 
         <div
           v-if="currentProgram && isCurrentProgram(currentProgram.scheduledFor, reactiveProgramsCurrTime.currentTime.value)"
-          class="channelLogoOverlay"
+          class="channelLogoOverlay channelLogoOverlay2"
         >
           <div class="border-0 border-b-4 border-b-brand-500 border-solid" :style="{ width: `${currentProgramPercent}%` }" />
         </div>
@@ -175,8 +175,13 @@ li.isLogosMode {
   @apply w-full rounded-0 border-0;
 }
 
+.channelLogoOverlay2 {
+  @apply border-0 border-t-1 border-t-brand-900 border-solid;
+  opacity: 0;
+}
+
 .channelLogoOverlay {
-  @apply border-0 border-t-1 border-t-brand-900 border-solid bg-brand-200 bottom-0 left-0 right-0 absolute;
+  @apply bg-brand-200 bottom-0 left-0 right-0 absolute;
   opacity: 0;
 }
 
