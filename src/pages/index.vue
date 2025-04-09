@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { APIChannels, APIPrograms, APIProgramsComposeTable, GenreID } from '~/types'
+import type { APIChannels, APIPrograms, APIProgramsComposeTable, GenreID, Values } from '~/types'
 import { useFetch } from '@vueuse/core'
 import { useFuse } from '@vueuse/integrations/useFuse'
 import { storeToRefs } from 'pinia'
@@ -11,7 +11,8 @@ defineOptions({
   name: 'IndexPage',
 })
 
-const availableChannelsNumbers = [...channelsPacks.basic, ...channelsPacks.kids]
+const availableChannelsNumbers = (Object.values(channelsPacks) as Values<typeof channelsPacks>)
+  .reduce<number[]>((accumulator, e) => ([...accumulator, ...e]), [])
 
 const channelsFetchURL = 'https://fe.smotreshka.tv/tv/v2/channels?tv-asset-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOjMsInB1cmNoYXNlZF9jaGFubmVsX3BhY2thZ2VzIjpbIjVlNzlmODI5Y2YxZDlkNWE5MTg4MmYxNyIsIjVmZDM5MDJlZTUwMDA3MGJhZTM5OGI4ZSIsIjYyMzllYjVlMjQ3Mzc4MjM2NmZkMWM2MCJdLCJyZWdpb24iOiJydS5jZW50cmFsLm1vc2NvdyIsImRldmljZV90eXBlIjoicGMiLCJuZXR3b3JrX2FmZmlsaWF0aW9uX3N0YXR1cyI6MiwibG9jYWxlIjoicnUiLCJwcm9maWxlX3R5cGUiOjIsInByb2ZpbGVfcmVzdHJpY3Rpb25fdmFsdWUiOjN9.TOWQtBXKEV1fqKyu_z1wHszfxRM71paqfAwKC38kLnY'
 
@@ -172,11 +173,10 @@ onKeyStroke(Array.from({ length: 10 }, (_, i) => i.toString()), (event: Keyboard
     <p v-if="showOverlay" class="text-2xl">
       {{ numbers.join('') }} <span v-if="showOverlayError">Ошибка :(</span>
     </p>
-    <p class="text-xs my-4 mb-0">
-      Данные актуальны на момент 01.04.2025 01:48 по МСК
-    </p>
-    <p class="text-xs my-4 mt-2">
-      Вы можете начать вводить номер канала, у вас будет на это 5 секунд.
+    <p class="text-xs my-4 mt-1">
+      Вы можете начать вводить номер канала прямо на странице, у вас будет на это 5 секунд.
+      <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
+      <RouterLink to="/help" class="link">Если не работает</RouterLink>.
     </p>
     <input v-model="filtersStore.searchValue" type="text" class="input" placeholder="Введите запрос...">
     <div class="text-lg mt-4 flex flex-wrap gap-x-2 gap-y-3">

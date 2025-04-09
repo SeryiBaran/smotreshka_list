@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { Channel, ChannelsPrograms } from '~/types'
-import { isCurrentProgram, makeChannelPlayLink } from '~/shared'
+import { useReactiveProgramsCurrTime } from '~/composables/programs'
+import { isCurrentProgram, makeChannelPlayLink, useDayJS } from '~/shared'
 import { useSettingsStore } from '~/store/settings'
 
 interface Props {
@@ -19,24 +20,32 @@ function formatKeyNumber(keyNumber: number) {
   return keyNumber.toString().padStart(3, '0')
 }
 
+const reactiveProgramsCurrTime = useReactiveProgramsCurrTime()
+
 const channelPrograms = computed(() => {
   return props.channelsPrograms!.find(channelPrograms => channelPrograms?.channelId === props.channel.id)! // I AM FUCKED MY MIND ABOUT 2 HOURS WITHOUT THESE `!`.
 })
 
 const currentProgram = computed(() => {
   if (channelPrograms.value) {
-    return channelPrograms.value.programs.find(program => isCurrentProgram(program.scheduledFor))
+    return channelPrograms.value.programs.find(program => isCurrentProgram(program.scheduledFor, reactiveProgramsCurrTime.currentTime.value))
   }
   else {
     return null
   }
 })
+
+const currentProgramPercent = computed(() => {
+  const percents = (100 / (useDayJS()(currentProgram.value?.scheduledFor.end).diff(useDayJS()(currentProgram.value?.scheduledFor.begin)) / reactiveProgramsCurrTime.currentTime.value.diff(useDayJS()(currentProgram.value?.scheduledFor.begin))))
+
+  return Math.floor(percents * 100) / 100
+})
 </script>
 
 <template>
-  <li class="border border-2 border-transparent rounded-4 overflow-hidden hover:border-brand-500 hover:bg-brand-500/15 hover:dark:bg-brand-500/12" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
+  <li class="border border-2 border-transparent rounded-3 hover:border-brand-500 hover:bg-brand-500/15 hover:dark:bg-brand-500/12" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
     <a :href="makeChannelPlayLink(props.channel.id)" class="p-4 flex gap-4 h-full" :target="settingsStore.isOpenNewTab ? '_blank' : '_top'">
-      <div v-if="(minMd && settingsStore.isShowChannelsImages && !(settingsStore.channelsListMode === 'compact')) || settingsStore.channelsListMode === 'logos'" class="channelLogoContainer border border-1 border-brand-500 rounded-4 w-50 aspect-video self-start relative object-cover">
+      <div v-if="(minMd && settingsStore.isShowChannelsImages && !(settingsStore.channelsListMode === 'compact')) || settingsStore.channelsListMode === 'logos'" class="channelLogoContainer border border-1 border-brand-500 rounded-3 w-50 aspect-video transform self-start relative object-cover 2xl:w-65">
         <img class="channelLogo w-full" :src="`${props.channel.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93`" :alt="`Иконка ${formatKeyNumber(props.channel.keyNumber)} ${props.channel.title}`">
         <div
           class="channelLogoOverlay text-white bottom-0 left-0 right-0 top-0 absolute"
@@ -49,6 +58,12 @@ const currentProgram = computed(() => {
             <p class="font-semibold leading-4 px-2.5 py-1.8 border-0 border-b-1 border-brand-500 border-solid"><span class="text-brand-500">{{ formatKeyNumber(channel.keyNumber) }}</span> {{ channel.title }}</p>
             <p class="text-sm leading-4 px-2.5 py-1.8">{{ currentProgram?.title }}</p>
           </div>
+        </div>
+
+        <div
+          class="channelLogoOverlay border-0 border-t-1 border-t-brand-900 border-solid bg-brand-100 bottom-0 left-0 right-0 absolute"
+        >
+          <div class="border-0 border-b-4 border-b-brand-500 border-solid" :style="{ width: `${currentProgramPercent}%` }" />
         </div>
       </div>
       <div v-if="settingsStore.channelsListMode !== 'logos'" class="wrapper w-full">
@@ -101,7 +116,7 @@ li.isCompactMode {
 /* oh shit */
 
 li.isLogosMode {
-  @apply p-0;
+  @apply p-0 overflow-hidden;
 }
 
 .isLogosMode a {
@@ -118,10 +133,6 @@ li.isLogosMode {
 
 .channelLogoOverlay {
   opacity: 0;
-
-  /* transition-property: opacity;
-  transition-duration: 100ms;
-  transition-timing-function: ease; */
 }
 
 li:hover .channelLogoContainer .channelLogoOverlay {

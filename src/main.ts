@@ -1,6 +1,3 @@
-import dayjs from 'dayjs'
-import localeRu from 'dayjs/locale/ru'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import { createApp } from 'vue'
 
 import { router } from '~/router'
@@ -9,9 +6,6 @@ import App from './App.vue'
 
 import 'uno.css'
 import './styles/main.css'
-
-dayjs.extend(relativeTime)
-dayjs.locale(localeRu)
 
 const app = createApp(App)
 

@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4 pt-4 text-center border-t-1 border-brand-500 dark:border-brand-300/50">
     <p>
-      <a rel="noreferrer" href="https://github.com/SeryiBaran/smotreshka_list" target="_blank" class="text-brand-500 underline inline-flex gap-1 items-center">
+      <a rel="noreferrer" href="https://github.com/SeryiBaran/smotreshka_list" target="_blank" class="link inline-flex gap-1 items-center">
         <span class="i-tabler:brand-github-filled text-1em inline-block" />
         Исходный код
       </a>

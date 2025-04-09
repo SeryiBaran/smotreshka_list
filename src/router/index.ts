@@ -12,6 +12,7 @@ export const routesNames: RouteName[] = [
   { url: '/', title: 'Список каналов' },
   { url: '/settings', title: 'Настройки' },
   { url: '/available_channels_settings', title: 'Просмотр доступных номеров каналов' },
+  { url: '/help', title: 'Справка' },
 ]
 
 export const router = createRouter({
