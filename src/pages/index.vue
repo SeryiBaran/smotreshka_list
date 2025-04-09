@@ -271,7 +271,7 @@ onKeyStroke([...allowedTvKeyboardKeys, 'Escape', 'Enter'], (event: KeyboardEvent
     </div>
     <ul class="mt-4 flex flex-col gap-2" :class="{ isCompactMode: settingsStore.channelsListMode === 'compact', isLogosMode: settingsStore.channelsListMode === 'logos' }">
       <template v-if="channelsFiltered.length > 0">
-        <ChannelsItem v-for="channel in channelsFiltered" :key="channel.id" :channel="channel" :channels-programs="channelsPrograms" :is-programs-fetching="isProgramsFetching" />
+        <ChannelsItem v-for="channel in channelsFiltered" :key="channel.id" :channel="channel" :channels-programs="channelsPrograms" :is-programs-fetching="isProgramsFetching" :programs-compose-table-fetch="programsComposeTableFetch.data.value" />
       </template>
       <p v-else-if="(filtersStore.selectedGenre || searchValueDebouncedTrimmed !== '') && !channelsFiltered?.length" class="text-lg text-center">
         Ничего не найдено 😢

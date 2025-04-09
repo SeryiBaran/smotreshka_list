@@ -9,6 +9,7 @@ import {
   defaultChannelsListMode,
   defaultFavoriteGenres,
   defaultIsOpenNewTab,
+  defaultIsRealtimePrograms,
   defaultIsShowChannelsImages,
   defaultIsShowInfoOnHover,
   defaultIsShowPrograms,
@@ -122,6 +123,14 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
 
   // ...
 
+  const isRealtimePrograms = ref<boolean>(defaultIsRealtimePrograms)
+
+  function isRealtimeProgramsReset() {
+    isRealtimePrograms.value = defaultIsRealtimePrograms
+  }
+
+  // ...
+
   function $reset() {
     favoriteGenresReset()
     brandColorReset()
@@ -133,6 +142,7 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
     isShowInfoOnHoverReset()
     tvKeyboardDebounceReset()
     tvKeyboardHideTimeReset()
+    isRealtimeProgramsReset()
   }
 
   return {
@@ -170,6 +180,9 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
 
     tvKeyboardHideTime,
     tvKeyboardHideTimeReset,
+
+    isRealtimePrograms,
+    isRealtimeProgramsReset,
 
     $reset,
   }

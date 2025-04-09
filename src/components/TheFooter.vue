@@ -1,3 +1,6 @@
+<script setup lang="ts">
+</script>
+
 <template>
   <div class="mt-4 pt-4 text-center border-t-1 border-brand-500 dark:border-brand-300/50">
     <p>

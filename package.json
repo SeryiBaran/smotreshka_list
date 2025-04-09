@@ -17,9 +17,11 @@
     "@vueuse/integrations": "catalog:frontend",
     "dayjs": "catalog:frontend",
     "fuse.js": "catalog:frontend",
+    "nanoid": "catalog:frontend",
     "pinia": "catalog:frontend",
     "pinia-plugin-persistedstate-2": "catalog:frontend",
     "vue": "catalog:frontend",
+    "vue-final-modal": "catalog:frontend",
     "vue-router": "catalog:frontend"
   },
   "devDependencies": {

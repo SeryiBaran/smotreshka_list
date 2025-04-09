@@ -89,6 +89,9 @@ catalogs:
     fuse.js:
       specifier: ^7.1.0
       version: 7.1.0
+    nanoid:
+      specifier: ^5.1.5
+      version: 5.1.5
     pinia:
       specifier: ^3.0.1
       version: 3.0.1
@@ -98,6 +101,9 @@ catalogs:
     vue:
       specifier: ^3.5.13
       version: 3.5.13
+    vue-final-modal:
+      specifier: ^4.5.5
+      version: 4.5.5
     vue-router:
       specifier: ^4.5.0
       version: 4.5.0
@@ -115,13 +121,16 @@ importers:
         version: 13.0.0(vue@3.5.13(typescript@5.8.2))
       '@vueuse/integrations':
         specifier: catalog:frontend
-        version: 13.0.0(fuse.js@7.1.0)(vue@3.5.13(typescript@5.8.2))
+        version: 13.0.0(focus-trap@7.6.4)(fuse.js@7.1.0)(vue@3.5.13(typescript@5.8.2))
       dayjs:
         specifier: catalog:frontend
         version: 1.11.13
       fuse.js:
         specifier: catalog:frontend
         version: 7.1.0
+      nanoid:
+        specifier: catalog:frontend
+        version: 5.1.5
       pinia:
         specifier: catalog:frontend
         version: 3.0.1(typescript@5.8.2)(vue@3.5.13(typescript@5.8.2))
@@ -131,6 +140,9 @@ importers:
       vue:
         specifier: catalog:frontend
         version: 3.5.13(typescript@5.8.2)
+      vue-final-modal:
+        specifier: catalog:frontend
+        version: 4.5.5(@vueuse/core@13.0.0(vue@3.5.13(typescript@5.8.2)))(@vueuse/integrations@13.0.0(focus-trap@7.6.4)(fuse.js@7.1.0)(vue@3.5.13(typescript@5.8.2)))(focus-trap@7.6.4)(vue@3.5.13(typescript@5.8.2))
       vue-router:
         specifier: catalog:frontend
         version: 4.5.0(vue@3.5.13(typescript@5.8.2))
@@ -2403,6 +2415,9 @@ packages:
   flatted@3.2.9:
     resolution: {integrity: sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==}
 
+  focus-trap@7.6.4:
+    resolution: {integrity: sha512-xx560wGBk7seZ6y933idtjJQc1l+ck+pI3sKvhKozdBV1dRZoKhkW5xoCaFv9tQiX5RH1xfSxjuNu6g+lmN/gw==}
+
   form-data@4.0.1:
     resolution: {integrity: sha512-tzN8e4TX8+kkxGPK8D5u0FNmjPUjw3lwC9lSLxxoB/+GtsJG91CO8bSWy73APlgAZzZbXEYZJuxjkHH2w+Ezhw==}
     engines: {node: '>= 6'}
@@ -3404,6 +3419,9 @@ packages:
     resolution: {integrity: sha512-vrozgXDQwYO72vHjUb/HnFbQx1exDjoKzqx23aXEg2a9VIg2TSFZ8FmeZpTjUCFMYw7mpX4BE2SFu8wI7asYsw==}
     engines: {node: ^14.18.0 || >=16.0.0}
 
+  tabbable@6.2.0:
+    resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
+
   tapable@2.2.1:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
     engines: {node: '>=6'}
@@ -3749,6 +3767,14 @@ packages:
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
+
+  vue-final-modal@4.5.5:
+    resolution: {integrity: sha512-A6xgsXqE6eLw9e6Tq/W6pxDBmimPuSuvq20WL9TOZpZy7itPdGeNn8e1P15PCGqP2yHM3q2gJIchPY9ZJd8YsA==}
+    peerDependencies:
+      '@vueuse/core': '>=10.0.0'
+      '@vueuse/integrations': '>=10.0.0'
+      focus-trap: '>=7.2.0'
+      vue: '>=3.2.0'
 
   vue-flow-layout@0.1.1:
     resolution: {integrity: sha512-JdgRRUVrN0Y2GosA0M68DEbKlXMqJ7FQgsK8CjQD2vxvNSqAU6PZEpi4cfcTVtfM2GVOMjHo7GKKLbXxOBqDqA==}
@@ -5468,12 +5494,13 @@ snapshots:
       '@vueuse/shared': 13.0.0(vue@3.5.13(typescript@5.8.2))
       vue: 3.5.13(typescript@5.8.2)
 
-  '@vueuse/integrations@13.0.0(fuse.js@7.1.0)(vue@3.5.13(typescript@5.8.2))':
+  '@vueuse/integrations@13.0.0(focus-trap@7.6.4)(fuse.js@7.1.0)(vue@3.5.13(typescript@5.8.2))':
     dependencies:
       '@vueuse/core': 13.0.0(vue@3.5.13(typescript@5.8.2))
       '@vueuse/shared': 13.0.0(vue@3.5.13(typescript@5.8.2))
       vue: 3.5.13(typescript@5.8.2)
     optionalDependencies:
+      focus-trap: 7.6.4
       fuse.js: 7.1.0
 
   '@vueuse/metadata@13.0.0': {}
@@ -6243,6 +6270,10 @@ snapshots:
       keyv: 4.5.4
 
   flatted@3.2.9: {}
+
+  focus-trap@7.6.4:
+    dependencies:
+      tabbable: 6.2.0
 
   form-data@4.0.1:
     dependencies:
@@ -7368,6 +7399,8 @@ snapshots:
       '@pkgr/core': 0.1.1
       tslib: 2.8.1
 
+  tabbable@6.2.0: {}
+
   tapable@2.2.1: {}
 
   taze@19.0.2:
@@ -7833,6 +7866,13 @@ snapshots:
       semver: 7.7.1
     transitivePeerDependencies:
       - supports-color
+
+  vue-final-modal@4.5.5(@vueuse/core@13.0.0(vue@3.5.13(typescript@5.8.2)))(@vueuse/integrations@13.0.0(focus-trap@7.6.4)(fuse.js@7.1.0)(vue@3.5.13(typescript@5.8.2)))(focus-trap@7.6.4)(vue@3.5.13(typescript@5.8.2)):
+    dependencies:
+      '@vueuse/core': 13.0.0(vue@3.5.13(typescript@5.8.2))
+      '@vueuse/integrations': 13.0.0(focus-trap@7.6.4)(fuse.js@7.1.0)(vue@3.5.13(typescript@5.8.2))
+      focus-trap: 7.6.4
+      vue: 3.5.13(typescript@5.8.2)
 
   vue-flow-layout@0.1.1(vue@3.5.13(typescript@5.8.2)):
     dependencies:

@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { ModalsContainer } from 'vue-final-modal'
+
 import { routesNames } from '~/router'
 import { useFaviconSettings } from './composables/favicon'
 
@@ -11,6 +13,7 @@ useFaviconSettings()
 
 <template>
   <div>
+    <ModalsContainer />
     <TheBrandColorProvider />
     <main font-sans p="x-4 y-10" text="gray-700 dark:gray-200">
       <TheHeader />

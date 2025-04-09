@@ -51,3 +51,30 @@ export interface ChannelPrograms {
 }
 
 export type ChannelsPrograms = ChannelPrograms[]
+
+// EPG
+
+export interface APIEPGEvent {
+  id: string
+  title: string
+  logoUrl: string
+  scheduledFor: TimeInterval
+  dvrDisabled: boolean
+  eventDescriptionMedium: string
+}
+
+export interface APIEPGPageWithEvents {
+  pageId: string // ${epgUrlTime.format(`YYYY-MM-DD[t]${(epgUrlTime.hour() > 12) ? '12' : '00'}[d]hh[h]
+  coveredInterval: TimeInterval
+  events: APIEPGEvent[]
+}
+
+export interface APIEPG {
+  regularUpdate: {
+    intervalSec: number
+    etag: string
+  }
+  pagesWithEvents: APIEPGPageWithEvents[]
+  prevSpreadCentralPageId: APIEPGPageWithEvents['pageId']
+  nextSpreadCentralPageId: APIEPGPageWithEvents['pageId']
+}

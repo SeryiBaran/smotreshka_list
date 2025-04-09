@@ -1,13 +1,15 @@
 <script lang="ts" setup>
-import type { Channel, ChannelsPrograms } from '~/types'
+import type { APIEPG, APIEPGEvent, APIProgramsComposeTable, Channel, ChannelsPrograms } from '~/types'
+
 import { useCurrentProgram, useCurrentProgramPercent, useReactiveProgramsCurrTime } from '~/composables/programs'
-import { isCurrentProgram, makeChannelPlayLink } from '~/shared'
+import { isCurrentProgram, makeChannelPlayLink, useDayJS } from '~/shared'
 import { useSettingsStore } from '~/store/settings'
 
 interface Props {
   channel: Channel
   channelsPrograms: ChannelsPrograms | null
   isProgramsFetching: boolean
+  programsComposeTableFetch: APIProgramsComposeTable | null
 }
 
 const props = defineProps<Props>()
@@ -29,11 +31,44 @@ const channelPrograms = computed(() => {
 const currentProgram = useCurrentProgram(channelPrograms)
 
 const currentProgramPercent = useCurrentProgramPercent(currentProgram)
+
+const todaySchedule = computed(() => {
+  const findResult = props.programsComposeTableFetch?.medias.find(media => media.channelId === props.channel.id)
+
+  if (findResult) {
+    return findResult.scheduleId
+  }
+
+  return null
+})
+
+const epgUrlTime = useDayJS()().utc()
+
+const epgUrl = computed(() => `https://fe.smotreshka.tv/epg/v2/schedules/${todaySchedule.value}/spread?centralPageId=${epgUrlTime.format(`YYYY-MM-DD[t]12[d]12[h]`)}`)
+
+const epgFetch = useFetch(epgUrl, {
+  immediate: false,
+}).get().json<APIEPG>()
+
+const showEPG = ref<boolean>(false)
+
+function handleFetchEPG() {
+  const newValue = !showEPG.value
+  showEPG.value = newValue
+
+  if (newValue)
+    epgFetch.execute()
+}
+
+const filteredEpg = computed(() => epgFetch.data.value?.pagesWithEvents.reduce<APIEPGEvent[]>((acc, page) => [...acc, ...page.events], []).filter(event => useDayJS()().isBefore(useDayJS()(event.scheduledFor.begin))))
 </script>
 
 <template>
-  <li class="" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
-    <a :href="makeChannelPlayLink(props.channel.id)" class="p-4 flex gap-4 h-full" :target="settingsStore.isOpenNewTab ? '_blank' : '_top'">
+  <li class="flex" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
+    <button class="showEpgBtn colorsTransition btn btn-with-icon max-2xl:hidden" :disabled="epgFetch.isFetching.value" @click="() => handleFetchEPG()">
+      <span class="transitionColors i-tabler:list text-4 block" />
+    </button>
+    <a :href="makeChannelPlayLink(props.channel.id)" class="p-4 flex gap-4 h-full w-full" :target="settingsStore.isOpenNewTab ? '_blank' : '_top'">
       <div v-if="(minMd && settingsStore.isShowChannelsImages && !(settingsStore.channelsListMode === 'compact')) || settingsStore.channelsListMode === 'logos'" class="channelLogoContainer">
         <img class="channelLogo w-full" :src="`${props.channel.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93`" :alt="`Иконка ${formatKeyNumber(props.channel.keyNumber)} ${props.channel.title}`">
         <div
@@ -62,7 +97,7 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram)
           <span class="channelNumber text-3xl text-brand-800 font-semibold 2xl:text-5xl dark:text-brand-300">{{ formatKeyNumber(props.channel.keyNumber) }}</span>
           <span class="channelName text-2xl 2xl:text-4xl">{{ props.channel.title }}</span>
         </div>
-        <Programs v-if="!(settingsStore.channelsListMode === 'compact') && settingsStore.isShowPrograms && props.channelsPrograms && channelPrograms !== undefined" :channel-programs="channelPrograms" class="mt-2 2xl:mt-4" />
+        <Programs v-if="!(settingsStore.channelsListMode === 'compact') && settingsStore.isShowPrograms && props.channelsPrograms && channelPrograms !== undefined" :channel-programs="channelPrograms" :show-progress="true" class="mt-2 2xl:mt-4" :is-realtime="settingsStore.isRealtimePrograms" />
         <p v-else-if="settingsStore.isShowPrograms && !(settingsStore.channelsListMode === 'compact')" class="text-sm mt-2">
           <!-- {{ `${channel.description.slice(0, 200)}...` }} -->
           {{ props.isProgramsFetching ? 'Загрузка программы, подождите пожалуйста...' : 'Простите, программа отсутствует' }}
@@ -72,11 +107,25 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram)
         </p> -->
       </div>
     </a>
+    <ModalLongScroll v-model="showEPG" :heading="`Программа '${props.channel.title}'`">
+      <div v-if="filteredEpg">
+        <Programs
+          :channel-programs="{
+            channelId: props.channel.id,
+            scheduleId: '0',
+            programs: filteredEpg,
+          }"
+          :show-all="true"
+          :show-date="true"
+          :dont-limit-width="true"
+        />
+      </div>
+    </ModalLongScroll>
   </li>
 </template>
 
 <style scoped>
-li {
+a {
   @apply border border-2 border-transparent rounded-3 hover:border-brand-500 hover:bg-brand-500/15 hover:dark:bg-brand-500/12;
 }
 
@@ -131,7 +180,11 @@ li.isLogosMode {
   opacity: 0;
 }
 
-li:hover .channelLogoContainer .channelLogoOverlay {
+a:hover .channelLogoContainer .channelLogoOverlay {
   opacity: 100;
+}
+
+.showEpgBtn {
+  @apply p-1;
 }
 </style>
