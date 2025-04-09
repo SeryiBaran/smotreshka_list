@@ -3,6 +3,7 @@ import type { APIEPG, APIEPGEvent, APIProgramsComposeTable, Channel, ChannelsPro
 
 import { useCurrentProgram, useCurrentProgramPercent, useReactiveProgramsCurrTime } from '~/composables/programs'
 import { isCurrentProgram, makeChannelPlayLink, useDayJS } from '~/shared'
+import { useModalStore } from '~/store/modal'
 import { useSettingsStore } from '~/store/settings'
 
 interface Props {
@@ -15,6 +16,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const settingsStore = useSettingsStore()
+const modalStore = useModalStore()
 
 const minMd = useMediaQuery('(min-width: 832px)') // to hide images, and to disable loading of big icons on small devices
 
@@ -61,6 +63,10 @@ function handleFetchEPG() {
 }
 
 const filteredEpg = computed(() => epgFetch.data.value?.pagesWithEvents.reduce<APIEPGEvent[]>((acc, page) => [...acc, ...page.events], []).filter(event => useDayJS()().isBefore(useDayJS()(event.scheduledFor.begin))))
+
+watch(showEPG, (newShowEPG) => {
+  modalStore.openedModalsSetOrToggle('epg', newShowEPG)
+})
 </script>
 
 <template>

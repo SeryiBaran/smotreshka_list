@@ -5,6 +5,7 @@ import { useFuse } from '@vueuse/integrations/useFuse'
 import { storeToRefs } from 'pinia'
 import { channelsPacks, log, makeChannelPlayLink, maxTvKeyboardKeyNumberLength, programsRefetchTimeout } from '~/shared'
 import { useFiltersStore } from '~/store/filters'
+import { useModalStore } from '~/store/modal'
 import { useSettingsStore } from '~/store/settings'
 
 defineOptions({
@@ -36,6 +37,7 @@ const programsComposeTableFetchTimeout = useTimeoutFn(() => {
 
 const settingsStore = useSettingsStore()
 const filtersStore = useFiltersStore()
+const modalStore = useModalStore()
 
 const { searchValueDebouncedTrimmed } = storeToRefs(filtersStore)
 
@@ -184,6 +186,8 @@ const debouncedPlayNumber = useDebounceFn(() => {
 const allowedTvKeyboardKeys = Array.from({ length: 10 }, (_, i) => i.toString())
 
 onKeyStroke([...allowedTvKeyboardKeys, 'Escape', 'Enter'], (event: KeyboardEvent) => {
+  if (modalStore.openedModals.length > 0)
+    return
   if (allowedTvKeyboardKeys.includes(event.key) && document.activeElement?.tagName && !ignoreTags.includes(document.activeElement.tagName)) {
     event.preventDefault()
 

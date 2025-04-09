@@ -61,7 +61,7 @@ export const defaultChannelsImagesSize = {
   default: 240,
 }
 
-export const defaultIsShowInfoOnHover = true
+export const defaultIsShowInfoOnHover = false
 
 export const defaultTvKeyboardDebounce = {
   min: 1,
