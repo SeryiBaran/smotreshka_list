@@ -1,5 +1,12 @@
 <script lang="ts" setup>
-import { channelsListModesNames, defaultChannelsImagesSizeMax, defaultChannelsImagesSizeMin, denyBrandColors, unoPresetColors } from '~/shared'
+import {
+  channelsListModesNames,
+  defaultChannelsImagesSize,
+  defaultTvKeyboardDebounce,
+  defaultTvKeyboardHideTime,
+  denyBrandColors,
+  unoPresetColors,
+} from '~/shared'
 import { useSettingsStore } from '~/store/settings'
 
 const colorsList = Object.keys(unoPresetColors).filter(c => !denyBrandColors.includes(c))
@@ -61,7 +68,7 @@ function handleAllReset() {
       </li>
       <li>
         <span>Размер картинок каналов (48 - 1920):</span>
-        <input v-model="settingsStore.channelsImagesSize" class="ml-2" type="number" :min="defaultChannelsImagesSizeMin" :max="defaultChannelsImagesSizeMax">
+        <input v-model="settingsStore.channelsImagesSize" class="ml-2" type="number" :min="defaultChannelsImagesSize.min" :max="defaultChannelsImagesSize.max" :step="defaultChannelsImagesSize.step">
       </li>
       <li>
         <Checkbox v-model="settingsStore.isShowPrograms" checkbox-label="Показывать программы" />
@@ -76,6 +83,14 @@ function handleAllReset() {
       </li>
       <li>
         <Checkbox v-model="settingsStore.isShowInfoOnHover" checkbox-label="Показывать инфо о передачах при наведении" />
+      </li>
+      <li>
+        <span>Дебаунс ТВ клавиатуры в секундах (1 - 10):</span>
+        <input v-model="settingsStore.tvKeyboardDebounce" class="ml-2" type="number" :min="defaultTvKeyboardDebounce.min" :max="defaultTvKeyboardDebounce.max" :step="defaultTvKeyboardDebounce.step">
+      </li>
+      <li>
+        <span>Задержка выключения ТВ клавиатуры в секундах (1 - 10):</span>
+        <input v-model="settingsStore.channelsImagesSize" class="ml-2" type="number" :min="defaultTvKeyboardHideTime.min" :max="defaultTvKeyboardHideTime.max" :step="defaultTvKeyboardHideTime.step">
       </li>
       <li>
         <button class="colorsTransition btn ml-2" @click="handleAllReset()">

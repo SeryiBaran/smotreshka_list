@@ -143,7 +143,7 @@ function cancelTvKeyboard() {
   overlayError.value = null
 }
 
-const hideOverlayTimer = useTimeoutFn(() => {
+const tvKeyboardHideTimer = useTimeoutFn(() => {
   cancelTvKeyboard()
 }, 3000, { immediate: false })
 
@@ -170,7 +170,7 @@ function playChannel() {
   }
 
   if (overlayError.value) {
-    hideOverlayTimer.start()
+    tvKeyboardHideTimer.start()
   }
   else {
     cancelTvKeyboard()

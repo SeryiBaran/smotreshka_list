@@ -12,6 +12,8 @@ import {
   defaultIsShowChannelsImages,
   defaultIsShowInfoOnHover,
   defaultIsShowPrograms,
+  defaultTvKeyboardDebounce,
+  defaultTvKeyboardHideTime,
 } from '~/shared'
 
 export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
@@ -88,10 +90,10 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
 
   // ...
 
-  const channelsImagesSize = ref<number>(defaultChannelsImagesSize)
+  const channelsImagesSize = ref<number>(defaultChannelsImagesSize.default)
 
   function channelsImagesSizeReset() {
-    channelsImagesSize.value = defaultChannelsImagesSize
+    channelsImagesSize.value = defaultChannelsImagesSize.default
   }
 
   // ...
@@ -100,6 +102,22 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
 
   function isShowInfoOnHoverReset() {
     isShowInfoOnHover.value = defaultIsShowInfoOnHover
+  }
+
+  // ...
+
+  const tvKeyboardDebounce = ref<number>(defaultTvKeyboardDebounce.default)
+
+  function tvKeyboardDebounceReset() {
+    tvKeyboardDebounce.value = defaultTvKeyboardDebounce.default
+  }
+
+  // ...
+
+  const tvKeyboardHideTime = ref<number>(defaultTvKeyboardHideTime.default)
+
+  function tvKeyboardHideTimeReset() {
+    tvKeyboardHideTime.value = defaultTvKeyboardHideTime.default
   }
 
   // ...
@@ -113,6 +131,8 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
     channelsListModeReset()
     channelsImagesSizeReset()
     isShowInfoOnHoverReset()
+    tvKeyboardDebounceReset()
+    tvKeyboardHideTimeReset()
   }
 
   return {
@@ -144,6 +164,12 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
 
     isShowInfoOnHover,
     isShowInfoOnHoverReset,
+
+    tvKeyboardDebounce,
+    tvKeyboardDebounceReset,
+
+    tvKeyboardHideTime,
+    tvKeyboardHideTimeReset,
 
     $reset,
   }
