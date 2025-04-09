@@ -29,6 +29,8 @@ export const channelsPacks = {
   kids: [8, 23, 48, 187, 306, 307, 308, 309, 310, 311, 312, 313, 314, 316, 317, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332],
 }
 
+export const maxTvKeyboardKeyNumberLength = 3
+
 export const programsRefetchTimeout = 1000 * 60 * 30
 
 export const denyBrandColors = ['white', 'black', 'light', 'dark']

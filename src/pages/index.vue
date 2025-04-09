@@ -3,7 +3,7 @@ import type { APIChannels, APIPrograms, APIProgramsComposeTable, GenreID, Values
 import { useFetch } from '@vueuse/core'
 import { useFuse } from '@vueuse/integrations/useFuse'
 import { storeToRefs } from 'pinia'
-import { channelsPacks, log, makeChannelPlayLink, programsRefetchTimeout } from '~/shared'
+import { channelsPacks, log, makeChannelPlayLink, maxTvKeyboardKeyNumberLength, programsRefetchTimeout } from '~/shared'
 import { useFiltersStore } from '~/store/filters'
 import { useSettingsStore } from '~/store/settings'
 
@@ -143,7 +143,12 @@ const hideOverlayTimer = useTimeoutFn(() => {
 }, 2000, { immediate: false })
 
 const keyNumber = computed(() => Number.parseInt(numbers.value.join('')))
-const maxNumberLength = 3
+const structuredKeyNumber = computed(() => {
+  return {
+    unused: Array.from({ length: maxTvKeyboardKeyNumberLength - (keyNumber.value.toString().length) }, (_, i) => i),
+    used: keyNumber.value.toString().split(''),
+  }
+})
 
 const ignoreTags = ['SELECT', 'INPUT', 'TEXTAREA']
 
@@ -168,7 +173,7 @@ onKeyStroke(Array.from({ length: 10 }, (_, i) => i.toString()), (event: Keyboard
 
     event.preventDefault()
 
-    if (numbers.value.length >= maxNumberLength) {
+    if (numbers.value.length >= maxTvKeyboardKeyNumberLength) {
       numbers.value.shift()
     }
     numbers.value.push(Number(event.key))
@@ -180,13 +185,14 @@ onKeyStroke(Array.from({ length: 10 }, (_, i) => i.toString()), (event: Keyboard
 
 <template>
   <div>
-    <p v-if="showOverlay" class="text-2xl">
-      {{ numbers.join('') }} <span v-if="showOverlayError">Ошибка :(</span>
+    <p v-if="showOverlay" class="tvKeyboardOverlay text-2xl font-mono">
+      <span v-for="(unusedNumber, i) in structuredKeyNumber.unused" :key="unusedNumber.toString() + unusedNumber + i">-</span>
+      <span v-for="(usedNumber, i) in structuredKeyNumber.used" :key="usedNumber.toString() + usedNumber + i">{{ usedNumber }}</span>
     </p>
-    <p class="text-xs my-4 mt-1">
+    <p class="text-sm my-4 mt-1">
       Вы можете начать вводить номер канала прямо на странице, у вас будет на это 5 секунд.
       <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
-      <RouterLink to="/help" class="link">Если не работает</RouterLink>.
+      <RouterLink to="/help" class="link">Если не работает, разрешите сайту открывать всплывающие окна и вкладки</RouterLink>.
     </p>
     <input v-model="filtersStore.searchValue" type="text" class="input" placeholder="Введите запрос...">
     <div class="text-lg mt-4 flex flex-wrap gap-x-2 gap-y-3">
@@ -222,7 +228,7 @@ onKeyStroke(Array.from({ length: 10 }, (_, i) => i.toString()), (event: Keyboard
         />Очистить фильтры
       </button>
     </div>
-    <ul class="mt-4 flex flex-col gap-4" :class="{ isCompactMode: settingsStore.channelsListMode === 'compact', isLogosMode: settingsStore.channelsListMode === 'logos' }">
+    <ul class="mt-4 flex flex-col gap-2" :class="{ isCompactMode: settingsStore.channelsListMode === 'compact', isLogosMode: settingsStore.channelsListMode === 'logos' }">
       <template v-if="channelsFiltered.length > 0">
         <ChannelsItem v-for="channel in channelsFiltered" :key="channel.id" :channel="channel" :channels-programs="channelsPrograms" :is-programs-fetching="isProgramsFetching" />
       </template>
@@ -282,5 +288,9 @@ onKeyStroke(Array.from({ length: 10 }, (_, i) => i.toString()), (event: Keyboard
 
 .isLogosMode {
   grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+}
+
+.tvKeyboardOverlay {
+  @apply fixed top-0 right-0 bottom-0 left-0 text-8xl bg-neutral-900/80 flex items-center justify-center z-10;
 }
 </style>
