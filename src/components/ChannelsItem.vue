@@ -64,7 +64,7 @@ const filteredEpg = computed(() => epgFetch.data.value?.pagesWithEvents.reduce<A
 </script>
 
 <template>
-  <li class="flex overflow-hidden" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
+  <li class="flex" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
     <button v-if="settingsStore.channelsListMode !== 'logos'" class="showEpgBtn colorsTransition btn btn-with-icon max-2xl:hidden" :disabled="epgFetch.isFetching.value" @click="() => handleFetchEPG()">
       <span class="transitionColors i-tabler:list text-4 block" />
     </button>
