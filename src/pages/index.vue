@@ -243,7 +243,7 @@ onKeyStroke([...allowedTvKeyboardKeys, 'Escape', 'Enter'], (event: KeyboardEvent
     <div class="text-lg mt-4 flex flex-wrap gap-x-2 gap-y-2">
       <template v-if="genresList.length > 0">
         <div
-          v-for="[genreId, genreName] in genresList" :key="genreId" class="flex" :class="{
+          v-for="[genreId, genreName] in genresList" :key="genreId" class="genreGroup flex" :class="{
             active: filtersStore.selectedGenre === (genreId),
             favorite: settingsStore.favoriteGenres.includes(genreId),
           }"
@@ -292,7 +292,7 @@ onKeyStroke([...allowedTvKeyboardKeys, 'Escape', 'Enter'], (event: KeyboardEvent
   @apply cursor-pointer px-3 py-0.5 border border-2 border-transparent rounded-full dark:bg-brand-500/10 bg-brand-500/13 hover:(dark:bg-brand-500/18 bg-brand-500/21);
 }
 
-.active .genreButton {
+.genreGroup.active .genreButton {
   @apply border-brand-500 dark:bg-brand-500/30 bg-brand-500/33;
 }
 
@@ -304,34 +304,34 @@ onKeyStroke([...allowedTvKeyboardKeys, 'Escape', 'Enter'], (event: KeyboardEvent
   @apply rounded-lt-0 rounded-lb-0 px-2 pl-1.5;
 }
 
-.favorite .genreButtonFavorite .genreButtonFavoriteIcon {
+.genreGroup.favorite .genreButtonFavorite .genreButtonFavoriteIcon {
   @apply text-brand-500;
 }
 
-.genreButtonFavorite:not(.active .genreButtonFavorite, .favorite .genreButtonFavorite) {
+.genreButtonFavorite:not(.active .genreButtonFavorite, .genreGroup.favorite .genreButtonFavorite) {
   @apply border-transparent;
 }
 
-.active.favorite .genreButtonFavorite {
+.genreGroup.active.favorite .genreButtonFavorite {
   @apply border-brand-500;
 }
 
-.active .genreButtonFavorite {
+.genreGroup.active .genreButtonFavorite {
   @apply border-l-transparent!;
 }
 
 /* oh shit */
-.isCompactMode,
-.isLogosMode {
+ul.isCompactMode,
+ul.isLogosMode {
   display: grid;
 }
 
-.isCompactMode {
+ul.isCompactMode {
   @apply gap-0;
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
 }
 
-.isLogosMode {
+ul.isLogosMode {
   grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
 }
 

@@ -71,7 +71,7 @@ watch(showEPG, (newShowEPG) => {
 
 <template>
   <li class="flex" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
-    <button v-if="settingsStore.channelsListMode !== 'logos'" class="showEpgBtn colorsTransition btn btn-with-icon max-2xl:hidden" :disabled="epgFetch.isFetching.value" @click="() => handleFetchEPG()">
+    <button v-if="settingsStore.channelsListMode !== 'logos'" class="showEpgBtn colorsTransition btn btn-with-icon" :disabled="epgFetch.isFetching.value" @click="() => handleFetchEPG()">
       <span class="transitionColors i-tabler:list text-4 block" />
     </button>
     <a :href="makeChannelPlayLink(props.channel.id)" class="p-4 flex gap-4 h-full w-full overflow-hidden" :target="settingsStore.isOpenNewTab ? '_blank' : '_top'">
@@ -92,7 +92,7 @@ watch(showEPG, (newShowEPG) => {
         </div>
 
         <div
-          v-if="currentProgram && isCurrentProgram(currentProgram.scheduledFor, reactiveProgramsCurrTime.currentTime.value)"
+          v-if="settingsStore.isShowInfoOnHover && settingsStore.channelsListMode === 'logos' && currentProgram && isCurrentProgram(currentProgram.scheduledFor, reactiveProgramsCurrTime.currentTime.value)"
           class="channelLogoOverlay channelLogoOverlay2"
         >
           <div class="border-0 border-b-4 border-b-brand-500 border-solid" :style="{ width: `${currentProgramPercent}%` }" />
@@ -139,27 +139,27 @@ li.isCompactMode {
   @apply rounded-1;
 }
 
-.isCompactMode a {
+li.isCompactMode a {
   @apply px-1.5 py-0.5 gap-1.5;
 }
 
-.isCompactMode .channelLogo {
+li.isCompactMode .channelLogo {
   @apply rounded-2 w-10; /* LAGGY! */
 }
 
-.isCompactMode .wrapper {
+li.isCompactMode .wrapper {
   @apply flex gap-1.5 justify-between max-w-3xl;
 }
 
-.isCompactMode .channelTitle {
+li.isCompactMode .channelTitle {
   @apply gap-1.5 items-start;
 }
 
-.isCompactMode .channelNumber {
+li.isCompactMode .channelNumber {
   @apply text-xl;
 }
 
-.isCompactMode .channelName {
+li.isCompactMode .channelName {
   @apply text-size-base mt-0.5;
 }
 
@@ -169,7 +169,7 @@ li.isLogosMode {
   @apply p-0 overflow-hidden;
 }
 
-.isLogosMode a {
+li.isLogosMode a {
   @apply p-0;
 }
 
@@ -177,7 +177,7 @@ li.isLogosMode {
   @apply overflow-hidden border border-1 border-brand-500 rounded-3 w-50 aspect-video transform self-start relative object-cover 2xl:w-65;
 }
 
-.isLogosMode .channelLogoContainer {
+li.isLogosMode .channelLogoContainer {
   @apply w-full rounded-0 border-0;
 }
 
@@ -196,6 +196,6 @@ a:hover .channelLogoContainer .channelLogoOverlay {
 }
 
 .showEpgBtn {
-  @apply p-1;
+  @apply my-1 p-1;
 }
 </style>
