@@ -29,6 +29,8 @@ export const channelsPacks = {
   kids: [8, 23, 48, 187, 306, 307, 308, 309, 310, 311, 312, 313, 314, 316, 317, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332],
 }
 
+export const programsRefetchTimeout = 1000 * 60 * 30
+
 export const denyBrandColors = ['white', 'black', 'light', 'dark']
 
 export const defaultFavoriteGenres: GenreID[] = ['federal', 'kids', 'movies']
@@ -67,4 +69,9 @@ export function isCurrentProgram(scheduledFor: TimeInterval, time?: Dayjs) {
 
 export function makeChannelPlayLink(channelId: ChannelID) {
   return `https://smotreshka.tv/channels/now/${channelId}/watch`
+}
+
+export function log(...args: any[]) {
+  // eslint-disable-next-line no-console
+  console.log(...args)
 }

@@ -3,7 +3,7 @@ import type { APIChannels, APIPrograms, APIProgramsComposeTable, GenreID, Values
 import { useFetch } from '@vueuse/core'
 import { useFuse } from '@vueuse/integrations/useFuse'
 import { storeToRefs } from 'pinia'
-import { channelsPacks, makeChannelPlayLink } from '~/shared'
+import { channelsPacks, log, makeChannelPlayLink, programsRefetchTimeout } from '~/shared'
 import { useFiltersStore } from '~/store/filters'
 import { useSettingsStore } from '~/store/settings'
 
@@ -25,12 +25,14 @@ const programsFetch = useFetch(programsFetchURL, {}).get().json<APIPrograms>()
 const programsComposeTableFetch = useFetch(programsComposeTableFetchURL, {}).get().json<APIProgramsComposeTable>()
 
 const programsFetchTimeout = useTimeoutFn(() => {
+  log('refetch programsFetch')
   programsFetch.execute().then(() => programsFetchTimeout.start())
-}, 1000 * 60 * 30)
+}, programsRefetchTimeout)
 
 const programsComposeTableFetchTimeout = useTimeoutFn(() => {
+  log('refetch programsComposeTableFetch')
   programsComposeTableFetch.execute().then(() => programsComposeTableFetchTimeout.start())
-}, 1000 * 60 * 30)
+}, programsRefetchTimeout)
 
 const settingsStore = useSettingsStore()
 const filtersStore = useFiltersStore()
