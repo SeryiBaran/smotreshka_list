@@ -21,6 +21,10 @@ const programsFetchURL = 'https://fe.smotreshka.tv/epg/v2/on-air?tv-asset-token=
 
 const programsComposeTableFetchURL = 'https://fe.smotreshka.tv/tv/v2/medias?tv-asset-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOjQsInB1cmNoYXNlZF9jaGFubmVsX3BhY2thZ2VzIjpbXSwicmVnaW9uIjoiIiwiZGV2aWNlX3R5cGUiOiJ0YWJsZXQiLCJuZXR3b3JrX2FmZmlsaWF0aW9uX3N0YXR1cyI6MywibG9jYWxlIjoicnUiLCJwcm9maWxlX3R5cGUiOjIsInByb2ZpbGVfcmVzdHJpY3Rpb25fdmFsdWUiOjN9.jl_3Bn2iw7GRb7CCsj75XqbjJykPmRa655LBKQly8ds'
 
+const settingsStore = useSettingsStore()
+const filtersStore = useFiltersStore()
+const modalStore = useModalStore()
+
 const channelsFetch = useFetch(channelsFetchURL, {}).get().json<APIChannels>()
 const programsFetch = useFetch(programsFetchURL, {}).get().json<APIPrograms>()
 const programsComposeTableFetch = useFetch(programsComposeTableFetchURL, {}).get().json<APIProgramsComposeTable>()
@@ -28,16 +32,16 @@ const programsComposeTableFetch = useFetch(programsComposeTableFetchURL, {}).get
 const programsFetchTimeout = useTimeoutFn(() => {
   log('refetch programsFetch')
   programsFetch.execute().then(() => programsFetchTimeout.start())
-}, programsRefetchTimeout)
+}, programsRefetchTimeout, {
+  immediate: settingsStore.isRealtimePrograms,
+})
 
 const programsComposeTableFetchTimeout = useTimeoutFn(() => {
   log('refetch programsComposeTableFetch')
   programsComposeTableFetch.execute().then(() => programsComposeTableFetchTimeout.start())
-}, programsRefetchTimeout)
-
-const settingsStore = useSettingsStore()
-const filtersStore = useFiltersStore()
-const modalStore = useModalStore()
+}, programsRefetchTimeout, {
+  immediate: settingsStore.isRealtimePrograms,
+})
 
 const { searchValueDebouncedTrimmed } = storeToRefs(filtersStore)
 
