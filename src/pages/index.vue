@@ -169,7 +169,12 @@ function playChannel() {
     overlayError.value = 'Такого канала нет или он недоступен :('
   }
 
-  hideOverlayTimer.start()
+  if (overlayError.value) {
+    hideOverlayTimer.start()
+  }
+  else {
+    cancelTvKeyboard()
+  }
 }
 
 const debouncedPlayNumber = useDebounceFn(() => {
@@ -207,21 +212,23 @@ onKeyStroke([...allowedTvKeyboardKeys, 'Escape', 'Enter'], (event: KeyboardEvent
 <template>
   <div>
     <div v-if="showOverlay" class="tvKeyboardOverlay">
-      <p class="text-8xl font-mono">
-        <span v-for="(unusedNumber, i) in structuredKeyNumber.unused" :key="unusedNumber.toString() + unusedNumber + i">-</span>
-        <span v-for="(usedNumber, i) in structuredKeyNumber.used" :key="usedNumber.toString() + usedNumber + i">{{ usedNumber }}</span>
-      </p>
-      <p v-if="overlayError" class="text-red">
-        {{ overlayError }}
-      </p>
-      <p class="text-2xl">
-        Отмена - ESC
-      </p>
-      <p>
-        <RouterLink to="/help" class="link">
-          Если не работает, разрешите сайту открывать всплывающие окна и вкладки
-        </RouterLink>
-      </p>
+      <div class="flex flex-col gap-2 max-w-md items-center">
+        <p class="text-8xl font-mono">
+          <span v-for="(unusedNumber, i) in structuredKeyNumber.unused" :key="unusedNumber.toString() + unusedNumber + i">-</span>
+          <span v-for="(usedNumber, i) in structuredKeyNumber.used" :key="usedNumber.toString() + usedNumber + i">{{ usedNumber }}</span>
+        </p>
+        <p v-if="overlayError" class="text-red">
+          {{ overlayError }}
+        </p>
+        <p class="text-2xl">
+          Отмена - ESC
+        </p>
+        <p>
+          <RouterLink to="/help" class="link">
+            Если не работает, разрешите сайту открывать всплывающие окна и вкладки
+          </RouterLink>
+        </p>
+      </div>
     </div>
     <p class="text-sm my-4 mt-1">
       Вы можете начать вводить номер канала прямо на странице, у вас будет на это 5 секунд.
@@ -325,6 +332,6 @@ onKeyStroke([...allowedTvKeyboardKeys, 'Escape', 'Enter'], (event: KeyboardEvent
 }
 
 .tvKeyboardOverlay {
-  @apply fixed top-0 right-0 bottom-0 left-0 bg-neutral-900/80 flex items-center justify-center z-10 flex-col gap-2;
+  @apply fixed top-0 right-0 bottom-0 left-0 bg-neutral-900/80 flex items-center justify-center z-10;
 }
 </style>
