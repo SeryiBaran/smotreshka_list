@@ -45,7 +45,7 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram)
 
           <div
             v-if="currentProgram && isCurrentProgram(currentProgram.scheduledFor, reactiveProgramsCurrTime.currentTime.value)"
-            class="bg-brand-100 bottom-0 left-0 right-0 absolute"
+            class="bg-brand-900/15 bottom-0 left-0 right-0 absolute dark:bg-brand-100"
           >
             <div class="border-0 border-b-2 border-b-brand-500 border-solid" :style="{ width: `${isCurrentProgram(program.scheduledFor, reactiveProgramsCurrTime.currentTime.value) ? currentProgramPercent : 0}%` }" />
           </div>

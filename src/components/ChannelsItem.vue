@@ -37,7 +37,7 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram)
       <div v-if="(minMd && settingsStore.isShowChannelsImages && !(settingsStore.channelsListMode === 'compact')) || settingsStore.channelsListMode === 'logos'" class="channelLogoContainer border border-1 border-brand-500 rounded-3 w-50 aspect-video transform self-start relative object-cover 2xl:w-65">
         <img class="channelLogo w-full" :src="`${props.channel.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93`" :alt="`Иконка ${formatKeyNumber(props.channel.keyNumber)} ${props.channel.title}`">
         <div
-          v-if="currentProgram && isCurrentProgram(currentProgram.scheduledFor, reactiveProgramsCurrTime.currentTime.value)"
+          v-if="settingsStore.isShowInfoOnHover && currentProgram && isCurrentProgram(currentProgram.scheduledFor, reactiveProgramsCurrTime.currentTime.value)"
           class="channelLogoOverlay text-white bottom-0 left-0 right-0 top-0 absolute"
           :style="{
             backgroundImage: currentProgram?.logoUrl ? `url('${currentProgram.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93')` : '',
@@ -52,7 +52,7 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram)
 
         <div
           v-if="currentProgram && isCurrentProgram(currentProgram.scheduledFor, reactiveProgramsCurrTime.currentTime.value)"
-          class="channelLogoOverlay border-0 border-t-1 border-t-brand-900 border-solid bg-brand-100 bottom-0 left-0 right-0 absolute"
+          class="channelLogoOverlay border-0 border-t-1 border-t-brand-900 border-solid bg-brand-200 bottom-0 left-0 right-0 absolute"
         >
           <div class="border-0 border-b-4 border-b-brand-500 border-solid" :style="{ width: `${currentProgramPercent}%` }" />
         </div>

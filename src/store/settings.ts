@@ -10,6 +10,7 @@ import {
   defaultFavoriteGenres,
   defaultIsOpenNewTab,
   defaultIsShowChannelsImages,
+  defaultIsShowInfoOnHover,
   defaultIsShowPrograms,
 } from '~/shared'
 
@@ -95,6 +96,14 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
 
   // ...
 
+  const isShowInfoOnHover = ref<boolean>(defaultIsShowInfoOnHover)
+
+  function isShowInfoOnHoverReset() {
+    isShowInfoOnHover.value = defaultIsShowInfoOnHover
+  }
+
+  // ...
+
   function $reset() {
     favoriteGenresReset()
     brandColorReset()
@@ -103,6 +112,7 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
     isShowProgramsReset()
     channelsListModeReset()
     channelsImagesSizeReset()
+    isShowInfoOnHoverReset()
   }
 
   return {
@@ -131,6 +141,9 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
 
     channelsImagesSize,
     channelsImagesSizeReset,
+
+    isShowInfoOnHover,
+    isShowInfoOnHoverReset,
 
     $reset,
   }

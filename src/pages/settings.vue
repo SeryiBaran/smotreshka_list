@@ -75,6 +75,9 @@ function handleAllReset() {
         </select>
       </li>
       <li>
+        <Checkbox v-model="settingsStore.isShowInfoOnHover" checkbox-label="Показывать инфо о передачах при наведении" />
+      </li>
+      <li>
         <button class="colorsTransition btn ml-2" @click="handleAllReset()">
           СБРОСИТЬ ВСЕ НАСТРОЙКИ
         </button>
