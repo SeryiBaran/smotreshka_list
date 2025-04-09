@@ -113,7 +113,7 @@ watch(showEPG, (newShowEPG) => {
         </p> -->
       </div>
     </a>
-    <ModalLongScroll v-model="showEPG" :heading="`Программа '${props.channel.title}'`">
+    <ModalLongScroll v-if="showEPG" v-model="showEPG" :heading="`Программа '${props.channel.title}'`">
       <div v-if="filteredEpg">
         <Programs
           :channel-programs="{
