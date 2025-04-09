@@ -24,6 +24,14 @@ const channelsFetch = useFetch(channelsFetchURL, {}).get().json<APIChannels>()
 const programsFetch = useFetch(programsFetchURL, {}).get().json<APIPrograms>()
 const programsComposeTableFetch = useFetch(programsComposeTableFetchURL, {}).get().json<APIProgramsComposeTable>()
 
+const programsFetchTimeout = useTimeoutFn(() => {
+  programsFetch.execute().then(() => programsFetchTimeout.start())
+}, 1000 * 60 * 30)
+
+const programsComposeTableFetchTimeout = useTimeoutFn(() => {
+  programsComposeTableFetch.execute().then(() => programsComposeTableFetchTimeout.start())
+}, 1000 * 60 * 30)
+
 const settingsStore = useSettingsStore()
 const filtersStore = useFiltersStore()
 
