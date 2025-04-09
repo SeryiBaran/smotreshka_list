@@ -135,17 +135,17 @@ const isProgramsFetching = computed(() => (programsFetch.isFetching.value || pro
 const showOverlay = ref(false)
 const numbers = ref<number[]>([])
 
-const showOverlayError = ref(false)
+const overlayError = ref<string | null>(null)
 
 function cancelTvKeyboard() {
   showOverlay.value = false
   numbers.value = []
-  showOverlayError.value = false
+  overlayError.value = null
 }
 
 const hideOverlayTimer = useTimeoutFn(() => {
   cancelTvKeyboard()
-}, 2000, { immediate: false })
+}, 3000, { immediate: false })
 
 const keyNumber = computed(() => Number.parseInt(numbers.value.join('')))
 const structuredKeyNumber = computed(() => {
@@ -157,7 +157,7 @@ const structuredKeyNumber = computed(() => {
 
 const ignoreTags = ['SELECT', 'INPUT', 'TEXTAREA']
 
-const debouncedPlayNumber = useDebounceFn(() => {
+function playChannel() {
   const channel = channelsAvailable.value.find(channel => channel.keyNumber === keyNumber.value)
 
   if (channel) {
@@ -166,15 +166,19 @@ const debouncedPlayNumber = useDebounceFn(() => {
     window.open(link, '_blank')
   }
   else {
-    showOverlayError.value = true
+    overlayError.value = 'Такого канала нет или он недоступен :('
   }
 
   hideOverlayTimer.start()
+}
+
+const debouncedPlayNumber = useDebounceFn(() => {
+  playChannel()
 }, 5000)
 
 const allowedTvKeyboardKeys = Array.from({ length: 10 }, (_, i) => i.toString())
 
-onKeyStroke([...allowedTvKeyboardKeys, 'Escape'], (event: KeyboardEvent) => {
+onKeyStroke([...allowedTvKeyboardKeys, 'Escape', 'Enter'], (event: KeyboardEvent) => {
   if (allowedTvKeyboardKeys.includes(event.key) && document.activeElement?.tagName && !ignoreTags.includes(document.activeElement.tagName)) {
     event.preventDefault()
 
@@ -192,6 +196,11 @@ onKeyStroke([...allowedTvKeyboardKeys, 'Escape'], (event: KeyboardEvent) => {
 
     cancelTvKeyboard()
   }
+  if (event.key === 'Enter') {
+    event.preventDefault()
+
+    playChannel()
+  }
 })
 </script>
 
@@ -201,6 +210,9 @@ onKeyStroke([...allowedTvKeyboardKeys, 'Escape'], (event: KeyboardEvent) => {
       <p class="text-8xl font-mono">
         <span v-for="(unusedNumber, i) in structuredKeyNumber.unused" :key="unusedNumber.toString() + unusedNumber + i">-</span>
         <span v-for="(usedNumber, i) in structuredKeyNumber.used" :key="usedNumber.toString() + usedNumber + i">{{ usedNumber }}</span>
+      </p>
+      <p v-if="overlayError" class="text-red">
+        {{ overlayError }}
       </p>
       <p class="text-2xl">
         Отмена - ESC
@@ -217,7 +229,7 @@ onKeyStroke([...allowedTvKeyboardKeys, 'Escape'], (event: KeyboardEvent) => {
       <RouterLink to="/help" class="link">Если не работает, разрешите сайту открывать всплывающие окна и вкладки</RouterLink>.
     </p>
     <input v-model="filtersStore.searchValue" type="text" class="input" placeholder="Введите запрос...">
-    <div class="text-lg mt-4 flex flex-wrap gap-x-2 gap-y-3">
+    <div class="text-lg mt-4 flex flex-wrap gap-x-2 gap-y-2">
       <template v-if="genresList.length > 0">
         <div
           v-for="[genreId, genreName] in genresList" :key="genreId" class="flex" :class="{
