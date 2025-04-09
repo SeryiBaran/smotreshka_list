@@ -136,10 +136,15 @@ const showOverlay = ref(false)
 const numbers = ref<number[]>([])
 
 const showOverlayError = ref(false)
-const hideOverlayTimer = useTimeoutFn(() => {
+
+function cancelTvKeyboard() {
   showOverlay.value = false
   numbers.value = []
   showOverlayError.value = false
+}
+
+const hideOverlayTimer = useTimeoutFn(() => {
+  cancelTvKeyboard()
 }, 2000, { immediate: false })
 
 const keyNumber = computed(() => Number.parseInt(numbers.value.join('')))
@@ -167,11 +172,13 @@ const debouncedPlayNumber = useDebounceFn(() => {
   hideOverlayTimer.start()
 }, 5000)
 
-onKeyStroke(Array.from({ length: 10 }, (_, i) => i.toString()), (event: KeyboardEvent) => {
-  if (document.activeElement?.tagName && !ignoreTags.includes(document.activeElement.tagName)) {
-    showOverlay.value = true
+const allowedTvKeyboardKeys = Array.from({ length: 10 }, (_, i) => i.toString())
 
+onKeyStroke([...allowedTvKeyboardKeys, 'Escape'], (event: KeyboardEvent) => {
+  if (allowedTvKeyboardKeys.includes(event.key) && document.activeElement?.tagName && !ignoreTags.includes(document.activeElement.tagName)) {
     event.preventDefault()
+
+    showOverlay.value = true
 
     if (numbers.value.length >= maxTvKeyboardKeyNumberLength) {
       numbers.value.shift()
@@ -180,15 +187,30 @@ onKeyStroke(Array.from({ length: 10 }, (_, i) => i.toString()), (event: Keyboard
 
     debouncedPlayNumber()
   }
+  if (event.key === 'Escape') {
+    event.preventDefault()
+
+    cancelTvKeyboard()
+  }
 })
 </script>
 
 <template>
   <div>
-    <p v-if="showOverlay" class="tvKeyboardOverlay text-2xl font-mono">
-      <span v-for="(unusedNumber, i) in structuredKeyNumber.unused" :key="unusedNumber.toString() + unusedNumber + i">-</span>
-      <span v-for="(usedNumber, i) in structuredKeyNumber.used" :key="usedNumber.toString() + usedNumber + i">{{ usedNumber }}</span>
-    </p>
+    <div v-if="showOverlay" class="tvKeyboardOverlay">
+      <p class="text-8xl font-mono">
+        <span v-for="(unusedNumber, i) in structuredKeyNumber.unused" :key="unusedNumber.toString() + unusedNumber + i">-</span>
+        <span v-for="(usedNumber, i) in structuredKeyNumber.used" :key="usedNumber.toString() + usedNumber + i">{{ usedNumber }}</span>
+      </p>
+      <p class="text-2xl">
+        Отмена - ESC
+      </p>
+      <p>
+        <RouterLink to="/help" class="link">
+          Если не работает, разрешите сайту открывать всплывающие окна и вкладки
+        </RouterLink>
+      </p>
+    </div>
     <p class="text-sm my-4 mt-1">
       Вы можете начать вводить номер канала прямо на странице, у вас будет на это 5 секунд.
       <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
@@ -291,6 +313,6 @@ onKeyStroke(Array.from({ length: 10 }, (_, i) => i.toString()), (event: Keyboard
 }
 
 .tvKeyboardOverlay {
-  @apply fixed top-0 right-0 bottom-0 left-0 text-8xl bg-neutral-900/80 flex items-center justify-center z-10;
+  @apply fixed top-0 right-0 bottom-0 left-0 bg-neutral-900/80 flex items-center justify-center z-10 flex-col gap-2;
 }
 </style>
