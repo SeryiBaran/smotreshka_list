@@ -90,7 +90,7 @@ function handleAllReset() {
       </li>
       <li>
         <span>Задержка выключения ТВ клавиатуры в секундах (1 - 10):</span>
-        <input v-model="settingsStore.channelsImagesSize" class="ml-2" type="number" :min="defaultTvKeyboardHideTime.min" :max="defaultTvKeyboardHideTime.max" :step="defaultTvKeyboardHideTime.step">
+        <input v-model="settingsStore.tvKeyboardHideTime" class="ml-2" type="number" :min="defaultTvKeyboardHideTime.min" :max="defaultTvKeyboardHideTime.max" :step="defaultTvKeyboardHideTime.step">
       </li>
       <li>
         <button class="colorsTransition btn ml-2" @click="handleAllReset()">
