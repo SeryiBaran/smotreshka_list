@@ -22,10 +22,17 @@ const emit = defineEmits<{
       @click.self="() => emit('update:modelValue', false)"
     >
       <div class="mx-auto my-12 p-4 border rounded-lg bg-white flex flex-col max-w-2xl space-y-2 dark:border-brand-700 dark:bg-neutral-900 2xl:max-w-5xl">
-        <h1 class="text-xl">
-          {{ heading }}
-        </h1>
-        <slot />
+        <div class="text-xl pb-2 border-b-1 border-brand-500 flex justify-between 2xl:text-3xl xl:text-2xl 2xl:pb-3 dark:border-brand-300/50">
+          <h1 class="">
+            {{ heading }}
+          </h1>
+          <button class="colorsTransition icon-btn" @click="() => emit('update:modelValue', false)">
+            <div class="i-carbon:close inline-block" />
+          </button>
+        </div>
+        <div>
+          <slot />
+        </div>
         <button class="colorsTransition btn ml-auto mt-1" @click="() => emit('update:modelValue', false)">
           Закрыть
         </button>
