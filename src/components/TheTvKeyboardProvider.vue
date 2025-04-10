@@ -104,10 +104,12 @@ const findChannelResult = computed(() => props.channelsAvailable.find(channel =>
 <template>
   <div v-if="showOverlay" class="tvKeyboardOverlay">
     <div class="flex flex-col gap-2 max-w-md items-center">
-      <p class="text-8xl font-mono">
-        <span v-for="(unusedNumber, i) in structuredKeyNumber.unused" :key="unusedNumber.toString() + unusedNumber + i" class="opacity-70">-</span>
-        <span v-for="(usedNumber, i) in structuredKeyNumber.used" :key="usedNumber.toString() + usedNumber + i">{{ usedNumber }}</span>
-      </p>
+      <div class="rounded-4 bg-neutral-200 overflow-hidden dark:bg-neutral-800">
+        <p class="text-8xl text-black font-mono px-4 py-2 bg-brand-500/20 dark:text-white">
+          <span v-for="(unusedNumber, i) in structuredKeyNumber.unused" :key="unusedNumber.toString() + unusedNumber + i" class="opacity-50">-</span>
+          <span v-for="(usedNumber, i) in structuredKeyNumber.used" :key="usedNumber.toString() + usedNumber + i">{{ usedNumber }}</span>
+        </p>
+      </div>
       <p class="text-brand-500">
         {{ findChannelResult ? findChannelResult.title : '...' }}
       </p>
@@ -115,8 +117,9 @@ const findChannelResult = computed(() => props.channelsAvailable.find(channel =>
         {{ overlayError }}
       </p>
       <ul class="list-circle">
-        <li>Отмена - ESC</li>
-        <li>Открыть сразу - Enter</li>
+        <li>Отмена - <kbd>ESC</kbd></li>
+        <li>Открыть сразу - <kbd>Enter <span class="i-tabler:corner-down-left text-size-base inline-block" /></kbd></li>
+        <li>Стереть - <kbd>Backspace <span class="i-tabler:backspace text-size-base inline-block" /></kbd></li>
         <li>
           Если не работает, <RouterLink to="/help" class="link">
             разрешите сайту открывать всплывающие окна и вкладки
@@ -129,6 +132,6 @@ const findChannelResult = computed(() => props.channelsAvailable.find(channel =>
 
 <style scoped>
 .tvKeyboardOverlay {
-  @apply fixed top-0 right-0 bottom-0 left-0 bg-neutral-900/80 flex items-center justify-center z-10;
+  @apply fixed top-0 right-0 bottom-0 left-0 bg-neutral-900/85 flex items-center justify-center z-10 text-white;
 }
 </style>

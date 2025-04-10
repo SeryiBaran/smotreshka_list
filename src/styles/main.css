@@ -57,3 +57,11 @@ input[type='number'] {
 .link {
   @apply text-brand-500 underline;
 }
+
+kbd {
+  @apply inline-flex items-center border-solid border-1 border-brand-500 rounded px-2 py-0.5 gap-1;
+}
+
+li {
+  @apply my-1;
+}

@@ -2,22 +2,31 @@ import type { Dayjs } from 'dayjs'
 import type { ChannelPrograms, ProgramEvent } from '~/types'
 import { isCurrentProgram, useDayJS } from '~/shared'
 
-export function useReactiveProgramsCurrTime() {
-  const currentTime = ref<Dayjs>(useDayJS()())
+const currentTime = ref<Dayjs>(useDayJS()())
 
-  const timeout = useTimeoutFn(() => {
-    currentTime.value = useDayJS()()
-
-    timeout.start()
-  }, 10000)
+const timeout = useTimeoutFn(() => {
+  currentTime.value = useDayJS()()
 
   timeout.start()
+}, 10000)
 
-  return { currentTime, timeout }
+timeout.start()
+
+export function useReactiveProgramsCurrTime(isRealtime?: Ref<boolean>) {
+  let returnedCurrentTime: Ref<Dayjs> | Dayjs
+
+  if ((isRealtime && isRealtime.value) || (isRealtime === undefined)) {
+    returnedCurrentTime = computed(() => currentTime.value)
+  }
+  else {
+    returnedCurrentTime = ref(useDayJS()())
+  }
+
+  return { currentTime: returnedCurrentTime, timeout }
 }
 
-export function useCurrentProgramPercent(currentProgram: Ref<ProgramEvent | null | undefined>) {
-  const reactiveProgramsCurrTime = useReactiveProgramsCurrTime()
+export function useCurrentProgramPercent(currentProgram: Ref<ProgramEvent | null | undefined>, isRealtime?: Ref<boolean>) {
+  const reactiveProgramsCurrTime = useReactiveProgramsCurrTime(isRealtime)
 
   const currentProgramPercent = computed(() => {
     const percents = (100 / (useDayJS()(currentProgram.value?.scheduledFor.end).diff(useDayJS()(currentProgram.value?.scheduledFor.begin)) / reactiveProgramsCurrTime.currentTime.value.diff(useDayJS()(currentProgram.value?.scheduledFor.begin))))
@@ -28,8 +37,8 @@ export function useCurrentProgramPercent(currentProgram: Ref<ProgramEvent | null
   return currentProgramPercent
 }
 
-export function useCurrentProgram(channelPrograms: Ref<ChannelPrograms>) {
-  const reactiveProgramsCurrTime = useReactiveProgramsCurrTime()
+export function useCurrentProgram(channelPrograms: Ref<ChannelPrograms>, isRealtime?: Ref<boolean>) {
+  const reactiveProgramsCurrTime = useReactiveProgramsCurrTime(isRealtime)
 
   const currentProgram = computed(() => {
     if (channelPrograms.value) {
