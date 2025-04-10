@@ -93,6 +93,9 @@ function handleAllReset() {
         <input v-model="settingsStore.tvKeyboardHideTime" class="ml-2" type="number" :min="defaultTvKeyboardHideTime.min" :max="defaultTvKeyboardHideTime.max" :step="defaultTvKeyboardHideTime.step">
       </li>
       <li>
+        <Checkbox v-model="settingsStore.isRealtimePrograms" checkbox-label="Постоянно обновлять программы" />
+      </li>
+      <li>
         <button class="colorsTransition btn ml-2" @click="handleAllReset()">
           СБРОСИТЬ ВСЕ НАСТРОЙКИ
         </button>
@@ -104,9 +107,6 @@ function handleAllReset() {
             class="colorsTransition i-tabler:list h-1em w-1em"
           />Просмотр доступных номеров каналов
         </RouterLink>
-      </li>
-      <li>
-        <Checkbox v-model="settingsStore.isRealtimePrograms" checkbox-label="Постоянно обновлять программы" />
       </li>
     </ul>
   </div>
