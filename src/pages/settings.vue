@@ -105,6 +105,9 @@ function handleAllReset() {
           />Просмотр доступных номеров каналов
         </RouterLink>
       </li>
+      <li>
+        <Checkbox v-model="settingsStore.isRealtimePrograms" checkbox-label="Постоянно обновлять программы" />
+      </li>
     </ul>
   </div>
 </template>
