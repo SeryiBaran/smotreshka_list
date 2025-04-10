@@ -72,7 +72,7 @@ watch(showEPG, (newShowEPG) => {
 <template>
   <li class="flex" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
     <button v-if="settingsStore.channelsListMode !== 'logos'" class="showEpgBtn colorsTransition btn btn-with-icon" :disabled="epgFetch.isFetching.value" @click="() => handleFetchEPG()">
-      <span class="transitionColors i-tabler:list text-4 block" />
+      <span class="transitionColors i-tabler:list text-4 block 2xl:text-6" />
     </button>
     <a :href="makeChannelPlayLink(props.channel.id)" class="p-4 flex gap-4 h-full w-full overflow-hidden" :target="settingsStore.isOpenNewTab ? '_blank' : '_top'">
       <div v-if="(minMd && settingsStore.isShowChannelsImages && !(settingsStore.channelsListMode === 'compact')) || settingsStore.channelsListMode === 'logos'" class="channelLogoContainer">
@@ -105,14 +105,11 @@ watch(showEPG, (newShowEPG) => {
         </div>
         <Programs v-if="!(settingsStore.channelsListMode === 'compact') && settingsStore.isShowPrograms && props.channelsPrograms && channelPrograms !== undefined" :channel-programs="channelPrograms" :show-progress="true" class="mt-2 2xl:mt-4" :is-realtime="settingsStore.isRealtimePrograms" />
         <p v-else-if="settingsStore.isShowPrograms && !(settingsStore.channelsListMode === 'compact')" class="text-sm mt-2">
-          <!-- {{ `${channel.description.slice(0, 200)}...` }} -->
           {{ props.isProgramsFetching ? 'Загрузка программы, подождите пожалуйста...' : 'Простите, программа отсутствует' }}
         </p>
-        <!-- <p v-else-if="(settingsStore.channelsListMode === 'compact') && channelPrograms" class="text-sm">
-          {{ currentProgram?.title.slice(0, 40) }}
-        </p> -->
       </div>
     </a>
+    <!-- TODO: v-if="showEPG" optimizes performance but lost animation on modal exit -->
     <ModalLongScroll v-if="showEPG" v-model="showEPG" :heading="`Программа '${props.channel.title}'`">
       <div v-if="filteredEpg">
         <Programs
