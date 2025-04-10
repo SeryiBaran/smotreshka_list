@@ -18,7 +18,14 @@ const { showAll = false, showDate = false, showProgress = false, isRealtime = fa
 
 const reactiveProgramsCurrTime = useReactiveProgramsCurrTime()
 
-const currentTime = computed(() => isRealtime ? reactiveProgramsCurrTime.currentTime.value : useDayJS()())
+let currentTime: Ref<Dayjs> | Dayjs
+
+if (isRealtime) {
+  currentTime = computed(() => reactiveProgramsCurrTime.currentTime.value)
+}
+else {
+  currentTime = ref(useDayJS()())
+}
 
 const programs = props.channelPrograms
 
