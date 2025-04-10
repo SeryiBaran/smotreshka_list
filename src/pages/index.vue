@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { APIChannels, APIPrograms, APIProgramsComposeTable, GenreID, Values } from '~/types'
+import type { APIChannels, APIPrograms, APIProgramsComposeTable, Channel, GenreID, Values } from '~/types'
 import { useFetch } from '@vueuse/core'
 import { useFuse } from '@vueuse/integrations/useFuse'
 import { storeToRefs } from 'pinia'
-import { channelsPacks, log, makeChannelPlayLink, maxTvKeyboardKeyNumberLength, programsRefetchTimeout } from '~/shared'
+import TheTvKeyboardProvider from '~/components/TheTvKeyboardProvider.vue'
+import { channelsPacks, log, programsRefetchTimeout } from '~/shared'
 import { useFiltersStore } from '~/store/filters'
-import { useModalStore } from '~/store/modal'
 import { useSettingsStore } from '~/store/settings'
 
 defineOptions({
@@ -23,7 +23,6 @@ const programsComposeTableFetchURL = 'https://fe.smotreshka.tv/tv/v2/medias?tv-a
 
 const settingsStore = useSettingsStore()
 const filtersStore = useFiltersStore()
-const modalStore = useModalStore()
 
 const channelsFetch = useFetch(channelsFetchURL, {}).get().json<APIChannels>()
 const programsFetch = useFetch(programsFetchURL, {}).get().json<APIPrograms>()
@@ -55,16 +54,16 @@ function handleGenreSelect(genreId: GenreID) {
   filtersStore.selectedGenreSetOrToggle(genreId)
 }
 
-const channels = computed(
+const channels = computed<Channel[]>(
   () => channelsFetch.data.value?.channels || [],
 )
 
-const channelsAvailable = computed(() => (
+const channelsAvailable = computed<Channel[]>(() => (
   channels.value
     .filter(channel => availableChannelsNumbers.includes(channel.keyNumber))
 ))
 
-const channelsSorted = computed(() => (
+const channelsSorted = computed<Channel[]>(() => (
   channelsAvailable.value.slice().sort((a, b) => (a.keyNumber - b.keyNumber))
 ))
 
@@ -135,109 +134,11 @@ function resetFilters() {
 }
 
 const isProgramsFetching = computed(() => (programsFetch.isFetching.value || programsComposeTableFetch.isFetching.value))
-
-// oh shit
-
-const showOverlay = ref(false)
-const numbers = ref<number[]>([])
-
-const overlayError = ref<string | null>(null)
-
-function cancelTvKeyboard() {
-  showOverlay.value = false
-  numbers.value = []
-  overlayError.value = null
-}
-
-const tvKeyboardHideTimer = useTimeoutFn(() => {
-  cancelTvKeyboard()
-}, 3000, { immediate: false })
-
-const keyNumber = computed(() => Number.parseInt(numbers.value.join('')))
-const structuredKeyNumber = computed(() => {
-  return {
-    unused: Array.from({ length: maxTvKeyboardKeyNumberLength - (keyNumber.value.toString().length) }, (_, i) => i),
-    used: keyNumber.value.toString().split(''),
-  }
-})
-
-const ignoreTags = ['SELECT', 'INPUT', 'TEXTAREA']
-
-function playChannel() {
-  const channel = channelsAvailable.value.find(channel => channel.keyNumber === keyNumber.value)
-
-  if (channel) {
-    const link = makeChannelPlayLink(channel.id)
-
-    window.open(link, '_blank')
-  }
-  else {
-    overlayError.value = 'Такого канала нет или он недоступен :('
-  }
-
-  if (overlayError.value) {
-    tvKeyboardHideTimer.start()
-  }
-  else {
-    cancelTvKeyboard()
-  }
-}
-
-const debouncedPlayNumber = useDebounceFn(() => {
-  playChannel()
-}, 5000)
-
-const allowedTvKeyboardKeys = Array.from({ length: 10 }, (_, i) => i.toString())
-
-onKeyStroke([...allowedTvKeyboardKeys, 'Escape', 'Enter'], (event: KeyboardEvent) => {
-  if (modalStore.openedModals.length > 0)
-    return
-  if (allowedTvKeyboardKeys.includes(event.key) && document.activeElement?.tagName && !ignoreTags.includes(document.activeElement.tagName)) {
-    event.preventDefault()
-
-    showOverlay.value = true
-
-    if (numbers.value.length >= maxTvKeyboardKeyNumberLength) {
-      numbers.value.shift()
-    }
-    numbers.value.push(Number(event.key))
-
-    debouncedPlayNumber()
-  }
-  if (event.key === 'Escape') {
-    event.preventDefault()
-
-    cancelTvKeyboard()
-  }
-  if (event.key === 'Enter') {
-    event.preventDefault()
-
-    playChannel()
-  }
-})
 </script>
 
 <template>
   <div>
-    <div v-if="showOverlay" class="tvKeyboardOverlay">
-      <div class="flex flex-col gap-2 max-w-md items-center">
-        <p class="text-8xl font-mono">
-          <span v-for="(unusedNumber, i) in structuredKeyNumber.unused" :key="unusedNumber.toString() + unusedNumber + i" class="opacity-70">-</span>
-          <span v-for="(usedNumber, i) in structuredKeyNumber.used" :key="usedNumber.toString() + usedNumber + i">{{ usedNumber }}</span>
-        </p>
-        <p v-if="overlayError" class="text-red">
-          {{ overlayError }}
-        </p>
-        <p class="text-2xl">
-          Отмена - ESC
-        </p>
-        <p>
-          <RouterLink to="/help" class="link">
-            Если не работает, разрешите сайту открывать всплывающие окна и вкладки
-          </RouterLink>
-        </p>
-      </div>
-    </div>
+    <TheTvKeyboardProvider :channels-available="channelsAvailable" />
     <p class="text-sm my-4 mt-1">
       Вы можете начать вводить номер канала прямо на странице, у вас будет на это 5 секунд.
       <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
@@ -337,9 +238,5 @@ ul.isCompactMode {
 
 ul.isLogosMode {
   grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
-}
-
-.tvKeyboardOverlay {
-  @apply fixed top-0 right-0 bottom-0 left-0 bg-neutral-900/80 flex items-center justify-center z-10;
 }
 </style>
