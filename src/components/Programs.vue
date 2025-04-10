@@ -13,7 +13,6 @@ interface Props {
   dontLimitWidth?: boolean
 }
 
-// TODO
 const { showAll = false, showDate = false, showProgress = false, isRealtime = false, dontLimitWidth = false, ...props } = defineProps<Props>()
 
 const isRealtimeRef = computed(() => isRealtime)
