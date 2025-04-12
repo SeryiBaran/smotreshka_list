@@ -22,10 +22,10 @@ const emit = defineEmits<{
       @click.self="() => emit('update:modelValue', false)"
     >
       <div class="mx-auto my-12 p-4 border rounded-lg bg-white flex flex-col max-w-2xl space-y-2 dark:border-brand-700 dark:bg-neutral-900 2xl:max-w-5xl">
-        <div class="text-xl pb-2 border-b-1 border-brand-500 flex justify-between 2xl:text-3xl xl:text-2xl 2xl:pb-3 dark:border-brand-300/50">
-          <h1 class="">
+        <div class="header2 justify-between">
+          <p class="">
             {{ heading }}
-          </h1>
+          </p>
           <button class="colorsTransition icon-btn" @click="() => emit('update:modelValue', false)">
             <div class="i-carbon:close inline-block" />
           </button>

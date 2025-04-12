@@ -63,7 +63,7 @@ function resetFilters() {
 </script>
 
 <template>
-  <div>
+  <div class="flex grow flex-col">
     <TheTvKeyboardProvider :channels-available="channels.channelsAvailable.value" />
     <p class="text-sm my-4 mt-1">
       Вы можете начать вводить номер канала прямо на странице, у вас будет на это 5 секунд.

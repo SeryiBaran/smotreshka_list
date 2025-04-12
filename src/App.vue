@@ -12,15 +12,17 @@ useFaviconSettings()
 </script>
 
 <template>
-  <div>
+  <div class="flex grow flex-col">
     <ModalsContainer />
     <TheBrandColorProvider />
-    <main font-sans p="x-4 y-10" text="gray-700 dark:gray-200">
+    <main class="text-gray-700 font-sans px-4 py-10 flex grow flex-col dark:text-gray-200">
       <TheHeader />
       <h1 class="text-4xl mb-4">
         {{ routeName }}
       </h1>
-      <RouterView />
+      <div class="flex grow flex-col">
+        <RouterView />
+      </div>
       <TheFooter />
     </main>
     <TheScrollToTopButton />
