@@ -19,8 +19,4 @@ export const useModalStore = defineStore('smotreshka_list__modal', () => {
     openedModals,
     openedModalsSetOrToggle,
   }
-}, {
-  persistedState: {
-    persist: false,
-  },
 })

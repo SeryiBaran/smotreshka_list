@@ -186,4 +186,8 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
 
     $reset,
   }
+}, {
+  persistedState: {
+    persist: true,
+  },
 })

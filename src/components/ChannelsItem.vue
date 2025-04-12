@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { APIEPG, APIEPGEvent, APIProgramsComposeTable, Channel, ChannelsPrograms } from '~/types'
+import type { APIProgramsComposeTable, Channel, ChannelsPrograms } from '~/types'
 
 import { useCurrentProgram, useCurrentProgramPercent, useReactiveProgramsCurrTime } from '~/composables/programs'
-import { isCurrentProgram, makeChannelPlayLink, useDayJS } from '~/shared'
+import { isCurrentProgram, makeChannelPlayLink } from '~/shared'
 import { useModalStore } from '~/store/modal'
 import { useSettingsStore } from '~/store/settings'
 
@@ -10,7 +10,7 @@ interface Props {
   channel: Channel
   channelsPrograms: ChannelsPrograms | null
   isProgramsFetching: boolean
-  programsComposeTableFetch: APIProgramsComposeTable | null
+  programsComposeTable: APIProgramsComposeTable | undefined
 }
 
 const props = defineProps<Props>()
@@ -34,35 +34,12 @@ const currentProgram = useCurrentProgram(channelPrograms)
 
 const currentProgramPercent = useCurrentProgramPercent(currentProgram)
 
-const todaySchedule = computed(() => {
-  const findResult = props.programsComposeTableFetch?.medias.find(media => media.channelId === props.channel.id)
-
-  if (findResult) {
-    return findResult.scheduleId
-  }
-
-  return null
-})
-
-const epgUrlTime = useDayJS()().utc()
-
-const epgUrl = computed(() => `https://fe.smotreshka.tv/epg/v2/schedules/${todaySchedule.value}/spread?centralPageId=${epgUrlTime.format(`YYYY-MM-DD[t]12[d]12[h]`)}`)
-
-const epgFetch = useFetch(epgUrl, {
-  immediate: false,
-}).get().json<APIEPG>()
-
 const showEPG = ref<boolean>(false)
 
-function handleFetchEPG() {
+function handleShowEPG() {
   const newValue = !showEPG.value
   showEPG.value = newValue
-
-  if (newValue)
-    epgFetch.execute()
 }
-
-const filteredEpg = computed(() => epgFetch.data.value?.pagesWithEvents.reduce<APIEPGEvent[]>((acc, page) => [...acc, ...page.events], []).filter(event => useDayJS()().isBefore(useDayJS()(event.scheduledFor.begin))))
 
 watch(showEPG, (newShowEPG) => {
   modalStore.openedModalsSetOrToggle('epg', newShowEPG)
@@ -71,7 +48,7 @@ watch(showEPG, (newShowEPG) => {
 
 <template>
   <li class="flex" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
-    <button v-if="settingsStore.channelsListMode !== 'logos'" class="showEpgBtn colorsTransition btn btn-with-icon" :disabled="epgFetch.isFetching.value" @click="() => handleFetchEPG()">
+    <button v-if="settingsStore.channelsListMode !== 'logos'" class="showEpgBtn colorsTransition btn btn-with-icon" @click="() => handleShowEPG()">
       <span class="transitionColors i-tabler:list text-4 block 2xl:text-6" />
     </button>
     <a :href="makeChannelPlayLink(props.channel.id)" class="p-4 flex gap-4 h-full w-full overflow-hidden" :target="settingsStore.isOpenNewTab ? '_blank' : '_top'">
@@ -109,21 +86,8 @@ watch(showEPG, (newShowEPG) => {
         </p>
       </div>
     </a>
-    <!-- TODO: v-if="showEPG" optimizes performance but lost animation on modal exit -->
-    <ModalLongScroll v-if="showEPG" v-model="showEPG" :heading="`Программа '${props.channel.title}'`">
-      <div v-if="filteredEpg">
-        <Programs
-          :channel-programs="{
-            channelId: props.channel.id,
-            scheduleId: '0',
-            programs: filteredEpg,
-          }"
-          :show-all="true"
-          :show-date="true"
-          :dont-limit-width="true"
-        />
-      </div>
-    </ModalLongScroll>
+    <!-- TODO: v-if="showEPG" optimizes performance and prevents smotreshka DDoS with 200+ fetch, but lost animation on modal exit -->
+    <ChannelsItemEPGModal v-if="showEPG" v-model="showEPG" :channel="props.channel" />
   </li>
 </template>
 

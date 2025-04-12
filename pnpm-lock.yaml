@@ -77,6 +77,9 @@ catalogs:
       specifier: ^2.2.8
       version: 2.2.8
   frontend:
+    '@pinia/colada':
+      specifier: ^0.14.2
+      version: 0.14.2
     '@vueuse/core':
       specifier: ^13.0.0
       version: 13.0.0
@@ -89,6 +92,9 @@ catalogs:
     fuse.js:
       specifier: ^7.1.0
       version: 7.1.0
+    ky:
+      specifier: ^1.8.0
+      version: 1.8.0
     nanoid:
       specifier: ^5.1.5
       version: 5.1.5
@@ -116,6 +122,9 @@ importers:
 
   .:
     dependencies:
+      '@pinia/colada':
+        specifier: catalog:frontend
+        version: 0.14.2(pinia@3.0.1(typescript@5.8.2)(vue@3.5.13(typescript@5.8.2)))
       '@vueuse/core':
         specifier: catalog:frontend
         version: 13.0.0(vue@3.5.13(typescript@5.8.2))
@@ -128,6 +137,9 @@ importers:
       fuse.js:
         specifier: catalog:frontend
         version: 7.1.0
+      ky:
+        specifier: catalog:frontend
+        version: 1.8.0
       nanoid:
         specifier: catalog:frontend
         version: 5.1.5
@@ -985,6 +997,11 @@ packages:
     resolution: {integrity: sha512-of3dYwB4RN825qq9kBu/79QPVXDZFb5S/opLtJScLqyRhI6owkFWV4P9VmFih8dfBh/7SImdvt/B4HQTF1fthg==}
     cpu: [x64]
     os: [win32]
+
+  '@pinia/colada@0.14.2':
+    resolution: {integrity: sha512-nixr1cqkk5RHrafXfJPk7J/F1srCFZTvhrdNfUEx3/N2lRamcYlayniYDwqlRPOw8PHmsRKyRAGgwDiV76sGJA==}
+    peerDependencies:
+      pinia: ^2.2.6 || ^3.0.0
 
   '@pkgr/core@0.1.1':
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
@@ -2718,6 +2735,10 @@ packages:
 
   kolorist@1.8.0:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
+
+  ky@1.8.0:
+    resolution: {integrity: sha512-DoKGmG27nT8t/1F9gV8vNzggJ3mLAyD49J8tTMWHeZvS8qLc7GlyTieicYtFzvDznMe/q2u38peOjkWc5/pjvw==}
+    engines: {node: '>=18'}
 
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
@@ -4570,6 +4591,11 @@ snapshots:
 
   '@oxc-resolver/binding-win32-x64-msvc@4.2.0':
     optional: true
+
+  '@pinia/colada@0.14.2(pinia@3.0.1(typescript@5.8.2)(vue@3.5.13(typescript@5.8.2)))':
+    dependencies:
+      '@vue/devtools-api': 7.7.2
+      pinia: 3.0.1(typescript@5.8.2)(vue@3.5.13(typescript@5.8.2))
 
   '@pkgr/core@0.1.1': {}
 
@@ -6536,6 +6562,8 @@ snapshots:
       json-buffer: 3.0.1
 
   kolorist@1.8.0: {}
+
+  ky@1.8.0: {}
 
   levn@0.4.1:
     dependencies:

@@ -3,7 +3,7 @@ import { createPersistedStatePlugin } from 'pinia-plugin-persistedstate-2'
 
 const pinia = createPinia()
 const persistedStatePlugin = createPersistedStatePlugin({
-  // plugin options goes here
+  persist: false,
 })
 pinia.use(persistedStatePlugin)
 

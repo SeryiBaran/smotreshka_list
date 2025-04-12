@@ -13,10 +13,12 @@
     "postinstall": "npx simple-git-hooks"
   },
   "dependencies": {
+    "@pinia/colada": "catalog:frontend",
     "@vueuse/core": "catalog:frontend",
     "@vueuse/integrations": "catalog:frontend",
     "dayjs": "catalog:frontend",
     "fuse.js": "catalog:frontend",
+    "ky": "catalog:frontend",
     "nanoid": "catalog:frontend",
     "pinia": "catalog:frontend",
     "pinia-plugin-persistedstate-2": "catalog:frontend",

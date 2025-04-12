@@ -43,8 +43,4 @@ export const useFiltersStore = defineStore('smotreshka_list__filters', () => {
 
     $reset,
   }
-}, {
-  persistedState: {
-    persist: false,
-  },
 })

@@ -1,3 +1,4 @@
+import { PiniaColada } from '@pinia/colada'
 import { createApp } from 'vue'
 import { createVfm } from 'vue-final-modal'
 
@@ -15,6 +16,7 @@ const vfm = createVfm()
 
 app.use(router)
 app.use(pinia)
+app.use(PiniaColada, {})
 app.use(vfm)
 
 app.mount('#app')

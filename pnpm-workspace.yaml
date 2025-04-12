@@ -32,11 +32,13 @@ catalogs:
     vue-tsc: ^2.2.8
 
   frontend:
+    '@pinia/colada': ^0.14.2
     '@vueuse/core': ^13.0.0
     '@vueuse/integrations': ^13.0.0
 
     dayjs: ^1.11.13
     fuse.js: ^7.1.0
+    ky: ^1.8.0
     nanoid: ^5.1.5
     pinia: ^3.0.1
     pinia-plugin-persistedstate-2: ^2.0.30
