@@ -43,18 +43,18 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
   <ul v-if="props?.channelPrograms?.programs?.length && props?.channelPrograms?.programs?.length > 0 && filteredPrograms.programs.length > 0" class="w-full 2xl:text-xl max-md:(flex flex-col gap-4)">
     <template v-for="program in filteredPrograms.programs">
       <template v-if="program">
-        <li :key="program.id + props.channelPrograms.channelId" class="flex gap-2 gap-y-0 relative max-md:flex-wrap" :class="{ 'max-w-3xl 2xl:max-w-4xl': !dontLimitWidth }">
-          <span v-if="showDate" class="font-semibold whitespace-nowrap"> <span>{{ useDayJS()(program.scheduledFor.begin).format('YYYY.MM.DD') }}</span> <span>{{ useDayJS()(program.scheduledFor.begin).format('HH:mm') }}</span> - </span>
+        <li :key="program.id + props.channelPrograms.channelId" class="program" :class="{ programDontLimitWidth: !dontLimitWidth }">
+          <span v-if="showDate" class="font-semibold whitespace-nowrap"> {{ useDayJS()(program.scheduledFor.begin).format('YYYY.MM.DD') }} {{ useDayJS()(program.scheduledFor.begin).format('HH:mm') }} - </span>
           <span v-else class="font-semibold whitespace-nowrap"> <span>{{ useDayJS()(program.scheduledFor.begin).format('HH:mm') }}</span> / <span>{{ useDayJS()(program.scheduledFor.end).format('HH:mm') }}</span> - </span>
-          <span class="text-brand-600 dark:text-brand-300">{{ program.title }}</span>
+          <span class="programTitle">{{ program.title }}</span>
           <span class="grow" />
           <span class="mb-0.5 pl-2 whitespace-nowrap md:self-center"> <span class="md:hidden">|||||</span> <span>{{ `${getTimeTo(program.scheduledFor, true, reactiveProgramsCurrTime.currentTime.value)}` }}</span></span>
 
           <div
             v-if="showProgress && currentProgram && isCurrentProgram(currentProgram.scheduledFor, reactiveProgramsCurrTime.currentTime.value)"
-            class="bg-brand-900/20 bottom-0 left-0 right-0 absolute dark:bg-brand-100"
+            class="progressContainer"
           >
-            <div class="border-0 border-b-2 border-b-brand-500 border-solid" :style="{ width: `${isCurrentProgram(program.scheduledFor, reactiveProgramsCurrTime.currentTime.value) ? currentProgramPercent : 0}%` }" />
+            <div class="progress" :style="{ width: `${isCurrentProgram(program.scheduledFor, reactiveProgramsCurrTime.currentTime.value) ? currentProgramPercent : 0}%` }" />
           </div>
         </li>
       </template>
@@ -63,5 +63,23 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
 </template>
 
 <style scoped>
+.program {
+  @apply flex gap-2 gap-y-0 relative max-md:flex-wrap;
+}
 
+.programDontLimitWidth {
+  @apply max-w-3xl 2xl:max-w-4xl;
+}
+
+.programTitle {
+  @apply text-brand-800 dark:text-brand-300;
+}
+
+.progressContainer {
+  @apply bg-brand-900/20 bottom-0 left-0 right-0 absolute dark:bg-brand-100;
+}
+
+.progress {
+  @apply border-0 border-b-2 border-b-brand-500 border-solid;
+}
 </style>

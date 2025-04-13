@@ -2,7 +2,7 @@ import type { APIPrograms, APIProgramsComposeTable } from '~/types'
 import { useQuery } from '@pinia/colada'
 import ky from 'ky'
 import { useChannels } from '~/api/channels'
-import { log, programsComposeTableFetchURL, programsFetchURL, programsRefetchTimeout } from '~/shared'
+import { programsComposeTableFetchURL, programsFetchURL, programsRefetchTimeout } from '~/shared'
 import { useSettingsStore } from '~/store/settings'
 
 export function getPrograms() {
@@ -32,14 +32,12 @@ export function usePrograms() {
 
   // TODO: use PiniaColada functionality
   const programsFetchTimeout = useTimeoutFn(() => {
-    log('refetch programsFetch')
     programsQuery.refetch().then(() => programsFetchTimeout.start())
   }, programsRefetchTimeout, {
     immediate: settingsStore.isRealtimePrograms,
   })
   // TODO: same
   const programsComposeTableFetchTimeout = useTimeoutFn(() => {
-    log('refetch programsComposeTableFetch')
     programsComposeTableQuery.refetch().then(() => programsComposeTableFetchTimeout.start())
   }, programsRefetchTimeout, {
     immediate: settingsStore.isRealtimePrograms,

@@ -82,10 +82,9 @@ function resetFilters() {
           <button class="colorsTransition genreButton genreButtonGenre" @click="() => handleGenreSelect(genreId)">
             {{ genreName }}
           </button>
-
           <button class="genreButton colorsTransition genreButtonFavorite" @click="() => settingsStore.favoriteGenreToggle(genreId)">
             <span
-              class="colorsTransition genreButtonFavoriteIcon i-tabler:heart h-1em w-1em block" :class="{ 'i-tabler:heart-filled': settingsStore.favoriteGenres.includes(genreId),
+              class="colorsTransition genreButtonFavoriteIcon i-tabler:heart" :class="{ 'i-tabler:heart-filled': settingsStore.favoriteGenres.includes(genreId),
               }"
             />
           </button>
@@ -133,6 +132,10 @@ function resetFilters() {
 
 .genreButtonFavorite {
   @apply rounded-lt-0 rounded-lb-0 px-2 pl-1.5;
+}
+
+.genreButtonFavoriteIcon {
+  @apply h-1em w-1em block;
 }
 
 .genreGroup.favorite .genreButtonFavorite .genreButtonFavoriteIcon {

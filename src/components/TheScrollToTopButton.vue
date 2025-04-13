@@ -37,12 +37,17 @@ function handleToTopClick() {
 </script>
 
 <template>
-  <button v-show="true || (lastScrollY !== null) || (directionToTop && (y > 100)) || !directionToTop" class="colorsTransition btn-circle btn text-white p-4 bg-brand-500 cursor-pointer bottom-4 right-4 fixed dark:bg-brand-700 hover:not-active:bg-brand-400 dark:hover:not-active:bg-brand-600" @click="() => handleToTopClick()">
+  <!-- TODO: remove true and test -->
+  <button v-show="true || (lastScrollY !== null) || (directionToTop && (y > 100)) || !directionToTop" class="colorsTransition btn btn-circle toTopButton" @click="() => handleToTopClick()">
     <span class="i-tabler:arrow-up h-10 w-10 block" :class="{ directionToBottom: !directionToTop }" />
   </button>
 </template>
 
 <style scoped>
+.toTopButton {
+  @apply text-white p-4 bg-brand-500 cursor-pointer bottom-4 right-4 fixed dark:bg-brand-700 hover:not-active:bg-brand-400 dark:hover:not-active:bg-brand-600;
+}
+
 .directionToBottom {
   @apply rotate-180;
 }

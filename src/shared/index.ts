@@ -1,10 +1,12 @@
 import type { Dayjs } from 'dayjs'
 
 import type { ChannelID, GenreID, TimeInterval, UnoCSSColorObj, Values } from '~/types'
+import { colors as unoPresetColors } from '@unocss/preset-wind4/colors'
 import dayjs from 'dayjs'
 import localeRu from 'dayjs/locale/ru'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import relativeTime from 'dayjs/plugin/relativeTime'
+
 import utc from 'dayjs/plugin/utc'
 
 dayjs.extend(customParseFormat)
@@ -16,7 +18,7 @@ export function useDayJS() {
   return dayjs
 }
 
-export { colors as unoPresetColors } from '@unocss/preset-wind4/colors'
+export { unoPresetColors }
 
 export const channelsPacksNames = {
   basic: 'Базовый',
@@ -105,7 +107,19 @@ export function makeChannelPlayLink(channelId: ChannelID) {
   return `https://smotreshka.tv/channels/now/${channelId}/watch`
 }
 
-export function log(...args: any[]) {
-  // eslint-disable-next-line no-console
-  console.log(...args)
+export function log(message: any, mode: 'info' | 'warn' | 'error' = 'info') {
+  if (import.meta.env.DEV) {
+    const colors = {
+      info: unoPresetColors.blue['600'],
+      warn: unoPresetColors.yellow['600'],
+      error: unoPresetColors.red['600'],
+    }
+
+    // eslint-disable-next-line no-console
+    console.log(
+      `%c${mode.toLocaleUpperCase()}%c ${message}`,
+      `background: ${colors[mode]}; color: ${unoPresetColors.white}; padding: 4px 6px;`,
+      `background: inherit; color: inherit; padding: unset;`,
+    )
+  }
 }
