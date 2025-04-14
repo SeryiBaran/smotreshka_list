@@ -23,15 +23,6 @@ const programs = computed(() => {
 </script>
 
 <template>
-  <p v-for="(a, i) in props.filteredEpg.next.value.slice(0, 2) " :key="a.id" class="mb-10">
-    filteredEpg.next.slice(0, 2) {{ i }} {{ a.title }}
-  </p>
-  <p class="mb-10">
-    current is {{ currentProgram?.title }}
-  </p>
-  <p v-for="(a, i) in programs.programs.slice(0, 2) " :key="a.id" class="mb-10">
-    programs.slice(0, 2) {{ i }} {{ a.title }}
-  </p>
   <Programs
     :channel-programs="programs"
     :show-all="true" :show-date="true" :dont-limit-width="true" :show-description="true"
