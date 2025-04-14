@@ -26,14 +26,16 @@ const reactiveProgramsCurrTime = useReactiveProgramsCurrTime(isRealtime)
     <template #popper>
       <p>{{ getTimeTo(props.scheduledFor, true, reactiveProgramsCurrTime.currentTime.value) }}</p>
       <table class="popperTimetable">
-        <tr>
-          <td>Начало:</td>
-          <td>{{ useDayJS()(props.scheduledFor.begin).format('YYYY.MM.DD HH:mm') }}</td>
-        </tr>
-        <tr>
-          <td>Конец:</td>
-          <td>{{ useDayJS()(props.scheduledFor.end).format('YYYY.MM.DD HH:mm') }}</td>
-        </tr>
+        <tbody>
+          <tr>
+            <td>Начало:</td>
+            <td>{{ useDayJS()(props.scheduledFor.begin).format('YYYY.MM.DD HH:mm') }}</td>
+          </tr>
+          <tr>
+            <td>Конец:</td>
+            <td>{{ useDayJS()(props.scheduledFor.end).format('YYYY.MM.DD HH:mm') }}</td>
+          </tr>
+        </tbody>
       </table>
     </template>
   </VTooltip>
