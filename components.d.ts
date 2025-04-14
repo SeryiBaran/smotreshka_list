@@ -14,6 +14,7 @@ declare module 'vue' {
     Checkbox: typeof import('./src/components/Checkbox.vue')['default']
     ModalLongScroll: typeof import('./src/components/ModalLongScroll.vue')['default']
     Programs: typeof import('./src/components/Programs.vue')['default']
+    ProgramTime: typeof import('./src/components/ProgramTime.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheBrandColorProvider: typeof import('./src/components/TheBrandColorProvider.vue')['default']

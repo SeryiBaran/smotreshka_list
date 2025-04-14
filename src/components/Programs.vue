@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ChannelPrograms } from '~/types'
-import { useCurrentProgram, useCurrentProgramPercent, useReactiveProgramsCurrTime } from '~/composables/programs'
-import { getTimeTo, isCurrentProgram, useDayJS } from '~/shared'
+import { useCurrentProgram, useCurrentProgramPercent, useIsRealtime, useReactiveProgramsCurrTime } from '~/composables/programs'
+import { defaultIsRealtimePrograms, getTimeTo, isCurrentProgram } from '~/shared'
 
 interface Props {
   channelPrograms: ChannelPrograms
@@ -17,12 +17,14 @@ const props = withDefaults(defineProps<Props>(), {
   showAll: false,
   showDate: false,
   showProgress: false,
-  isRealtime: false,
+  isRealtime: defaultIsRealtimePrograms,
   dontLimitWidth: false,
   showDescription: false,
 })
 
-const reactiveProgramsCurrTime = useReactiveProgramsCurrTime(props.isRealtime)
+const isRealtime = useIsRealtime(props.isRealtime)
+
+const reactiveProgramsCurrTime = useReactiveProgramsCurrTime(isRealtime)
 
 const filteredPrograms = computed<ChannelPrograms>(() => {
   const currentProgramIndex = props.channelPrograms.programs.findIndex(program => isCurrentProgram(program.scheduledFor, reactiveProgramsCurrTime.currentTime.value))
@@ -32,9 +34,9 @@ const filteredPrograms = computed<ChannelPrograms>(() => {
 
 const filteredProgramsPrograms = computed(() => filteredPrograms.value.programs)
 
-const currentProgram = useCurrentProgram(filteredProgramsPrograms, props.isRealtime)
+const currentProgram = useCurrentProgram(filteredProgramsPrograms, isRealtime)
 
-const currentProgramPercent = useCurrentProgramPercent(currentProgram, props.isRealtime)
+const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtime)
 </script>
 
 <template>
@@ -43,7 +45,7 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, props.isR
       <template v-if="program">
         <li :key="program.id + props.channelPrograms.channelId" class="program" :class="{ programLimitWidth: !props.dontLimitWidth }">
           <p class="programInfo">
-            <span class="font-semibold whitespace-nowrap"> <span v-if="props.showDate" class="font-semibold whitespace-nowrap">{{ useDayJS()(program.scheduledFor.begin).format('YYYY.MM.DD') }}</span> {{ useDayJS()(program.scheduledFor.begin).format('HH:mm') }} <span v-if="!props.showDate">/ {{ useDayJS()(program.scheduledFor.end).format('HH:mm') }}</span> - </span>
+            <ProgramTime :scheduled-for="program.scheduledFor" :show-date="props.showDate" />
             <span class="programTitle">{{ program.title }}</span>
             <span class="grow" />
             <span class="mb-0.5 pl-2 whitespace-nowrap md:self-center"> <span class="md:hidden">|||||</span> <span>{{ `${getTimeTo(program.scheduledFor, true, reactiveProgramsCurrTime.currentTime.value)}` }}</span></span>

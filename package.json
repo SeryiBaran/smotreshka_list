@@ -17,6 +17,7 @@
     "@vueuse/core": "catalog:frontend",
     "@vueuse/integrations": "catalog:frontend",
     "dayjs": "catalog:frontend",
+    "floating-vue": "catalog:frontend",
     "fuse.js": "catalog:frontend",
     "ky": "catalog:frontend",
     "nanoid": "catalog:frontend",

@@ -37,6 +37,7 @@ catalogs:
     '@vueuse/integrations': ^13.0.0
 
     dayjs: ^1.11.13
+    floating-vue: ^5.2.2
     fuse.js: ^7.1.0
     ky: ^1.8.0
     nanoid: ^5.1.5

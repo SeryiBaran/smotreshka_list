@@ -1,6 +1,7 @@
 import type { Dayjs } from 'dayjs'
 import type { APIEPGPageWithEvents, ChannelID, ChannelPrograms, ChannelsPrograms, ProgramEvent } from '~/types'
 import { isCurrentProgram, useDayJS } from '~/shared'
+import { useSettingsStore } from '~/store/settings'
 
 const currentTime = ref<Dayjs>(useDayJS()())
 
@@ -23,6 +24,12 @@ export function useReactiveProgramsCurrTime(isRealtime?: Ref<boolean> | boolean)
   }
 
   return { currentTime: returnedCurrentTime, timeout }
+}
+
+export function useIsRealtime(propsIsRealtime: Ref<boolean> | boolean) {
+  const settingsStore = useSettingsStore()
+
+  return propsIsRealtime !== undefined ? propsIsRealtime : settingsStore.isRealtimePrograms
 }
 
 export function useCurrentProgramPercent(currentProgram: Ref<ProgramEvent | null | undefined>, isRealtime?: Ref<boolean> | boolean) {
