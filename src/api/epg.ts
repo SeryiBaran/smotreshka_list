@@ -1,3 +1,4 @@
+import type { Dayjs } from 'dayjs'
 import type { APIEPG, APIEPGEvent, ChannelID, ProgramEvent, ScheduleID } from '~/types'
 import { useQuery } from '@pinia/colada'
 import ky from 'ky'
@@ -8,13 +9,14 @@ export function getChannelEPG(todaySchedule: ScheduleID | null) {
   return ky.get(`https://fe.smotreshka.tv/epg/v2/schedules/${todaySchedule || 'ERROR__NO__todaySchedule'}/spread?centralPageId=${useDayJS()().utc().format(`YYYY-MM-DD[t]12[d]12[h]`)}`).json<APIEPG>()
 }
 
-function filterByTime(event: ProgramEvent, isNext: boolean) {
-  const currentTime = useDayJS()()
+function filterByTime(event: ProgramEvent, isNext: boolean, currentTime: Dayjs) {
   const begin = useDayJS()(event.scheduledFor.begin)
   return isNext ? currentTime.isBefore(begin) : currentTime.isAfter(begin)
 }
 
-export function useChannelEPG(channelId: ChannelID) {
+export function useChannelEPG(channelId: ChannelID, isRealtime?: Ref<boolean> | boolean) {
+  const reactiveProgramsCurrTime = useReactiveProgramsCurrTime(isRealtime)
+
   const programs = usePrograms()
 
   const todaySchedule = computed(() => {
@@ -34,13 +36,17 @@ export function useChannelEPG(channelId: ChannelID) {
 
   const epg = computed(() => query.data.value?.pagesWithEvents.reduce<APIEPGEvent[]>((acc, page) => [...acc, ...page.events], []) || [])
 
-  function filterEpg(epgForFilter: APIEPGEvent[] | undefined, isNext: boolean) {
-    return epgForFilter?.filter(event => filterByTime(event, isNext)) || []
+  function filterEpg(epgForFilter: APIEPGEvent[] | undefined, isNext: boolean, currentTime: Dayjs) {
+    return epgForFilter?.filter(event => filterByTime(event, isNext, currentTime)) || []
   }
 
   const filteredEpg = {
-    previous: computed(() => filterEpg(epg.value, false)),
-    next: computed(() => filterEpg(epg.value, true)),
+    previous: computed(() => {
+      return filterEpg(epg.value, false, reactiveProgramsCurrTime.currentTime.value)
+    }),
+    next: computed(() => {
+      return filterEpg(epg.value, true, reactiveProgramsCurrTime.currentTime.value)
+    }),
   }
 
   const isEpg = computed(() => filteredEpg.next.value && filteredEpg.previous.value)

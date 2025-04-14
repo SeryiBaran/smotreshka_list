@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const reactiveProgramsCurrTime = useReactiveProgramsCurrTime(props.isRealtime)
 
-const filteredPrograms = computed(() => {
+const filteredPrograms = computed<ChannelPrograms>(() => {
   const currentProgramIndex = props.channelPrograms.programs.findIndex(program => isCurrentProgram(program.scheduledFor, reactiveProgramsCurrTime.currentTime.value))
 
   return { ...props.channelPrograms, programs: props.showAll ? props.channelPrograms.programs : props.channelPrograms.programs.slice(currentProgramIndex, currentProgramIndex + 2) }

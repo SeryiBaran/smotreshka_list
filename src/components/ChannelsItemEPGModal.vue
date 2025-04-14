@@ -16,7 +16,7 @@ const [showPreviousEpg, toggleShowPreviousEpg] = useToggle(false)
 <template>
   <ModalLongScroll v-model="showEPG" :heading="`Программа '${props.channel.title}'`">
     <div v-if="epg.isEpg.value && !epg.isFetching.value">
-      <ChannelsItemEPGModalPrograms :channel="props.channel" :epg :is-next="true" />
+      <ChannelsItemEPGModalPrograms :channel-id="props.channel.id" :epg :filtered-epg="epg.filteredEpg" :is-next="true" />
 
       <!-- TODO: Create collapse with @formkit/auto-animate/vue -->
       <button class="header2 mt-2 flex gap-1 w-full cursor-pointer" @click="toggleShowPreviousEpg()">
@@ -24,7 +24,7 @@ const [showPreviousEpg, toggleShowPreviousEpg] = useToggle(false)
         Предыдущие
       </button>
 
-      <ChannelsItemEPGModalPrograms v-if="showPreviousEpg" :channel="props.channel" :epg :is-next="false" />
+      <ChannelsItemEPGModalPrograms v-if="showPreviousEpg" :channel-id="props.channel.id" :epg :filtered-epg="epg.filteredEpg" :is-next="false" />
     </div>
     <p v-else-if="epg.isFetching" class="text-brand-500">
       Загрузка, пожалуйста, подождите...
