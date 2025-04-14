@@ -3,22 +3,10 @@ import type {
 } from '~/shared'
 import type { GenreID, UnoCSSColorName } from '~/types'
 import { defineStore } from 'pinia'
-import {
-  defaultBrandColor,
-  defaultChannelsImagesSize,
-  defaultChannelsListMode,
-  defaultFavoriteGenres,
-  defaultIsOpenNewTab,
-  defaultIsRealtimePrograms,
-  defaultIsShowChannelsImages,
-  defaultIsShowInfoOnHover,
-  defaultIsShowPrograms,
-  defaultTvKeyboardDebounce,
-  defaultTvKeyboardHideTime,
-} from '~/shared'
+import { settingsDefaults } from '~/shared'
 
 export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
-  const favoriteGenres = ref<GenreID[]>(defaultFavoriteGenres)
+  const favoriteGenres = ref<GenreID[]>(settingsDefaults.favoriteGenres)
 
   function favoriteGenreAdd(genreId: GenreID) {
     favoriteGenres.value.push(genreId)
@@ -38,95 +26,95 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
   }
 
   function favoriteGenresReset() {
-    favoriteGenres.value = defaultFavoriteGenres
+    favoriteGenres.value = settingsDefaults.favoriteGenres
   }
 
   // ...
 
-  const brandColor = ref<UnoCSSColorName>(defaultBrandColor)
+  const brandColor = ref<UnoCSSColorName>(settingsDefaults.brandColor)
 
   function brandColorSet(newColor: UnoCSSColorName) {
     brandColor.value = newColor
   }
 
   function brandColorReset() {
-    brandColor.value = defaultBrandColor
+    brandColor.value = settingsDefaults.brandColor
   }
 
   // ...
 
-  const isOpenNewTab = ref(defaultIsOpenNewTab)
+  const isOpenNewTab = ref(settingsDefaults.isOpenNewTab)
 
   function isOpenNewTabReset() {
-    isOpenNewTab.value = defaultIsOpenNewTab
+    isOpenNewTab.value = settingsDefaults.isOpenNewTab
   }
 
   // ...
 
-  const isShowChannelsImages = ref(defaultIsShowChannelsImages)
+  const isShowChannelsImages = ref(settingsDefaults.isShowChannelsImages)
 
   function isShowChannelsImagesReset() {
-    isShowChannelsImages.value = defaultIsShowChannelsImages
+    isShowChannelsImages.value = settingsDefaults.isShowChannelsImages
   }
 
   // ...
 
-  const isShowPrograms = ref(defaultIsShowPrograms)
+  const isShowPrograms = ref(settingsDefaults.isShowPrograms)
 
   function isShowProgramsReset() {
-    isShowPrograms.value = defaultIsShowPrograms
+    isShowPrograms.value = settingsDefaults.isShowPrograms
   }
 
   // ...
 
-  const channelsListMode = ref<ChannelsListMode>(defaultChannelsListMode)
+  const channelsListMode = ref<ChannelsListMode>(settingsDefaults.channelsListMode)
 
   function channelsListModeSet(newMode: ChannelsListMode) {
     channelsListMode.value = newMode
   }
 
   function channelsListModeReset() {
-    channelsListMode.value = defaultChannelsListMode
+    channelsListMode.value = settingsDefaults.channelsListMode
   }
 
   // ...
 
-  const channelsImagesSize = ref<number>(defaultChannelsImagesSize.default)
+  const channelsImagesSize = ref<number>(settingsDefaults.channelsImagesSize.default)
 
   function channelsImagesSizeReset() {
-    channelsImagesSize.value = defaultChannelsImagesSize.default
+    channelsImagesSize.value = settingsDefaults.channelsImagesSize.default
   }
 
   // ...
 
-  const isShowInfoOnHover = ref<boolean>(defaultIsShowInfoOnHover)
+  const isShowInfoOnHover = ref<boolean>(settingsDefaults.isShowInfoOnHover)
 
   function isShowInfoOnHoverReset() {
-    isShowInfoOnHover.value = defaultIsShowInfoOnHover
+    isShowInfoOnHover.value = settingsDefaults.isShowInfoOnHover
   }
 
   // ...
 
-  const tvKeyboardDebounce = ref<number>(defaultTvKeyboardDebounce.default)
+  const tvKeyboardDebounce = ref<number>(settingsDefaults.tvKeyboardDebounce.default)
 
   function tvKeyboardDebounceReset() {
-    tvKeyboardDebounce.value = defaultTvKeyboardDebounce.default
+    tvKeyboardDebounce.value = settingsDefaults.tvKeyboardDebounce.default
   }
 
   // ...
 
-  const tvKeyboardHideTime = ref<number>(defaultTvKeyboardHideTime.default)
+  const tvKeyboardHideTime = ref<number>(settingsDefaults.tvKeyboardHideTime.default)
 
   function tvKeyboardHideTimeReset() {
-    tvKeyboardHideTime.value = defaultTvKeyboardHideTime.default
+    tvKeyboardHideTime.value = settingsDefaults.tvKeyboardHideTime.default
   }
 
   // ...
 
-  const isRealtimePrograms = ref<boolean>(defaultIsRealtimePrograms)
+  const isRealtimePrograms = ref<boolean>(settingsDefaults.isRealtimePrograms)
 
   function isRealtimeProgramsReset() {
-    isRealtimePrograms.value = defaultIsRealtimePrograms
+    isRealtimePrograms.value = settingsDefaults.isRealtimePrograms
   }
 
   // ...
