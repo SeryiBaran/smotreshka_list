@@ -18,6 +18,9 @@ export function useDayJS() {
   return dayjs
 }
 
+export const appGitVerHash: string = import.meta.env.VITE_APPGITVER_HASH
+export const appGitVerDate: string = import.meta.env.VITE_APPGITVER_DATE
+
 export { unoPresetColors }
 
 export const channelsPacksNames = {

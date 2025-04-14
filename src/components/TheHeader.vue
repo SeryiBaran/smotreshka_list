@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { appGitVerDate, appGitVerHash, useDayJS } from '~/shared'
 </script>
 
 <template>
@@ -26,6 +27,9 @@
         </RouterLink>
       </div>
     </div>
+    <p class="text-xs mt-2">
+      Версия: {{ appGitVerHash.slice(0, 8) }} {{ useDayJS()(appGitVerDate).format() }}
+    </p>
   </div>
 </template>
 

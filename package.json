@@ -23,6 +23,7 @@
     "nanoid": "catalog:frontend",
     "pinia": "catalog:frontend",
     "pinia-plugin-persistedstate-2": "catalog:frontend",
+    "simple-git": "catalog:dev",
     "vue": "catalog:frontend",
     "vue-final-modal": "catalog:frontend",
     "vue-router": "catalog:frontend"

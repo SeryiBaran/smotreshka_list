@@ -1,7 +1,9 @@
 /// <reference types="vitest" />
 
 import path from 'node:path'
+import process from 'node:process'
 import Vue from '@vitejs/plugin-vue'
+import { simpleGit } from 'simple-git'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -9,7 +11,13 @@ import VueMacros from 'unplugin-vue-macros/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
 import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
+
 import vueDevTools from 'vite-plugin-vue-devtools'
+
+const log = await simpleGit().log()
+
+process.env.VITE_APPGITVER_HASH = log.latest ? log.latest.hash : 'NO_HASH'
+process.env.VITE_APPGITVER_DATE = log.latest ? log.latest.date : 'NO_DATE'
 
 export default defineConfig({
   base: '/smotreshka_list',
