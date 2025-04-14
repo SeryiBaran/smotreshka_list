@@ -21,7 +21,7 @@ const [showPreviousEpg, toggleShowPreviousEpg] = useToggle(false)
       <!-- TODO: Create collapse with @formkit/auto-animate/vue -->
       <button class="header2 mt-2 flex gap-1 w-full cursor-pointer" @click="toggleShowPreviousEpg()">
         <span class="i-carbon:chevron-right text-inherit" :class="{ previousIcon: showPreviousEpg }" />
-        Предыдущие
+        Прошедшие
       </button>
 
       <ChannelsItemEPGModalPrograms v-if="showPreviousEpg" :channel-id="props.channel.id" :epg :filtered-epg="epg.filteredEpg" :is-next="false" />

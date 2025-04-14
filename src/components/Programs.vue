@@ -43,8 +43,7 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, props.isR
       <template v-if="program">
         <li :key="program.id + props.channelPrograms.channelId" class="program" :class="{ programLimitWidth: !props.dontLimitWidth }">
           <p class="programInfo">
-            <span v-if="props.showDate" class="font-semibold whitespace-nowrap"> {{ useDayJS()(program.scheduledFor.begin).format('YYYY.MM.DD') }} {{ useDayJS()(program.scheduledFor.begin).format('HH:mm') }} - </span>
-            <span v-else class="font-semibold whitespace-nowrap"> <span>{{ useDayJS()(program.scheduledFor.begin).format('HH:mm') }}</span> / <span>{{ useDayJS()(program.scheduledFor.end).format('HH:mm') }}</span> - </span>
+            <span class="font-semibold whitespace-nowrap"> <span v-if="props.showDate" class="font-semibold whitespace-nowrap">{{ useDayJS()(program.scheduledFor.begin).format('YYYY.MM.DD') }}</span> {{ useDayJS()(program.scheduledFor.begin).format('HH:mm') }} <span v-if="!props.showDate">/ {{ useDayJS()(program.scheduledFor.end).format('HH:mm') }}</span> - </span>
             <span class="programTitle">{{ program.title }}</span>
             <span class="grow" />
             <span class="mb-0.5 pl-2 whitespace-nowrap md:self-center"> <span class="md:hidden">|||||</span> <span>{{ `${getTimeTo(program.scheduledFor, true, reactiveProgramsCurrTime.currentTime.value)}` }}</span></span>
