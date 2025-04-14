@@ -13,6 +13,7 @@ export interface ProgramEvent {
   title: string
   logoUrl: string
   scheduledFor: TimeInterval
+  eventDescriptionMedium?: string
 }
 
 export interface Program {
@@ -54,14 +55,7 @@ export type ChannelsPrograms = ChannelPrograms[]
 
 // EPG
 
-export interface APIEPGEvent {
-  id: string
-  title: string
-  logoUrl: string
-  scheduledFor: TimeInterval
-  dvrDisabled: boolean
-  eventDescriptionMedium: string
-}
+export type APIEPGEvent = ProgramEvent
 
 export interface APIEPGPageWithEvents {
   pageId: string // ${epgUrlTime.format(`YYYY-MM-DD[t]${(epgUrlTime.hour() > 12) ? '12' : '00'}[d]hh[h]

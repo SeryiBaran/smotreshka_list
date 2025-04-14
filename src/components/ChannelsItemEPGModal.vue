@@ -19,7 +19,7 @@ const [showPreviousEpg, toggleShowPreviousEpg] = useToggle(false)
       <ChannelsItemEPGModalPrograms :channel="props.channel" :epg :is-next="true" />
 
       <!-- TODO: Create collapse with @formkit/auto-animate/vue -->
-      <button class="header2 flex gap-1 w-full cursor-pointer" @click="toggleShowPreviousEpg()">
+      <button class="header2 mt-2 flex gap-1 w-full cursor-pointer" @click="toggleShowPreviousEpg()">
         <span class="i-carbon:chevron-right text-inherit" :class="{ previousIcon: showPreviousEpg }" />
         Предыдущие
       </button>

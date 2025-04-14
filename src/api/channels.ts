@@ -15,6 +15,7 @@ export function useChannels() {
     key: ['channels'],
     query: getChannels,
     refetchOnMount: false,
+    refetchOnWindowFocus: false,
   })
 
   const channelsFromAPI = computed<Channel[]>(

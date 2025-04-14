@@ -123,3 +123,10 @@ export function log(message: any, mode: 'info' | 'warn' | 'error' = 'info') {
     )
   }
 }
+
+export function getTimeTo(scheduledFor: TimeInterval, timeToBegin: boolean, currentTime: Dayjs) {
+  const timeFormatted = currentTime.to(useDayJS()(scheduledFor[timeToBegin ? 'begin' : 'end']))
+  const timeFormattedFirstSymbol = timeFormatted[0].toLocaleUpperCase()
+
+  return timeFormattedFirstSymbol + timeFormatted.slice(1)
+}

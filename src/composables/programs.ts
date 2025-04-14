@@ -1,5 +1,5 @@
 import type { Dayjs } from 'dayjs'
-import type { ChannelPrograms, ProgramEvent } from '~/types'
+import type { APIEPGPageWithEvents, ChannelID, ChannelPrograms, ChannelsPrograms, ProgramEvent } from '~/types'
 import { isCurrentProgram, useDayJS } from '~/shared'
 
 const currentTime = ref<Dayjs>(useDayJS()())
@@ -12,10 +12,10 @@ const timeout = useTimeoutFn(() => {
 
 timeout.start()
 
-export function useReactiveProgramsCurrTime(isRealtime?: Ref<boolean>) {
+export function useReactiveProgramsCurrTime(isRealtime?: Ref<boolean> | boolean) {
   let returnedCurrentTime: Ref<Dayjs> | Dayjs
 
-  if ((isRealtime && isRealtime.value) || (isRealtime === undefined)) {
+  if ((isRef(isRealtime) && isRealtime && isRealtime.value) || typeof isRealtime === 'boolean' || (isRealtime === undefined)) {
     returnedCurrentTime = computed(() => currentTime.value)
   }
   else {
@@ -25,7 +25,7 @@ export function useReactiveProgramsCurrTime(isRealtime?: Ref<boolean>) {
   return { currentTime: returnedCurrentTime, timeout }
 }
 
-export function useCurrentProgramPercent(currentProgram: Ref<ProgramEvent | null | undefined>, isRealtime?: Ref<boolean>) {
+export function useCurrentProgramPercent(currentProgram: Ref<ProgramEvent | null | undefined>, isRealtime?: Ref<boolean> | boolean) {
   const reactiveProgramsCurrTime = useReactiveProgramsCurrTime(isRealtime)
 
   const currentProgramPercent = computed(() => {
@@ -37,12 +37,25 @@ export function useCurrentProgramPercent(currentProgram: Ref<ProgramEvent | null
   return currentProgramPercent
 }
 
-export function useCurrentProgram(channelPrograms: Ref<ChannelPrograms>, isRealtime?: Ref<boolean>) {
+export function useChannelPrograms(channelId: ChannelID, channelsPrograms: Ref<ChannelsPrograms | null>) {
+  const channelPrograms = computed(() => {
+    return channelsPrograms.value?.find(program => program.channelId === channelId) // I AM FUCKED MY MIND ABOUT 2 HOURS WITHOUT THESE `!`.
+  })
+
+  return channelPrograms
+}
+
+export function getCurrentProgram(programs: ProgramEvent[], currentTime: Dayjs) {
+  return programs.find(program => isCurrentProgram(program.scheduledFor, currentTime))
+}
+
+export function useCurrentProgram(channelPrograms: Ref<ChannelPrograms['programs'] | APIEPGPageWithEvents['events'] | undefined>, isRealtime?: Ref<boolean> | boolean) {
+  // log(`useCurrentProgram, channelPrograms is ${JSON.stringify(channelPrograms.value)}`)
   const reactiveProgramsCurrTime = useReactiveProgramsCurrTime(isRealtime)
 
   const currentProgram = computed(() => {
-    if (channelPrograms.value) {
-      return channelPrograms.value.programs.find(program => isCurrentProgram(program.scheduledFor, reactiveProgramsCurrTime.currentTime.value))
+    if (channelPrograms.value && channelPrograms.value.length > 0) {
+      return getCurrentProgram(channelPrograms.value, reactiveProgramsCurrTime.currentTime.value)
     }
     else {
       return null

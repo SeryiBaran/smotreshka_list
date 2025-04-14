@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import type { APIProgramsComposeTable, Channel, ChannelsPrograms } from '~/types'
 
-import { useCurrentProgram, useCurrentProgramPercent, useReactiveProgramsCurrTime } from '~/composables/programs'
+import { useChannelPrograms, useCurrentProgram, useCurrentProgramPercent, useReactiveProgramsCurrTime } from '~/composables/programs'
 import { isCurrentProgram, makeChannelPlayLink } from '~/shared'
 import { useModalStore } from '~/store/modal'
 import { useSettingsStore } from '~/store/settings'
 
 interface Props {
   channel: Channel
-  channelsPrograms: ChannelsPrograms | null
+  channelsPrograms: Ref<ChannelsPrograms | null>
   isProgramsFetching: boolean
   programsComposeTable: APIProgramsComposeTable | undefined
 }
@@ -26,11 +26,11 @@ function formatKeyNumber(keyNumber: number) {
 
 const reactiveProgramsCurrTime = useReactiveProgramsCurrTime()
 
-const channelPrograms = computed(() => {
-  return props.channelsPrograms!.find(channelPrograms => channelPrograms?.channelId === props.channel.id)! // I AM FUCKED MY MIND ABOUT 2 HOURS WITHOUT THESE `!`.
-})
+const channelPrograms = useChannelPrograms(props.channel.id, props.channelsPrograms)
 
-const currentProgram = useCurrentProgram(channelPrograms)
+const programs = computed(() => channelPrograms.value?.programs)
+
+const currentProgram = useCurrentProgram(programs)
 
 const currentProgramPercent = useCurrentProgramPercent(currentProgram)
 
@@ -82,10 +82,18 @@ watch(showEPG, (newShowEPG) => {
           <span class="channelNumber">{{ formatKeyNumber(props.channel.keyNumber) }}</span>
           <span class="channelName text-2xl 2xl:text-4xl">{{ props.channel.title }}</span>
         </div>
-        <Programs v-if="!(settingsStore.channelsListMode === 'compact') && settingsStore.isShowPrograms && props.channelsPrograms && channelPrograms !== undefined" :channel-programs="channelPrograms" :show-progress="true" class="mt-2 2xl:mt-4" :is-realtime="settingsStore.isRealtimePrograms" />
-        <p v-else-if="settingsStore.isShowPrograms && !(settingsStore.channelsListMode === 'compact')" class="text-sm mt-2">
-          {{ props.isProgramsFetching ? 'Загрузка программы, подождите пожалуйста...' : 'Простите, программа отсутствует' }}
-        </p>
+        <template v-if="(settingsStore.channelsListMode !== 'compact') && settingsStore.isShowPrograms">
+          <Programs
+            v-if="props.channelsPrograms && channelPrograms !== undefined && currentProgram"
+            :channel-programs="channelPrograms"
+            :show-progress="true"
+            class="mt-2 2xl:mt-4"
+            :is-realtime="settingsStore.isRealtimePrograms"
+          />
+          <p v-else class="text-sm mt-2">
+            {{ props.isProgramsFetching ? 'Загрузка программы, подождите пожалуйста...' : 'Простите, программа отсутствует. Попробуйте нажать на кнопку слева.' }}
+          </p>
+        </template>
       </div>
     </a>
     <!-- TODO: v-if="showEPG" optimizes performance and prevents smotreshka DDoS with 200+ fetch, but lost animation on modal exit -->

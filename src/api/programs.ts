@@ -22,12 +22,14 @@ export function usePrograms() {
     key: ['programs'],
     query: getPrograms,
     refetchOnMount: false,
+    // refetchOnWindowFocus: false,
   })
 
   const programsComposeTableQuery = useQuery({
     key: ['programs-compose-table'],
     query: getProgramsComposeTable,
     refetchOnMount: false,
+    // refetchOnWindowFocus: false,
   })
 
   // TODO: use PiniaColada functionality
@@ -45,9 +47,6 @@ export function usePrograms() {
 
   const channelsPrograms = computed(() => {
     let isFinded = true
-
-    if (!channels.channelsSorted.value)
-      return null
 
     const result = channels.channelsSorted.value
       .map((channel) => {

@@ -105,7 +105,7 @@ function resetFilters() {
     </div>
     <ul class="mt-4 flex flex-col gap-2" :class="{ isCompactMode: settingsStore.channelsListMode === 'compact', isLogosMode: settingsStore.channelsListMode === 'logos' }">
       <template v-if="channelsFiltered.length > 0">
-        <ChannelsItem v-for="channel in channelsFiltered" :key="channel.id" :channel="channel" :channels-programs="programs.channelsPrograms.value" :is-programs-fetching="programs.isFetching.value" :programs-compose-table="programs.programsComposeTable.value" />
+        <ChannelsItem v-for="channel in channelsFiltered" :key="channel.id" :channel="channel" :channels-programs="programs.channelsPrograms" :is-programs-fetching="programs.isFetching.value" :programs-compose-table="programs.programsComposeTable.value" />
       </template>
       <p v-else-if="(filtersStore.selectedGenre || searchValueDebouncedTrimmed !== '') && !channelsFiltered?.length" class="text-lg text-center">
         Ничего не найдено 😢

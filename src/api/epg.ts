@@ -32,7 +32,7 @@ export function useChannelEPG(channelId: ChannelID) {
     query: () => getChannelEPG(todaySchedule.value),
   })
 
-  const epg = computed(() => query.data.value?.pagesWithEvents.reduce<APIEPGEvent[]>((acc, page) => [...acc, ...page.events], []))
+  const epg = computed(() => query.data.value?.pagesWithEvents.reduce<APIEPGEvent[]>((acc, page) => [...acc, ...page.events], []) || [])
 
   function filterEpg(epgForFilter: APIEPGEvent[] | undefined, isNext: boolean) {
     return epgForFilter?.filter(event => filterByTime(event, isNext)) || []
@@ -48,6 +48,7 @@ export function useChannelEPG(channelId: ChannelID) {
   return {
     query,
     epgAPIResponse: query.data,
+    epg,
     filteredEpg,
     isFetching: query.isLoading,
     isEpg,
