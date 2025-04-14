@@ -6,18 +6,28 @@ import { defineStore } from 'pinia'
 import { settingsDefaults } from '~/shared'
 
 export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
-  const favoriteGenres = ref<GenreID[]>(settingsDefaults.favoriteGenres)
+  const resetFunctions: (() => void)[] = []
 
+  function createSetting<T>(defaultValue: T) {
+    const setting = ref<T>(defaultValue)
+
+    function reset() {
+      setting.value = defaultValue
+    }
+
+    resetFunctions.push(reset)
+    return { setting, reset }
+  }
+
+  const favoriteGenres = createSetting<GenreID[]>(settingsDefaults.favoriteGenres)
   function favoriteGenreAdd(genreId: GenreID) {
-    favoriteGenres.value.push(genreId)
+    favoriteGenres.setting.value.push(genreId)
   }
-
   function favoriteGenreRemove(genreId: GenreID) {
-    favoriteGenres.value = favoriteGenres.value.filter(favoriteGenreId => favoriteGenreId !== genreId)
+    favoriteGenres.setting.value = favoriteGenres.setting.value.filter(favoriteGenreId => favoriteGenreId !== genreId)
   }
-
   function favoriteGenreToggle(genreId: GenreID) {
-    if (favoriteGenres.value.includes(genreId)) {
+    if (favoriteGenres.setting.value.includes(genreId)) {
       favoriteGenreRemove(genreId)
     }
     else {
@@ -25,152 +35,67 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
     }
   }
 
-  function favoriteGenresReset() {
-    favoriteGenres.value = settingsDefaults.favoriteGenres
-  }
-
-  // ...
-
-  const brandColor = ref<UnoCSSColorName>(settingsDefaults.brandColor)
-
+  const brandColor = createSetting<UnoCSSColorName>(settingsDefaults.brandColor)
   function brandColorSet(newColor: UnoCSSColorName) {
-    brandColor.value = newColor
+    brandColor.setting.value = newColor
   }
 
-  function brandColorReset() {
-    brandColor.value = settingsDefaults.brandColor
-  }
-
-  // ...
-
-  const isOpenNewTab = ref(settingsDefaults.isOpenNewTab)
-
-  function isOpenNewTabReset() {
-    isOpenNewTab.value = settingsDefaults.isOpenNewTab
-  }
-
-  // ...
-
-  const isShowChannelsImages = ref(settingsDefaults.isShowChannelsImages)
-
-  function isShowChannelsImagesReset() {
-    isShowChannelsImages.value = settingsDefaults.isShowChannelsImages
-  }
-
-  // ...
-
-  const isShowPrograms = ref(settingsDefaults.isShowPrograms)
-
-  function isShowProgramsReset() {
-    isShowPrograms.value = settingsDefaults.isShowPrograms
-  }
-
-  // ...
-
-  const channelsListMode = ref<ChannelsListMode>(settingsDefaults.channelsListMode)
-
+  const isOpenNewTab = createSetting(settingsDefaults.isOpenNewTab)
+  const isShowChannelsImages = createSetting(settingsDefaults.isShowChannelsImages)
+  const isShowPrograms = createSetting(settingsDefaults.isShowPrograms)
+  const channelsListMode = createSetting<ChannelsListMode>(settingsDefaults.channelsListMode)
   function channelsListModeSet(newMode: ChannelsListMode) {
-    channelsListMode.value = newMode
+    channelsListMode.setting.value = newMode
   }
 
-  function channelsListModeReset() {
-    channelsListMode.value = settingsDefaults.channelsListMode
-  }
-
-  // ...
-
-  const channelsImagesSize = ref<number>(settingsDefaults.channelsImagesSize.default)
-
-  function channelsImagesSizeReset() {
-    channelsImagesSize.value = settingsDefaults.channelsImagesSize.default
-  }
-
-  // ...
-
-  const isShowInfoOnHover = ref<boolean>(settingsDefaults.isShowInfoOnHover)
-
-  function isShowInfoOnHoverReset() {
-    isShowInfoOnHover.value = settingsDefaults.isShowInfoOnHover
-  }
-
-  // ...
-
-  const tvKeyboardDebounce = ref<number>(settingsDefaults.tvKeyboardDebounce.default)
-
-  function tvKeyboardDebounceReset() {
-    tvKeyboardDebounce.value = settingsDefaults.tvKeyboardDebounce.default
-  }
-
-  // ...
-
-  const tvKeyboardHideTime = ref<number>(settingsDefaults.tvKeyboardHideTime.default)
-
-  function tvKeyboardHideTimeReset() {
-    tvKeyboardHideTime.value = settingsDefaults.tvKeyboardHideTime.default
-  }
-
-  // ...
-
-  const isRealtimePrograms = ref<boolean>(settingsDefaults.isRealtimePrograms)
-
-  function isRealtimeProgramsReset() {
-    isRealtimePrograms.value = settingsDefaults.isRealtimePrograms
-  }
-
-  // ...
+  const channelsImagesSize = createSetting(settingsDefaults.channelsImagesSize.default)
+  const isShowInfoOnHover = createSetting(settingsDefaults.isShowInfoOnHover)
+  const tvKeyboardDebounce = createSetting(settingsDefaults.tvKeyboardDebounce.default)
+  const tvKeyboardHideTime = createSetting(settingsDefaults.tvKeyboardHideTime.default)
+  const isRealtimePrograms = createSetting(settingsDefaults.isRealtimePrograms)
 
   function $reset() {
-    favoriteGenresReset()
-    brandColorReset()
-    isOpenNewTabReset()
-    isShowChannelsImagesReset()
-    isShowProgramsReset()
-    channelsListModeReset()
-    channelsImagesSizeReset()
-    isShowInfoOnHoverReset()
-    tvKeyboardDebounceReset()
-    tvKeyboardHideTimeReset()
-    isRealtimeProgramsReset()
+    resetFunctions.forEach(reset => reset())
   }
 
   return {
-    favoriteGenres,
+    favoriteGenres: favoriteGenres.setting,
     favoriteGenreAdd,
     favoriteGenreRemove,
     favoriteGenreToggle,
-    favoriteGenresReset,
+    favoriteGenresReset: favoriteGenres.reset,
 
-    brandColor,
+    brandColor: brandColor.setting,
     brandColorSet,
-    brandColorReset,
+    brandColorReset: brandColor.reset,
 
-    isOpenNewTab,
-    isOpenNewTabReset,
+    isOpenNewTab: isOpenNewTab.setting,
+    isOpenNewTabReset: isOpenNewTab.reset,
 
-    isShowChannelsImages,
-    isShowChannelsImagesReset,
+    isShowChannelsImages: isShowChannelsImages.setting,
+    isShowChannelsImagesReset: isShowChannelsImages.reset,
 
-    isShowPrograms,
-    isShowProgramsReset,
+    isShowPrograms: isShowPrograms.setting,
+    isShowProgramsReset: isShowPrograms.reset,
 
-    channelsListMode,
+    channelsListMode: channelsListMode.setting,
     channelsListModeSet,
-    channelsListModeReset,
+    channelsListModeReset: channelsListMode.reset,
 
-    channelsImagesSize,
-    channelsImagesSizeReset,
+    channelsImagesSize: channelsImagesSize.setting,
+    channelsImagesSizeReset: channelsImagesSize.reset,
 
-    isShowInfoOnHover,
-    isShowInfoOnHoverReset,
+    isShowInfoOnHover: isShowInfoOnHover.setting,
+    isShowInfoOnHoverReset: isShowInfoOnHover.reset,
 
-    tvKeyboardDebounce,
-    tvKeyboardDebounceReset,
+    tvKeyboardDebounce: tvKeyboardDebounce.setting,
+    tvKeyboardDebounceReset: tvKeyboardDebounce.reset,
 
-    tvKeyboardHideTime,
-    tvKeyboardHideTimeReset,
+    tvKeyboardHideTime: tvKeyboardHideTime.setting,
+    tvKeyboardHideTimeReset: tvKeyboardHideTime.reset,
 
-    isRealtimePrograms,
-    isRealtimeProgramsReset,
+    isRealtimePrograms: isRealtimePrograms.setting,
+    isRealtimeProgramsReset: isRealtimePrograms.reset,
 
     $reset,
   }
