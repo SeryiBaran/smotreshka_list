@@ -40,7 +40,7 @@ const schema = toTypedSchema(
   }),
 )
 
-const { values, errors, resetForm } = useForm({
+const { errors, resetForm, handleSubmit, setValues } = useForm({
   validationSchema: schema,
   initialValues: settingsStore,
 })
@@ -53,19 +53,29 @@ const isShowDoneMessageTimeout = useTimeoutFn(() => {
   doneMessage.value = null
 }, 3000)
 
+let resetPlanned = false
+
+settingsStore.$subscribe((_event, newState) => {
+  if (resetPlanned) {
+    setValues(toRaw(newState))
+    resetPlanned = false
+  }
+})
+
 function handleAllReset() {
   settingsStore.$reset()
   doneMessage.value = 'Настройки сброшены!'
   isShowDoneMessageTimeout.start()
-  // TODO: reset form to store values, now it not works
+  resetPlanned = true
   resetForm()
+  // TODO: reset form to store values, now it not works
 }
 
-function handleSave() {
-  settingsStore.$patch(values)
+const handleSave = handleSubmit((newValues) => {
+  settingsStore.$patch(newValues)
   doneMessage.value = 'Настройки сохранены!'
   isShowDoneMessageTimeout.start()
-}
+})
 </script>
 
 <template>
