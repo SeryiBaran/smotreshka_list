@@ -1,10 +1,12 @@
 <script lang="ts" setup>
+import { toTypedSchema } from '@vee-validate/zod'
+import { useForm } from 'vee-validate'
+import { z } from 'zod'
+
 import {
   channelsListModesNames,
-  defaultChannelsImagesSize,
-  defaultTvKeyboardDebounce,
-  defaultTvKeyboardHideTime,
   denyBrandColors,
+  settingsDefaults,
   unoPresetColors,
 } from '~/shared'
 import { useSettingsStore } from '~/store/settings'
@@ -22,18 +24,47 @@ const colors = Object.entries(unoPresetColors).filter(c => !denyBrandColors.incl
 
 const settingsStore = useSettingsStore()
 
+const schema = toTypedSchema(
+  z.object({
+    channelsImagesSize: z.number({ message: 'Введите число!' })
+      .min(settingsDefaults.channelsImagesSize.min, 'Число слишком маленькое!')
+      .max(settingsDefaults.channelsImagesSize.max, 'Число слишком большое!'),
+
+    tvKeyboardDebounce: z.number({ message: 'Введите число!' })
+      .min(settingsDefaults.tvKeyboardDebounce.min, 'Число слишком маленькое!')
+      .max(settingsDefaults.tvKeyboardDebounce.max, 'Число слишком большое!'),
+
+    tvKeyboardHideTime: z.number({ message: 'Введите число!' })
+      .min(settingsDefaults.tvKeyboardHideTime.min, 'Число слишком маленькое!')
+      .max(settingsDefaults.tvKeyboardHideTime.max, 'Число слишком большое!'),
+  }),
+)
+
+const { values, errors, resetForm } = useForm({
+  validationSchema: schema,
+  initialValues: settingsStore,
+})
+
 const [showColorsTable, toogleShowColorsTable] = useToggle(false)
 
-const isShowResetDoneMessage = ref(false)
+const doneMessage = ref<string | null>(null)
 
-const isShowResetDoneMessageTimeout = useTimeoutFn(() => {
-  isShowResetDoneMessage.value = false
+const isShowDoneMessageTimeout = useTimeoutFn(() => {
+  doneMessage.value = null
 }, 3000)
 
 function handleAllReset() {
   settingsStore.$reset()
-  isShowResetDoneMessage.value = true
-  isShowResetDoneMessageTimeout.start()
+  doneMessage.value = 'Настройки сброшены!'
+  isShowDoneMessageTimeout.start()
+  // TODO: reset form to store values, now it not works
+  resetForm()
+}
+
+function handleSave() {
+  settingsStore.$patch(values)
+  doneMessage.value = 'Настройки сохранены!'
+  isShowDoneMessageTimeout.start()
 }
 </script>
 
@@ -68,7 +99,7 @@ function handleAllReset() {
       </li>
       <li>
         <span>Размер картинок каналов (48 - 1920):</span>
-        <input v-model="settingsStore.channelsImagesSize" class="ml-2" type="number" :min="defaultChannelsImagesSize.min" :max="defaultChannelsImagesSize.max" :step="defaultChannelsImagesSize.step">
+        <InputTextValidated name="channelsImagesSize" type="number" class="ml-2 inline-block" />
       </li>
       <li>
         <Checkbox v-model="settingsStore.isShowPrograms" checkbox-label="Показывать программы" />
@@ -86,20 +117,24 @@ function handleAllReset() {
       </li>
       <li>
         <span>Дебаунс ТВ клавиатуры в секундах (1 - 10):</span>
-        <input v-model="settingsStore.tvKeyboardDebounce" class="ml-2" type="number" :min="defaultTvKeyboardDebounce.min" :max="defaultTvKeyboardDebounce.max" :step="defaultTvKeyboardDebounce.step">
+        <InputTextValidated name="tvKeyboardDebounce" type="number" class="ml-2 inline-block" />
       </li>
       <li>
         <span>Задержка выключения ТВ клавиатуры в секундах (1 - 10):</span>
-        <input v-model="settingsStore.tvKeyboardHideTime" class="ml-2" type="number" :min="defaultTvKeyboardHideTime.min" :max="defaultTvKeyboardHideTime.max" :step="defaultTvKeyboardHideTime.step">
+        <InputTextValidated name="tvKeyboardHideTime" type="number" class="ml-2 inline-block" />
       </li>
       <li>
         <Checkbox v-model="settingsStore.isRealtimePrograms" checkbox-label="Постоянно обновлять программы" />
       </li>
       <li>
-        <button class="colorsTransition btn ml-2" @click="handleAllReset()">
-          СБРОСИТЬ ВСЕ НАСТРОЙКИ
+        <button class="colorsTransition btn ml-2" :disabled="Object.values(errors).length > 0" @click="handleSave()">
+          Сохранить настройки
         </button>
-        <span v-show="isShowResetDoneMessage" class="ml-2">Настройки сброшены!</span>
+      </li>
+      <li>
+        <button class="colorsTransition btn ml-2" @click="handleAllReset()">
+          Сбросить настройки
+        </button>
       </li>
       <li>
         <RouterLink class="colorsTransition btn btn-with-icon ml-2" to="/available_channels_settings">
@@ -109,11 +144,12 @@ function handleAllReset() {
         </RouterLink>
       </li>
     </ul>
+    <span v-show="!!doneMessage" class="ml-2">{{ doneMessage }}</span>
   </div>
 </template>
 
 <style scoped>
 li {
-  @apply my-4 p-2 border-l-solid border-l-4 border-brand-500 w-full;
+  @apply my-4 p-2 border-l-solid border-l-4 border-brand-500 w-full flex flex-wrap items-center;
 }
 </style>

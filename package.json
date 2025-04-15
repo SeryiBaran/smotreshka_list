@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@pinia/colada": "catalog:frontend",
+    "@vee-validate/zod": "catalog:frontend",
     "@vueuse/core": "catalog:frontend",
     "@vueuse/integrations": "catalog:frontend",
     "dayjs": "catalog:frontend",
@@ -24,9 +25,11 @@
     "pinia": "catalog:frontend",
     "pinia-plugin-persistedstate-2": "catalog:frontend",
     "simple-git": "catalog:dev",
+    "vee-validate": "catalog:frontend",
     "vue": "catalog:frontend",
     "vue-final-modal": "catalog:frontend",
-    "vue-router": "catalog:frontend"
+    "vue-router": "catalog:frontend",
+    "zod": "catalog:frontend"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:dev",

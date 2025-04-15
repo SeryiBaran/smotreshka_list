@@ -70,7 +70,7 @@ function resetFilters() {
       <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
       <RouterLink to="/help" class="link">Если не работает, разрешите сайту открывать всплывающие окна и вкладки</RouterLink>.
     </p>
-    <input v-model="filtersStore.searchValue" type="text" class="input" placeholder="Введите запрос...">
+    <InputText v-model="filtersStore.searchValue" type="text" class="input" placeholder="Введите запрос..." />
     <div class="text-lg mt-4 flex flex-wrap gap-x-2 gap-y-2">
       <template v-if="channels.genresList.value.length > 0">
         <div
