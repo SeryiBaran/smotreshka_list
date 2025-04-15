@@ -2,6 +2,8 @@
 import { describe, expect, it } from 'vitest'
 // import TheCounter from '../src/components/TheCounter.vue'
 
+// TODO: Write tests
+// TODO: Write tests with mocks with https://mswjs.io/docs/recipes/vitest-browser-mode
 describe('component of TheCounter.vue', () => {
   // it('should render', () => {
   //   const wrapper = mount(TheCounter, { props: { initial: 10 } })

@@ -18,6 +18,8 @@ export function useDayJS() {
   return dayjs
 }
 
+// TODO: write mocks with https://mswjs.io/docs/getting-started
+
 export const appGitVerHash: string = import.meta.env.VITE_APPGITVER_HASH
 export const appGitVerDate: string = import.meta.env.VITE_APPGITVER_DATE
 
