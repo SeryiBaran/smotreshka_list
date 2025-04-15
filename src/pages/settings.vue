@@ -24,6 +24,7 @@ const colors = Object.entries(unoPresetColors).filter(c => !denyBrandColors.incl
 
 const settingsStore = useSettingsStore()
 
+// TODO: pass checkboxes and selects through vee-validate too
 const schema = toTypedSchema(
   z.object({
     channelsImagesSize: z.number({ message: 'Введите число!' })
