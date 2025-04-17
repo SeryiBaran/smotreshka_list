@@ -69,7 +69,6 @@ function handleAllReset() {
   isShowDoneMessageTimeout.start()
   resetPlanned = true
   resetForm()
-  // TODO: reset form to store values, now it not works
 }
 
 const handleSave = handleSubmit((newValues) => {

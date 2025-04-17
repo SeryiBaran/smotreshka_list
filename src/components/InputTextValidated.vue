@@ -5,7 +5,6 @@ import { useField } from 'vee-validate'
 interface Props {
   name: string
   type?: InputTypeHTMLAttribute
-  inputProps?: Partial<InputHTMLAttributes>
   size?: 'small' | 'regular' | 'large'
 }
 
@@ -19,7 +18,10 @@ const { errorMessage, value, handleChange } = useField(() => props.name)
 
 <template>
   <div class="inline-block">
-    <InputText :input-props="{ ...props.inputProps }" :class="[{ inputWithError: !!errorMessage }]" :value="value" :type="props.type" @input="handleChange" />
+    <InputText
+      v-bind="($attrs as Partial<InputHTMLAttributes>)"
+      :class="[{ inputWithError: !!errorMessage }]" :value="value" :type="props.type" @input="handleChange"
+    />
     <span class="text-red">{{ errorMessage }}</span>
   </div>
 </template>

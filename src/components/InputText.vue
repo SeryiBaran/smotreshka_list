@@ -3,7 +3,6 @@ import type { InputHTMLAttributes, InputTypeHTMLAttribute } from 'vue'
 
 interface Props {
   type?: InputTypeHTMLAttribute
-  inputProps?: Partial<InputHTMLAttributes>
   size?: 'small' | 'regular' | 'large'
   modelValue?: unknown
 }
@@ -17,7 +16,10 @@ const emit = defineEmits(['update:modelValue'])
 </script>
 
 <template>
-  <input v-bind="props.inputProps" :value="props.modelValue" class="input" :class="[`input_${props.size}`]" :type="props.type" @input="(event) => emit('update:modelValue', (event.target as HTMLInputElement).value)">
+  <input
+    v-bind="($attrs as Partial<InputHTMLAttributes>)"
+    :value="props.modelValue" class="input" :class="[`input_${props.size}`]" :type="props.type" @input="(event) => emit('update:modelValue', (event.target as HTMLInputElement).value)"
+  >
 </template>
 
 <style scoped>
