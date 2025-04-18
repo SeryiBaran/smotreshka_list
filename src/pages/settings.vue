@@ -24,20 +24,16 @@ const colors = Object.entries(unoPresetColors).filter(c => !denyBrandColors.incl
 
 const settingsStore = useSettingsStore()
 
-// TODO: pass checkboxes and selects through vee-validate too
+const schemaNumberInputsNames = ['channelsImagesSize', 'tvKeyboardDebounce', 'tvKeyboardHideTime'] as const
+
+// TODO: pass all inputs (checkboxes and selects) through vee-validate too
 const schema = toTypedSchema(
   z.object({
-    channelsImagesSize: z.number({ message: 'Введите число!' })
-      .min(settingsDefaults.channelsImagesSize.min, 'Число слишком маленькое!')
-      .max(settingsDefaults.channelsImagesSize.max, 'Число слишком большое!'),
-
-    tvKeyboardDebounce: z.number({ message: 'Введите число!' })
-      .min(settingsDefaults.tvKeyboardDebounce.min, 'Число слишком маленькое!')
-      .max(settingsDefaults.tvKeyboardDebounce.max, 'Число слишком большое!'),
-
-    tvKeyboardHideTime: z.number({ message: 'Введите число!' })
-      .min(settingsDefaults.tvKeyboardHideTime.min, 'Число слишком маленькое!')
-      .max(settingsDefaults.tvKeyboardHideTime.max, 'Число слишком большое!'),
+    ...schemaNumberInputsNames.reduce((acc, current) => {
+      return { ...acc, [current]: z.number({ message: 'Введите число!' })
+        .min(settingsDefaults[current].min, `Число должно быть больше ${settingsDefaults[current].min - 1}!`)
+        .max(settingsDefaults[current].max, `Число должно быть меньше ${settingsDefaults[current].max + 1}!`) }
+    }, {}),
   }),
 )
 
