@@ -46,4 +46,8 @@ const emit = defineEmits(['update:modelValue'])
 .input:not([readonly]) {
   @apply hover:not-focus:bg-brand-500/14;
 }
+
+.input.inputWithError {
+  @apply border-red outline-red bg-red/10 hover:not-focus:bg-red/14;
+}
 </style>

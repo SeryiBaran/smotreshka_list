@@ -8,26 +8,25 @@ interface Props {
   size?: 'small' | 'regular' | 'large'
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  type: 'text',
-  size: 'regular',
+defineOptions({
+  inheritAttrs: false,
 })
 
-const { errorMessage, value, handleChange } = useField(() => props.name)
+const props = defineProps<Props>()
+
+const { errorMessage, value, handleChange } = useField(props.name)
 </script>
 
 <template>
   <div class="inline-block">
     <InputText
       v-bind="($attrs as Partial<InputHTMLAttributes>)"
-      :class="[{ inputWithError: !!errorMessage }]" :value="value" :type="props.type" @input="handleChange"
+      :class="[{ inputWithError: !!errorMessage }]" :value="value" :type="props.type" :size="props.size" @input="handleChange"
     />
     <span class="text-red">{{ errorMessage }}</span>
   </div>
 </template>
 
 <style scoped>
-.input.inputWithError {
-  @apply border-red outline-red bg-red/10 hover:not-focus:bg-red/14;
-}
+
 </style>
