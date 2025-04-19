@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ChannelPrograms } from '~/types'
 import { useCurrentProgram, useCurrentProgramPercent, useIsRealtime, useReactiveProgramsCurrTime } from '~/composables/programs'
-import { defaultIsRealtimePrograms, getTimeTo, isCurrentProgram } from '~/shared'
+import { defaultIsRealtimePrograms, getTimeTo, isCurrentProgram, useDayJS } from '~/shared'
 
 interface Props {
   channelPrograms: ChannelPrograms
@@ -45,6 +45,31 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
       <template v-if="program">
         <li :key="program.id + props.channelPrograms.channelId" class="program" :class="{ programLimitWidth: !props.dontLimitWidth }">
           <p class="programInfo">
+            <VTooltip>
+              <span class="i-tabler:info-circle text-size-[110%] block hover:text-brand-500" />
+              <template #popper>
+                <table class="popperTimetable">
+                  <tbody>
+                    <tr>
+                      <td>Начало:</td>
+                      <td>{{ useDayJS()(program.scheduledFor.begin).format('YYYY.MM.DD HH:mm') }}</td>
+                    </tr>
+                    <tr>
+                      <td>Конец:</td>
+                      <td>{{ useDayJS()(program.scheduledFor.end).format('YYYY.MM.DD HH:mm') }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ isCurrentProgram(program.scheduledFor, reactiveProgramsCurrTime.currentTime.value) ? "Началось" : 'Начнётся' }}:</td>
+                      <td>{{ getTimeTo(program.scheduledFor, true, reactiveProgramsCurrTime.currentTime.value) }}</td>
+                    </tr>
+                    <tr>
+                      <td>Продлится{{ isCurrentProgram(program.scheduledFor, reactiveProgramsCurrTime.currentTime.value) ? " ещё" : '' }}:</td>
+                      <td>{{ getTimeTo(program.scheduledFor, false, isCurrentProgram(program.scheduledFor, reactiveProgramsCurrTime.currentTime.value) ? reactiveProgramsCurrTime.currentTime.value : useDayJS()(program.scheduledFor.begin), true) }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </template>
+            </VTooltip>
             <ProgramTime :scheduled-for="program.scheduledFor" :show-date="props.showDate" />
             <span class="programTitle">{{ program.title }}</span>
             <span class="grow" />
@@ -84,7 +109,7 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
 }
 
 .programInfo {
-  @apply flex gap-2 gap-y-0 max-md:flex-wrap;
+  @apply flex gap-2 gap-y-0 max-md:flex-wrap items-center;
 }
 
 .programDescription {
@@ -105,5 +130,9 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
 
 .progress {
   @apply border-0 border-b-2 border-b-brand-500 border-solid;
+}
+
+.popperTimetable td {
+  @apply px-1;
 }
 </style>

@@ -89,9 +89,8 @@ export function log(message: any, mode: 'info' | 'warn' | 'error' = 'info') {
   }
 }
 
-export function getTimeTo(scheduledFor: TimeInterval, timeToBegin: boolean, currentTime: Dayjs) {
-  const timeFormatted = currentTime.to(useDayJS()(scheduledFor[timeToBegin ? 'begin' : 'end']))
-  const timeFormattedFirstSymbol = timeFormatted[0].toLocaleUpperCase()
+export function getTimeTo(scheduledFor: TimeInterval, timeToBegin: boolean, currentTime: Dayjs, withoutSuffix: boolean = false) {
+  const timeFormatted = currentTime.to(useDayJS()(scheduledFor[timeToBegin ? 'begin' : 'end']), withoutSuffix)
 
-  return timeFormattedFirstSymbol + timeFormatted.slice(1)
+  return timeFormatted[0].toLocaleUpperCase() + timeFormatted.slice(1)
 }
