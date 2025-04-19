@@ -3,11 +3,13 @@ interface Props {
   isActive: boolean
   isFavorite: boolean
   genreName: string
+  showFavoriteButton?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   isActive: false,
   isFavorite: false,
+  showFavoriteButton: true,
 })
 
 const emit = defineEmits<{
@@ -21,12 +23,13 @@ const emit = defineEmits<{
     class="genreGroup flex" :class="{
       active: props.isActive,
       favorite: props.isFavorite,
+      showFavoriteButton: props.showFavoriteButton,
     }"
   >
     <button class="colorsTransition genreButton genreButtonGenre" @click="() => emit('toggleActive')">
       {{ genreName }}
     </button>
-    <button class="genreButton colorsTransition genreButtonFavorite" @click="() => emit('toggleFavorite')">
+    <button v-if="showFavoriteButton" class="genreButton colorsTransition genreButtonFavorite" @click="() => emit('toggleFavorite')">
       <span
         class="colorsTransition genreButtonFavoriteIcon i-tabler:heart" :class="{ 'i-tabler:heart-filled': props.isFavorite,
         }"
@@ -44,7 +47,7 @@ const emit = defineEmits<{
   @apply border-brand-500 dark:bg-brand-500/30 bg-brand-500/33;
 }
 
-.genreButtonGenre {
+.showFavoriteButton .genreButtonGenre {
   @apply rounded-rt-0 rounded-rb-0;
 }
 

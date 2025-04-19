@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { GenreID } from '~/types'
 import { useFuse } from '@vueuse/integrations/useFuse'
 import { storeToRefs } from 'pinia'
 import { useChannels } from '~/api/channels'
@@ -21,10 +20,6 @@ const channels = useChannels()
 const programs = usePrograms()
 
 const { searchValueDebouncedTrimmed } = storeToRefs(filtersStore)
-
-function handleGenreSelect(genreId: GenreID) {
-  filtersStore.selectedGenreSetOrToggle(genreId)
-}
 
 const channelsFilteredByGenre = computed(() => (
   channels.channelsSorted.value
@@ -62,8 +57,6 @@ const channelsFiltered = computed(() => {
 function resetFilters() {
   filtersStore.$reset()
 }
-
-// TODO: make "All channels" <GenreElement>
 </script>
 
 <template>
@@ -78,12 +71,19 @@ function resetFilters() {
     <div class="text-lg mt-4 flex flex-wrap gap-x-2 gap-y-2">
       <template v-if="channels.genresList.value && channels.genresList.value.length > 0">
         <GenreElement
+          genre-name="Все каналы"
+          :show-favorite-button="false"
+          :is-active="filtersStore.selectedGenre === null"
+          :is-favorite="false"
+          @toggle-active="filtersStore.selectedGenreReset()"
+        />
+        <GenreElement
           v-for="[genreId, genreTitle] in channels.genresList.value"
           :key="genreId"
           :genre-name="genreTitle"
           :is-active="filtersStore.selectedGenre === (genreId)"
           :is-favorite="settingsStore.favoriteGenres.includes(genreId)"
-          @toggle-active="handleGenreSelect(genreId)"
+          @toggle-active="filtersStore.selectedGenreSetOrToggle(genreId)"
           @toggle-favorite="settingsStore.favoriteGenreToggle(genreId)"
         />
       </template>
