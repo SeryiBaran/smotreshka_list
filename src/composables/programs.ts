@@ -16,7 +16,7 @@ timeout.start()
 export function useReactiveProgramsCurrTime(isRealtime?: Ref<boolean> | boolean) {
   let returnedCurrentTime: Ref<Dayjs> | Dayjs
 
-  if ((isRef(isRealtime) && isRealtime && isRealtime.value) || typeof isRealtime === 'boolean' || (isRealtime === undefined)) {
+  if (toValue(isRealtime)) {
     returnedCurrentTime = computed(() => currentTime.value)
   }
   else {
