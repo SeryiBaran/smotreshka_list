@@ -48,7 +48,7 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
     <template v-for="program in filteredPrograms.programs">
       <template v-if="program">
         <li :key="program.id + props.channelPrograms.channelId" class="program" :class="{ programLimitWidth: !props.dontLimitWidth }">
-          <p class="programInfo">
+          <div class="programInfo">
             <Tooltip :disabled="!settingsStore.isShowProgramPopups">
               <ProgramTime :scheduled-for="program.scheduledFor" :show-date="props.showDate" />
               <template #popper>
@@ -77,8 +77,8 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
             <Tooltip :disabled="!settingsStore.isShowProgramPopups">
               <span class="programTitle">{{ program.title }}</span>
               <template #popper>
-                <div class="max-w-50">
-                  <img class="tipImg" :style="{ aspectRatio: '16 / 9' }" :src="`${program.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93`" :alt="`Иконка ${program.title}`">
+                <div class="max-w-50 w-full">
+                  <img class="prgImg" :src="`${program.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93`" :alt="`Иконка ${program.title}`">
                   <div class="px-3 py-2">
                     <p class="text-brand-200 leading-4">
                       {{ program.title }}
@@ -92,7 +92,7 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
             </Tooltip>
             <span class="grow" />
             <span class="mb-0.5 pl-2 whitespace-nowrap md:self-center"> <span class="md:hidden">|||||</span> <span>{{ `${getTimeTo(program.scheduledFor, true, reactiveProgramsCurrTime.currentTime.value)}` }}</span></span>
-          </p>
+          </div>
 
           <p
             v-if="props.showDescription && program.eventDescriptionMedium"
@@ -156,9 +156,5 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
 
 .popperTimetable td {
   @apply px-1;
-}
-
-.tipImg {
-  @apply w-full;
 }
 </style>

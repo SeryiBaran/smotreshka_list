@@ -152,10 +152,6 @@ li.isLogosMode a {
   @apply overflow-hidden border border-1 border-brand-500 rounded-3 w-50 aspect-video transform self-start relative object-cover 2xl:w-65;
 }
 
-.chLogo {
-  @apply w-full;
-}
-
 li.isLogosMode .chLogoContainer {
   @apply w-full rounded-0 border-0;
 }

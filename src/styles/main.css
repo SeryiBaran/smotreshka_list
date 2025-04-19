@@ -64,3 +64,8 @@ li {
 .v-popper__popper .v-popper__inner {
   @apply p-0 bg-neutral-900 border-1 border-brand-400 rounded-3;
 }
+
+.chImg,
+.prgImg {
+  @apply block w-full aspect-[16/9];
+}
