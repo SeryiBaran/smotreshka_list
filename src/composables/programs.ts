@@ -13,7 +13,7 @@ const timeout = useTimeoutFn(() => {
 
 timeout.start()
 
-export function useReactiveProgramsCurrTime(isRealtime?: Ref<boolean> | boolean) {
+export function useReactiveProgramsCurrTime(isRealtime?: MaybeRef<boolean>) {
   let returnedCurrentTime: Ref<Dayjs> | Dayjs
 
   if (toValue(isRealtime)) {
@@ -26,17 +26,17 @@ export function useReactiveProgramsCurrTime(isRealtime?: Ref<boolean> | boolean)
   return { currentTime: returnedCurrentTime, timeout }
 }
 
-export function useIsRealtime(propsIsRealtime: Ref<boolean> | boolean) {
+export function useIsRealtime(propsIsRealtime: MaybeRef<boolean>) {
   const settingsStore = useSettingsStore()
 
   return propsIsRealtime !== undefined ? propsIsRealtime : settingsStore.isRealtimePrograms
 }
 
-export function useCurrentProgramPercent(currentProgram: Ref<ProgramEvent | null | undefined>, isRealtime?: Ref<boolean> | boolean) {
+export function useCurrentProgramPercent(currentProgram: MaybeRef<ProgramEvent | null | undefined>, isRealtime?: MaybeRef<boolean>) {
   const reactiveProgramsCurrTime = useReactiveProgramsCurrTime(isRealtime)
 
   const currentProgramPercent = computed(() => {
-    const percents = (100 / (useDayJS()(currentProgram.value?.scheduledFor.end).diff(useDayJS()(currentProgram.value?.scheduledFor.begin)) / reactiveProgramsCurrTime.currentTime.value.diff(useDayJS()(currentProgram.value?.scheduledFor.begin))))
+    const percents = (100 / (useDayJS()(toValue(currentProgram)?.scheduledFor.end).diff(useDayJS()(toValue(currentProgram)?.scheduledFor.begin)) / reactiveProgramsCurrTime.currentTime.value.diff(useDayJS()(toValue(currentProgram)?.scheduledFor.begin))))
 
     return Math.floor(percents * 100) / 100
   })
@@ -44,9 +44,9 @@ export function useCurrentProgramPercent(currentProgram: Ref<ProgramEvent | null
   return currentProgramPercent
 }
 
-export function useChannelPrograms(channelId: ChannelID, channelsPrograms: Ref<ChannelsPrograms | null>) {
+export function useChannelPrograms(channelId: ChannelID, channelsPrograms: MaybeRef<ChannelsPrograms | null>) {
   const channelPrograms = computed(() => {
-    return channelsPrograms.value?.find(program => program.channelId === channelId) // I AM FUCKED MY MIND ABOUT 2 HOURS WITHOUT THESE `!`.
+    return toValue(channelsPrograms)?.find(program => program.channelId === channelId) // I AM FUCKED MY MIND ABOUT 2 HOURS WITHOUT THESE `!`.
   })
 
   return channelPrograms
@@ -56,13 +56,13 @@ export function getCurrentProgram(programs: ProgramEvent[], currentTime: Dayjs) 
   return programs.find(program => isCurrentProgram(program.scheduledFor, currentTime))
 }
 
-export function useCurrentProgram(channelPrograms: Ref<ChannelPrograms['programs'] | APIEPGPageWithEvents['events'] | undefined>, isRealtime?: Ref<boolean> | boolean) {
-  // log(`useCurrentProgram, channelPrograms is ${JSON.stringify(channelPrograms.value)}`)
+export function useCurrentProgram(channelPrograms: MaybeRef<ChannelPrograms['programs'] | APIEPGPageWithEvents['events'] | undefined>, isRealtime?: MaybeRef<boolean>) {
   const reactiveProgramsCurrTime = useReactiveProgramsCurrTime(isRealtime)
 
   const currentProgram = computed(() => {
-    if (channelPrograms.value && channelPrograms.value.length > 0) {
-      return getCurrentProgram(channelPrograms.value, reactiveProgramsCurrTime.currentTime.value)
+    const channelProgramsValue = toValue(channelPrograms)
+    if (channelProgramsValue && channelProgramsValue.length > 0) {
+      return getCurrentProgram(channelProgramsValue, reactiveProgramsCurrTime.currentTime.value)
     }
     else {
       return null
