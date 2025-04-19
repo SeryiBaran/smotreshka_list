@@ -36,7 +36,11 @@ export function useChannels() {
   )
 
   // TODO: try to move from Entries<{ id: GenreID, title: string }> to Array<{ id: GenreID, title: string }>
-  const genresList = computed(() => (Object.entries(genres.value).sort((a, _b) => settingsStore.favoriteGenres.includes(a[0]) ? -1 : 1)))
+  const genresList = computed(() => (
+    Object.entries(genres.value)
+      .filter(genre => (channelsAvailable.value.some(channel => channel.relevantGenres.some(channelGenre => channelGenre.genreId === genre[0]))))
+      .sort((a, _b) => settingsStore.favoriteGenres.includes(a[0]) ? -1 : 1)
+  ))
 
   return {
     query,
