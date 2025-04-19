@@ -54,7 +54,7 @@ let resetPlanned = false
 
 settingsStore.$subscribe((_event, newState) => {
   if (resetPlanned) {
-    setValues(toRaw(newState))
+    setValues(newState, false)
     resetPlanned = false
   }
 })

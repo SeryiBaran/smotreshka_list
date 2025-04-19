@@ -8,6 +8,8 @@ import TheTvKeyboardProvider from '~/components/TheTvKeyboardProvider.vue'
 import { useFiltersStore } from '~/store/filters'
 import { useSettingsStore } from '~/store/settings'
 
+// TODO: try to fix lag when navigating to that page
+
 defineOptions({
   name: 'IndexPage',
 })
@@ -60,6 +62,8 @@ const channelsFiltered = computed(() => {
 function resetFilters() {
   filtersStore.$reset()
 }
+
+// TODO: make "All channels" <GenreElement>
 </script>
 
 <template>
@@ -72,23 +76,16 @@ function resetFilters() {
     </p>
     <InputText v-model="filtersStore.searchValue" type="text" class="input" placeholder="Введите запрос..." />
     <div class="text-lg mt-4 flex flex-wrap gap-x-2 gap-y-2">
-      <template v-if="channels.genresList.value.length > 0">
-        <div
-          v-for="[genreId, genreName] in channels.genresList.value" :key="genreId" class="genreGroup flex" :class="{
-            active: filtersStore.selectedGenre === (genreId),
-            favorite: settingsStore.favoriteGenres.includes(genreId),
-          }"
-        >
-          <button class="colorsTransition genreButton genreButtonGenre" @click="() => handleGenreSelect(genreId)">
-            {{ genreName }}
-          </button>
-          <button class="genreButton colorsTransition genreButtonFavorite" @click="() => settingsStore.favoriteGenreToggle(genreId)">
-            <span
-              class="colorsTransition genreButtonFavoriteIcon i-tabler:heart" :class="{ 'i-tabler:heart-filled': settingsStore.favoriteGenres.includes(genreId),
-              }"
-            />
-          </button>
-        </div>
+      <template v-if="channels.genresList.value && channels.genresList.value.length > 0">
+        <GenreElement
+          v-for="[genreId, genreTitle] in channels.genresList.value"
+          :key="genreId"
+          :genre-name="genreTitle"
+          :is-active="filtersStore.selectedGenre === (genreId)"
+          :is-favorite="settingsStore.favoriteGenres.includes(genreId)"
+          @toggle-active="handleGenreSelect(genreId)"
+          @toggle-favorite="settingsStore.favoriteGenreToggle(genreId)"
+        />
       </template>
       <p v-else class="text-brand-500">
         Загрузка жанров, пожалуйста, подождите...
@@ -118,42 +115,6 @@ function resetFilters() {
 </template>
 
 <style scoped>
-.genreButton {
-  @apply cursor-pointer px-3 py-0.5 border border-2 border-transparent rounded-full dark:bg-brand-500/10 bg-brand-500/13 hover:(dark:bg-brand-500/18 bg-brand-500/21);
-}
-
-.genreGroup.active .genreButton {
-  @apply border-brand-500 dark:bg-brand-500/30 bg-brand-500/33;
-}
-
-.genreButtonGenre {
-  @apply rounded-rt-0 rounded-rb-0;
-}
-
-.genreButtonFavorite {
-  @apply rounded-lt-0 rounded-lb-0 px-2 pl-1.5;
-}
-
-.genreButtonFavoriteIcon {
-  @apply h-1em w-1em block;
-}
-
-.genreGroup.favorite .genreButtonFavorite .genreButtonFavoriteIcon {
-  @apply text-brand-500;
-}
-
-.genreButtonFavorite:not(.active .genreButtonFavorite, .genreGroup.favorite .genreButtonFavorite) {
-  @apply border-transparent;
-}
-
-.genreGroup.active.favorite .genreButtonFavorite {
-  @apply border-brand-500;
-}
-
-.genreGroup.active .genreButtonFavorite {
-  @apply border-l-transparent!;
-}
-
 /* oh shit */
 ul.isCompactMode,
 ul.isLogosMode {

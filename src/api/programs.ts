@@ -22,14 +22,14 @@ export function usePrograms() {
     key: ['programs'],
     query: getPrograms,
     refetchOnMount: false,
-    // refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false,
   })
 
   const programsComposeTableQuery = useQuery({
     key: ['programs-compose-table'],
     query: getProgramsComposeTable,
     refetchOnMount: false,
-    // refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false,
   })
 
   // TODO: use PiniaColada functionality

@@ -12,6 +12,7 @@ declare module 'vue' {
     ChannelsItemEPGModal: typeof import('./src/components/ChannelsItemEPGModal.vue')['default']
     ChannelsItemEPGModalPrograms: typeof import('./src/components/ChannelsItemEPGModalPrograms.vue')['default']
     Checkbox: typeof import('./src/components/inputs/Checkbox.vue')['default']
+    GenreElement: typeof import('./src/components/GenreElement.vue')['default']
     InputText: typeof import('./src/components/inputs/InputText.vue')['default']
     InputTextValidated: typeof import('./src/components/inputs/InputTextValidated.vue')['default']
     ModalLongScroll: typeof import('./src/components/ModalLongScroll.vue')['default']
