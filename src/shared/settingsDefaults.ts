@@ -42,6 +42,8 @@ export const defaultTvKeyboardHideTime = {
 
 export const defaultIsRealtimePrograms = false
 
+export const defaultIsShowProgramPopups = false
+
 export const settingsDefaults = {
   brandColor: defaultBrandColor,
   channelsImagesSize: defaultChannelsImagesSize,
@@ -54,4 +56,5 @@ export const settingsDefaults = {
   isShowPrograms: defaultIsShowPrograms,
   tvKeyboardDebounce: defaultTvKeyboardDebounce,
   tvKeyboardHideTime: defaultTvKeyboardHideTime,
+  isShowProgramPopups: defaultIsShowProgramPopups,
 }

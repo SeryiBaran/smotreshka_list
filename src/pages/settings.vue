@@ -133,6 +133,9 @@ const handleSave = handleSubmit((newValues) => {
         <Checkbox v-model="settingsStore.isRealtimePrograms" checkbox-label="Постоянно обновлять программы" />
       </li>
       <li>
+        <Checkbox v-model="settingsStore.isShowProgramPopups" checkbox-label="Показывать инфо о программах при наведении" />
+      </li>
+      <li>
         <button class="colorsTransition btn ml-2" :disabled="Object.values(errors).length > 0" @click="handleSave()">
           Сохранить настройки
         </button>

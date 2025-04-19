@@ -3,6 +3,7 @@ import type { ChannelPrograms } from '~/types'
 import { Tooltip } from 'floating-vue'
 import { useCurrentProgram, useCurrentProgramPercent, useIsRealtime, useReactiveProgramsCurrTime } from '~/composables/programs'
 import { defaultIsRealtimePrograms, getTimeTo, isCurrentProgram, useDayJS } from '~/shared'
+import { useSettingsStore } from '~/store/settings'
 
 interface Props {
   channelPrograms: ChannelPrograms
@@ -22,6 +23,8 @@ const props = withDefaults(defineProps<Props>(), {
   dontLimitWidth: false,
   showDescription: false,
 })
+
+const settingsStore = useSettingsStore()
 
 const isRealtime = useIsRealtime(props.isRealtime)
 
@@ -46,8 +49,8 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
       <template v-if="program">
         <li :key="program.id + props.channelPrograms.channelId" class="program" :class="{ programLimitWidth: !props.dontLimitWidth }">
           <p class="programInfo">
-            <Tooltip>
-              <span class="i-tabler:info-circle text-size-[110%] block hover:text-brand-500" />
+            <Tooltip :disabled="!settingsStore.isShowProgramPopups">
+              <ProgramTime :scheduled-for="program.scheduledFor" :show-date="props.showDate" />
               <template #popper>
                 <table class="popperTimetable">
                   <tbody>
@@ -71,8 +74,22 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
                 </table>
               </template>
             </Tooltip>
-            <ProgramTime :scheduled-for="program.scheduledFor" :show-date="props.showDate" />
-            <span class="programTitle">{{ program.title }}</span>
+            <Tooltip :disabled="!settingsStore.isShowProgramPopups">
+              <span class="programTitle">{{ program.title }}</span>
+              <template #popper>
+                <div class="max-w-50">
+                  <img class="tipImg" :style="{ aspectRatio: '16 / 9' }" :src="`${program.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93`" :alt="`Иконка ${program.title}`">
+                  <div class="px-3 py-2">
+                    <p class="text-brand-200 leading-4">
+                      {{ program.title }}
+                    </p>
+                    <p v-if="program.eventDescriptionMedium" class="text-sm leading-4 mt-2">
+                      {{ program.eventDescriptionMedium }}
+                    </p>
+                  </div>
+                </div>
+              </template>
+            </Tooltip>
             <span class="grow" />
             <span class="mb-0.5 pl-2 whitespace-nowrap md:self-center"> <span class="md:hidden">|||||</span> <span>{{ `${getTimeTo(program.scheduledFor, true, reactiveProgramsCurrTime.currentTime.value)}` }}</span></span>
           </p>
@@ -133,7 +150,15 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
   @apply border-0 border-b-2 border-b-brand-500 border-solid;
 }
 
+.popperTimetable {
+  @apply m-2;
+}
+
 .popperTimetable td {
   @apply px-1;
+}
+
+.tipImg {
+  @apply w-full;
 }
 </style>
