@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { ChannelPrograms } from '~/types'
+import { Tooltip } from 'floating-vue'
 import { useCurrentProgram, useCurrentProgramPercent, useIsRealtime, useReactiveProgramsCurrTime } from '~/composables/programs'
 import { defaultIsRealtimePrograms, getTimeTo, isCurrentProgram, useDayJS } from '~/shared'
 
@@ -45,7 +46,7 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
       <template v-if="program">
         <li :key="program.id + props.channelPrograms.channelId" class="program" :class="{ programLimitWidth: !props.dontLimitWidth }">
           <p class="programInfo">
-            <VTooltip>
+            <Tooltip>
               <span class="i-tabler:info-circle text-size-[110%] block hover:text-brand-500" />
               <template #popper>
                 <table class="popperTimetable">
@@ -69,7 +70,7 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
                   </tbody>
                 </table>
               </template>
-            </VTooltip>
+            </Tooltip>
             <ProgramTime :scheduled-for="program.scheduledFor" :show-date="props.showDate" />
             <span class="programTitle">{{ program.title }}</span>
             <span class="grow" />
