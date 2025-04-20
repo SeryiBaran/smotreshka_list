@@ -63,7 +63,7 @@ function resetFilters() {
   <div class="flex grow flex-col">
     <TheTvKeyboardProvider :channels-available="channels.channelsAvailable.value" />
     <p class="text-sm my-4 mt-1">
-      Вы можете начать вводить номер канала прямо на странице, у вас будет на это 5 секунд.
+      Вы можете начать вводить номер канала прямо на странице, у вас будет на это {{ settingsStore.tvKeyboardDebounce }} секунд.
       <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
       <RouterLink to="/help" class="link">Если не работает, разрешите сайту открывать всплывающие окна и вкладки</RouterLink>.
     </p>
