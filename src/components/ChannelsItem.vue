@@ -52,7 +52,9 @@ watch(showEPG, (newShowEPG) => {
 
 const item = useTemplateRef<HTMLLIElement>('item')
 const itemWasVisible = ref(false)
-const itemIsVisible = useElementVisibility(item)
+const itemIsVisible = useElementVisibility(item, {
+  rootMargin: '0px 0px 1024px 0px',
+})
 
 watch(itemIsVisible, (newValue) => {
   if (newValue)
