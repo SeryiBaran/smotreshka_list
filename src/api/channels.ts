@@ -24,7 +24,7 @@ export function useChannels() {
   ))
 
   const channelsSorted = computed<Channel[]>(() => (
-    channelsAvailable.value.slice().sort((a, b) => (a.keyNumber - b.keyNumber))
+    channelsAvailable.value.slice().sort((a, b) => (a.keyNumber - b.keyNumber)).slice(0, 500) // BUG: slice 0 5 is for test
   ))
 
   const genres = computed<{

@@ -49,10 +49,13 @@ function handleShowEPG() {
 watch(showEPG, (newShowEPG) => {
   modalStore.openedModalsSetOrToggle('epg', newShowEPG)
 })
+
+const item = useTemplateRef<HTMLLIElement>('li')
+const itemIsVisible = useElementVisibility(item)
 </script>
 
 <template>
-  <li class="flex" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
+  <li ref="li" class="flex" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
     <button v-if="settingsStore.channelsListMode !== 'logos'" class="showEpgBtn colorsTransition btn btn-with-icon" @click="() => handleShowEPG()">
       <span class="transitionColors i-tabler:list text-4 block 2xl:text-6" />
     </button>
@@ -83,8 +86,9 @@ watch(showEPG, (newShowEPG) => {
           <span class="channelName text-2xl 2xl:text-4xl">{{ props.channel.title }}</span>
         </div>
         <template v-if="(settingsStore.channelsListMode !== 'compact') && settingsStore.isShowPrograms">
+          <!-- TODO: figure, why this <Programs> lag, but <Programs> in modal not lags -->
           <Programs
-            v-if="props.channelsPrograms && channelPrograms !== undefined && currentProgram"
+            v-if="itemIsVisible && props.channelsPrograms && channelPrograms !== undefined && currentProgram"
             :channel-programs="channelPrograms"
             :show-progress="true"
             class="mt-2 2xl:mt-4"

@@ -31,9 +31,12 @@ const isRealtime = useIsRealtime(props.isRealtime)
 const reactiveProgramsCurrTime = useReactiveProgramsCurrTime(isRealtime)
 
 const filteredPrograms = computed<ChannelPrograms>(() => {
-  const currentProgramIndex = props.channelPrograms.programs.findIndex(program => isCurrentProgram(program.scheduledFor, reactiveProgramsCurrTime.currentTime.value))
+  const programs = props.channelPrograms.programs
+  const currentProgramIndex = programs.findIndex(program => isCurrentProgram(program.scheduledFor, reactiveProgramsCurrTime.currentTime.value))
 
-  return { ...props.channelPrograms, programs: props.showAll ? props.channelPrograms.programs : props.channelPrograms.programs.slice(currentProgramIndex, currentProgramIndex + 2) }
+  const result = { channelId: props.channelPrograms.channelId, scheduleId: props.channelPrograms.scheduleId, programs: props.showAll ? programs : programs.slice(currentProgramIndex, currentProgramIndex + 2) }
+
+  return result
 })
 
 const filteredProgramsPrograms = computed(() => filteredPrograms.value.programs)
