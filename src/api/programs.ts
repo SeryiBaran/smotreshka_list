@@ -13,7 +13,7 @@ export function getProgramsComposeTable() {
   return ky.get(programsComposeTableFetchURL).json<APIProgramsComposeTable>()
 }
 
-export function usePrograms() {
+export const usePrograms = createSharedComposable(() => {
   const settingsStore = useSettingsStore()
 
   const channels = useChannels()
@@ -79,4 +79,4 @@ export function usePrograms() {
     programs: programsQuery.data,
     programsComposeTable: programsComposeTableQuery.data,
   }
-}
+})

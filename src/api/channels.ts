@@ -8,7 +8,7 @@ export function getChannels() {
   return ky.get(channelsFetchURL).json<APIChannels>()
 }
 
-export function useChannels() {
+export const useChannels = createSharedComposable(() => {
   const settingsStore = useSettingsStore()
 
   const query = useQuery({
@@ -50,4 +50,4 @@ export function useChannels() {
     genres,
     genresList,
   }
-}
+})
