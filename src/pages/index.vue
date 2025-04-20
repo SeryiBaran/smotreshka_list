@@ -7,7 +7,7 @@ import TheTvKeyboardProvider from '~/components/TheTvKeyboardProvider.vue'
 import { useFiltersStore } from '~/store/filters'
 import { useSettingsStore } from '~/store/settings'
 
-// TODO: try to fix lag when navigating to that page
+// T O D O: try to fix lag when navigating to that page // fixed, but butt
 
 defineOptions({
   name: 'IndexPage',
