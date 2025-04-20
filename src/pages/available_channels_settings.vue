@@ -14,13 +14,16 @@ const channelsPacksMapped = (Object.entries(channelsPacks) as Entries<typeof cha
     <p class="text-xs my-4">
       Изменено {{ useDayJS()(channelsPacksLastEdit).format("DD.MM.YYYY") }}
     </p>
-    <div v-for="channelsPack in channelsPacksMapped" :key="channelsPack.id">
+    <div v-for="channelsPack in channelsPacksMapped" :key="channelsPack.id" class="mt-4">
       <p>{{ channelsPack.name }}</p>
-      <textarea :value="channelsPack.numbers.join(', ')" readonly class="input" />
+      <code>{{ channelsPack.numbers.join(', ') }}</code>
+      <!-- <InputText :is-textarea="true" :value="channelsPack.numbers.join(', ')" readonly class="myTextarea" /> -->
     </div>
   </div>
 </template>
 
 <style scoped>
-
+.myTextarea {
+  @apply max-w-2xl;
+}
 </style>

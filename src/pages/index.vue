@@ -96,7 +96,7 @@ function resetFilters() {
         Итого: {{ channelsFiltered?.length }} канал(а/ов)
       </p><button class="colorsTransition btn btn-with-icon my-2" @click="() => resetFilters()">
         <span
-          class="colorsTransition i-tabler:cancel h-1em w-1em block"
+          class="colorsTransition i-tabler:cancel text-inherit block"
         />Очистить фильтры
       </button>
     </div>

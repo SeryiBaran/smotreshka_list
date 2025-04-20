@@ -56,7 +56,7 @@ const emit = defineEmits<{
 }
 
 .genreButtonFavoriteIcon {
-  @apply h-1em w-1em block;
+  @apply text-inherit block;
 }
 
 .genreGroup.favorite .genreButtonFavorite .genreButtonFavoriteIcon {

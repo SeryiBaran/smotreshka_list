@@ -93,18 +93,20 @@ const handleSave = handleSubmit((newValues) => {
       </li>
       <li>
         <span>Выберите цвет:</span>
-        <select v-model="settingsStore.brandColor" name="brandColor" placeholder="Выберите" class="ml-2 max-w-42 w-full inline-block">
+        <select v-model="settingsStore.brandColor" name="brandColor" placeholder="Выберите" class="max-w-42 w-full inline-block">
           <option v-for="color in colorsList" :key="color" :value="color">
             {{ color }}
           </option>
         </select>
-        <button class="colorsTransition btn ml-2" @click="settingsStore.brandColorReset()">
+        <button class="colorsTransition btn" @click="settingsStore.brandColorReset()">
           Сброс
         </button>
-        <button class="colorsTransition btn ml-2 block" @click="toogleShowColorsTable()">
+        <button class="colorsTransition btn block" @click="toogleShowColorsTable()">
           {{ showColorsTable ? "Закрыть" : "Открыть" }} справку
         </button>
-        <div v-if="showColorsTable" class="mt-4">
+      </li>
+      <li v-if="showColorsTable">
+        <div>
           <div v-for="color in colors" :key="color.name" class="flex">
             <span class="text-xs w-16 inline-block">{{ color.name }}</span>
             <div class="flex">
@@ -118,7 +120,7 @@ const handleSave = handleSubmit((newValues) => {
       </li>
       <li>
         <span>Прозрачность раскраски ({{ settingsDefaults.backgroundColorizationOpacity.min }} - {{ settingsDefaults.backgroundColorizationOpacity.max }}):</span>
-        <InputTextValidated name="backgroundColorizationOpacity" type="number" class="ml-2 inline-block" />
+        <InputTextValidated name="backgroundColorizationOpacity" type="number" class="inline-block" />
       </li>
       <li><Checkbox v-model="settingsStore.isOpenNewTab" checkbox-label="Открывать каналы в новой вкладке" /></li>
       <li>
@@ -126,14 +128,14 @@ const handleSave = handleSubmit((newValues) => {
       </li>
       <li>
         <span>Размер картинок каналов ({{ settingsDefaults.channelsImagesSize.min }} - {{ settingsDefaults.channelsImagesSize.max }}):</span>
-        <InputTextValidated name="channelsImagesSize" type="number" class="ml-2 inline-block" />
+        <InputTextValidated name="channelsImagesSize" type="number" class="inline-block" />
       </li>
       <li>
         <Checkbox v-model="settingsStore.isShowPrograms" checkbox-label="Показывать программы" />
       </li>
       <li>
         <span>Выберите режим списка:</span>
-        <select v-model="settingsStore.channelsListMode" name="channelsListMode" placeholder="Выберите" class="ml-2 max-w-42 w-full inline-block">
+        <select v-model="settingsStore.channelsListMode" name="channelsListMode" placeholder="Выберите" class="max-w-42 w-full inline-block">
           <option v-for="mode in Object.entries(channelsListModesNames)" :key="mode[0]" :value="mode[0]">
             {{ mode[1] }}
           </option>
@@ -144,11 +146,11 @@ const handleSave = handleSubmit((newValues) => {
       </li>
       <li>
         <span>Дебаунс ТВ клавиатуры в секундах ({{ settingsDefaults.tvKeyboardDebounce.min }} - {{ settingsDefaults.tvKeyboardDebounce.max }}):</span>
-        <InputTextValidated name="tvKeyboardDebounce" type="number" class="ml-2 inline-block" />
+        <InputTextValidated name="tvKeyboardDebounce" type="number" class="inline-block" />
       </li>
       <li>
         <span>Задержка выключения ТВ клавиатуры в секундах ({{ settingsDefaults.tvKeyboardHideTime.min }} - {{ settingsDefaults.tvKeyboardHideTime.max }}):</span>
-        <InputTextValidated name="tvKeyboardHideTime" type="number" class="ml-2 inline-block" />
+        <InputTextValidated name="tvKeyboardHideTime" type="number" class="inline-block" />
       </li>
       <li>
         <Checkbox v-model="settingsStore.isRealtimePrograms" checkbox-label="Постоянно обновлять программы" />
@@ -157,11 +159,12 @@ const handleSave = handleSubmit((newValues) => {
         <Checkbox v-model="settingsStore.isShowProgramPopups" checkbox-label="Показывать всплывающие подсказки о передачах при наведении" />
       </li>
       <li>
-        <RouterLink class="colorsTransition btn btn-with-icon ml-2" to="/available_channels_settings">
+        <RouterLink class="colorsTransition btn btn-with-icon" to="/available_channels_settings">
           <span
-            class="colorsTransition i-tabler:list h-1em w-1em"
+            class="colorsTransition i-tabler:list text-inherit"
           />Просмотр доступных номеров каналов
         </RouterLink>
+        <p>Редактируется через исходный код в репозитории.</p>
       </li>
     </ul>
   </div>
@@ -169,10 +172,10 @@ const handleSave = handleSubmit((newValues) => {
 
 <style scoped>
 li {
-  @apply my-4 p-2 border-l-solid border-l-4 border-brand-500 w-full flex flex-wrap items-center;
+  @apply my-4 p-2 gap-2 border-l-solid border-l-4 border-brand-500 w-full flex flex-wrap items-center;
 }
 
 li.verticalLi {
-  @apply flex-col gap-2 items-start;
+  @apply flex-col items-start;
 }
 </style>

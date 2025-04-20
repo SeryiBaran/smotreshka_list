@@ -5,11 +5,13 @@ interface Props {
   type?: InputTypeHTMLAttribute
   size?: 'small' | 'regular' | 'large'
   modelValue?: unknown
+  isTextarea?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   type: 'text',
   size: 'regular',
+  isTextarea: false,
 })
 
 const emit = defineEmits<{
@@ -18,15 +20,16 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <input
+  <component
+    :is="isTextarea ? 'textarea' : 'input'"
     v-bind="($attrs as Partial<InputHTMLAttributes>)"
-    :value="props.modelValue" class="input" :class="[`input_${props.size}`]" :type="props.type" @input="(event) => emit('update:modelValue', (event.target as HTMLInputElement).value)"
-  >
+    :value="props.modelValue" class="input" :class="[`input_${props.size}`, { isTextarea }]" :type="props.type" @input="(event: InputEvent) => emit('update:modelValue', (event.target as HTMLInputElement).value)"
+  />
 </template>
 
 <style scoped>
 .input {
-  @apply colorsTransition search px-4 py-3 outline-0 outline-brand-500 outline-solid border-1 border-transparent rounded-2 border-solid bg-brand-500/10 block focus:outline-2 not-focus:border-brand-400;
+  @apply colorsTransition search px-4 py-3 outline-0 outline-brand-500 outline-solid border-1 border-transparent rounded-2 border-solid bg-brand-500/10 block focus:outline-2 not-focus:border-brand-400 w-full max-w-sm;
 }
 
 .input.input_small {
