@@ -80,14 +80,14 @@ const handleSave = handleSubmit((newValues) => {
 <template>
   <div>
     <ul>
-      <li>
-        <button class="colorsTransition btn ml-2" :disabled="Object.values(errors).length > 0" @click="handleSave()">
+      <li class="verticalLi">
+        <button class="colorsTransition btn" :disabled="Object.values(errors).length > 0" @click="handleSave()">
           Сохранить настройки
         </button>
-        <button class="colorsTransition btn ml-2" @click="handleAllReset()">
+        <button class="colorsTransition btn" @click="handleAllReset()">
           Сбросить настройки
         </button>
-        <div v-show="!!doneMessage" class="ml-2">
+        <div v-show="!!doneMessage">
           {{ doneMessage }}
         </div>
       </li>
@@ -170,5 +170,9 @@ const handleSave = handleSubmit((newValues) => {
 <style scoped>
 li {
   @apply my-4 p-2 border-l-solid border-l-4 border-brand-500 w-full flex flex-wrap items-center;
+}
+
+li.verticalLi {
+  @apply flex-col gap-2 items-start;
 }
 </style>
