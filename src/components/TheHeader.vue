@@ -6,8 +6,8 @@ import { appGitVerDate, appGitVerHash, useDayJS } from '~/shared'
   <div class="mb-4 pb-4 border-b-1 border-brand-500 dark:border-brand-300/50">
     <div class="flex gap-2 justify-between">
       <RouterLink to="/" class="colorsTransition headerMainLink inline-flex gap-4 items-center">
-        <span class="colorsTransition p-2 border-1 border-brand-700 rounded-2 border-solid bg-brand-100 flex items-center justify-center">
-          <span class="colorsTransition i-tabler:device-tv-old text-3xl text-brand-700 block sm:text-4xl" />
+        <span class="colorsTransition headerLogoGontainer p-2 border-1 border-brand-700 rounded-2 border-solid bg-brand-100 flex items-center justify-center dark:border-transparent">
+          <span class="colorsTransition headerLogo i-tabler:device-tv-old text-3xl text-brand-700 block sm:text-4xl" />
         </span>
         <div>
           <span class="text-2xl sm:text-3xl">
@@ -34,7 +34,15 @@ import { appGitVerDate, appGitVerHash, useDayJS } from '~/shared'
 </template>
 
 <style scoped>
-:where(.headerMainLink, .settingsLink):hover {
+.headerMainLink:hover {
   @apply text-brand-600 dark:text-brand-400;
+}
+
+.headerMainLink:hover .headerLogoGontainer {
+  @apply bg-brand-500 border-brand-500;
+}
+
+.headerMainLink:hover .headerLogo {
+  @apply text-brand-100;
 }
 </style>

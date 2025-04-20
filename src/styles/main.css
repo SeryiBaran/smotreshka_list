@@ -34,7 +34,7 @@ body {
 }
 
 .icon-btn {
-  @apply text-[0.9em] inline-block cursor-pointer select-none hover:not-active:text-brand-600;
+  @apply text-[0.9em] cursor-pointer select-none hover:not-active:text-brand-600 inline-flex items-center justify-center;
 }
 
 .btn-with-icon {
