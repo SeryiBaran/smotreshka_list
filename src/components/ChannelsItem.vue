@@ -93,6 +93,7 @@ watch(itemIsVisible, (newValue) => {
         </div>
         <template v-if="(settingsStore.channelsListMode !== 'compact') && settingsStore.isShowPrograms">
           <!-- TODO: figure, why this <Programs> lag, but <Programs> in modal not lags -->
+          <!-- TODO: 'Загрузка программы, подождите пожалуйста...' lags and stays 3-5 seconds on phones and devices with low performance -->
           <Programs
             v-if="itemWasVisible && props.channelsPrograms && channelPrograms !== undefined && currentProgram"
             :channel-programs="channelPrograms"
@@ -101,7 +102,8 @@ watch(itemIsVisible, (newValue) => {
             :is-realtime="settingsStore.isRealtimePrograms"
           />
           <p v-else class="text-sm mt-2">
-            {{ props.isProgramsFetching ? 'Загрузка программы, подождите пожалуйста...' : 'Простите, программа отсутствует. Попробуйте нажать на кнопку слева.' }}
+            <!-- {{ props.isProgramsFetching ? 'Загрузка программы, подождите пожалуйста...' : 'Простите, программа отсутствует. Попробуйте нажать на кнопку слева.' }} -->
+            Загрузка программы, подождите пожалуйста...
           </p>
         </template>
       </div>
