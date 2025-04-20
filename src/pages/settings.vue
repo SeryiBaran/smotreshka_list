@@ -24,9 +24,9 @@ const colors = Object.entries(unoPresetColors).filter(c => !denyBrandColors.incl
 
 const settingsStore = useSettingsStore()
 
-const schemaNumberInputsNames = ['channelsImagesSize', 'tvKeyboardDebounce', 'tvKeyboardHideTime'] as const
+const schemaNumberInputsNames = ['channelsImagesSize', 'tvKeyboardDebounce', 'tvKeyboardHideTime', 'backgroundColorizationOpacity'] as const
 
-// TODO: pass all inputs (checkboxes and selects) through vee-validate too
+// TODO: remove vee-validate, or pass all inputs (checkboxes and selects) through vee-validate too and make submit on blur
 const schema = toTypedSchema(
   z.object({
     ...schemaNumberInputsNames.reduce((acc, current) => {
@@ -68,6 +68,9 @@ function handleAllReset() {
 }
 
 const handleSave = handleSubmit((newValues) => {
+  if (Object.values(errors.value).length > 0)
+    return
+
   settingsStore.$patch(newValues)
   doneMessage.value = 'Настройки сохранены!'
   isShowDoneMessageTimeout.start()
@@ -77,6 +80,17 @@ const handleSave = handleSubmit((newValues) => {
 <template>
   <div>
     <ul>
+      <li>
+        <button class="colorsTransition btn ml-2" :disabled="Object.values(errors).length > 0" @click="handleSave()">
+          Сохранить настройки
+        </button>
+        <button class="colorsTransition btn ml-2" @click="handleAllReset()">
+          Сбросить настройки
+        </button>
+        <div v-show="!!doneMessage" class="ml-2">
+          {{ doneMessage }}
+        </div>
+      </li>
       <li>
         <span>Выберите цвет:</span>
         <select v-model="settingsStore.brandColor" name="brandColor" placeholder="Выберите" class="ml-2 max-w-42 w-full inline-block">
@@ -99,12 +113,19 @@ const handleSave = handleSubmit((newValues) => {
           </div>
         </div>
       </li>
+      <li>
+        <Checkbox v-model="settingsStore.isColorizeBackground" checkbox-label="Раскрашивать фон" />
+      </li>
+      <li>
+        <span>Прозрачность раскраски ({{ settingsDefaults.backgroundColorizationOpacity.min }} - {{ settingsDefaults.backgroundColorizationOpacity.max }}):</span>
+        <InputTextValidated name="backgroundColorizationOpacity" type="number" class="ml-2 inline-block" />
+      </li>
       <li><Checkbox v-model="settingsStore.isOpenNewTab" checkbox-label="Открывать каналы в новой вкладке" /></li>
       <li>
         <Checkbox v-model="settingsStore.isShowChannelsImages" checkbox-label="Показывать картинки каналов" />
       </li>
       <li>
-        <span>Размер картинок каналов (48 - 1920):</span>
+        <span>Размер картинок каналов ({{ settingsDefaults.channelsImagesSize.min }} - {{ settingsDefaults.channelsImagesSize.max }}):</span>
         <InputTextValidated name="channelsImagesSize" type="number" class="ml-2 inline-block" />
       </li>
       <li>
@@ -122,11 +143,11 @@ const handleSave = handleSubmit((newValues) => {
         <Checkbox v-model="settingsStore.isShowInfoOnHover" checkbox-label="Показывать инфо о передачах при наведении" />
       </li>
       <li>
-        <span>Дебаунс ТВ клавиатуры в секундах (1 - 10):</span>
+        <span>Дебаунс ТВ клавиатуры в секундах ({{ settingsDefaults.tvKeyboardDebounce.min }} - {{ settingsDefaults.tvKeyboardDebounce.max }}):</span>
         <InputTextValidated name="tvKeyboardDebounce" type="number" class="ml-2 inline-block" />
       </li>
       <li>
-        <span>Задержка выключения ТВ клавиатуры в секундах (1 - 10):</span>
+        <span>Задержка выключения ТВ клавиатуры в секундах ({{ settingsDefaults.tvKeyboardHideTime.min }} - {{ settingsDefaults.tvKeyboardHideTime.max }}):</span>
         <InputTextValidated name="tvKeyboardHideTime" type="number" class="ml-2 inline-block" />
       </li>
       <li>
@@ -136,16 +157,6 @@ const handleSave = handleSubmit((newValues) => {
         <Checkbox v-model="settingsStore.isShowProgramPopups" checkbox-label="Показывать всплывающие подсказки о передачах при наведении" />
       </li>
       <li>
-        <button class="colorsTransition btn ml-2" :disabled="Object.values(errors).length > 0" @click="handleSave()">
-          Сохранить настройки
-        </button>
-      </li>
-      <li>
-        <button class="colorsTransition btn ml-2" @click="handleAllReset()">
-          Сбросить настройки
-        </button>
-      </li>
-      <li>
         <RouterLink class="colorsTransition btn btn-with-icon ml-2" to="/available_channels_settings">
           <span
             class="colorsTransition i-tabler:list h-1em w-1em"
@@ -153,7 +164,6 @@ const handleSave = handleSubmit((newValues) => {
         </RouterLink>
       </li>
     </ul>
-    <span v-show="!!doneMessage" class="ml-2">{{ doneMessage }}</span>
   </div>
 </template>
 

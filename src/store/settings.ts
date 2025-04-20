@@ -40,6 +40,9 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
     brandColor.setting.value = newColor
   }
 
+  const isColorizeBackground = createSetting(settingsDefaults.isColorizeBackground)
+  const backgroundColorizationOpacity = createSetting<number>(settingsDefaults.backgroundColorizationOpacity.default)
+
   const isOpenNewTab = createSetting(settingsDefaults.isOpenNewTab)
   const isShowChannelsImages = createSetting(settingsDefaults.isShowChannelsImages)
   const isShowPrograms = createSetting(settingsDefaults.isShowPrograms)
@@ -69,6 +72,12 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
     brandColor: brandColor.setting,
     brandColorSet,
     brandColorReset: brandColor.reset,
+
+    isColorizeBackground: isColorizeBackground.setting,
+    isColorizeBackgroundReset: isColorizeBackground.reset,
+
+    backgroundColorizationOpacity: backgroundColorizationOpacity.setting,
+    backgroundColorizationOpacityReset: backgroundColorizationOpacity.reset,
 
     isOpenNewTab: isOpenNewTab.setting,
     isOpenNewTabReset: isOpenNewTab.reset,

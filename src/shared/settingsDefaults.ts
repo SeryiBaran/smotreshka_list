@@ -1,7 +1,16 @@
 import type { GenreID, UnoCSSColorName } from '~/types'
 
 export const defaultFavoriteGenres: GenreID[] = ['federal', 'kids', 'movies']
+
 export const defaultBrandColor: UnoCSSColorName = 'orange'
+export const defaultIsColorizeBackground = false
+export const defaultBackgroundColorizationOpacity = {
+  min: 1,
+  max: 40,
+  step: 1,
+  default: 5,
+}
+
 export const defaultIsOpenNewTab = true
 export const defaultIsShowChannelsImages = true
 export const defaultIsShowPrograms = true
@@ -46,6 +55,7 @@ export const defaultIsShowProgramPopups = false
 
 export const settingsDefaults = {
   brandColor: defaultBrandColor,
+  isColorizeBackground: defaultIsColorizeBackground,
   channelsImagesSize: defaultChannelsImagesSize,
   channelsListMode: defaultChannelsListMode,
   favoriteGenres: defaultFavoriteGenres,
@@ -57,4 +67,5 @@ export const settingsDefaults = {
   tvKeyboardDebounce: defaultTvKeyboardDebounce,
   tvKeyboardHideTime: defaultTvKeyboardHideTime,
   isShowProgramPopups: defaultIsShowProgramPopups,
+  backgroundColorizationOpacity: defaultBackgroundColorizationOpacity,
 }

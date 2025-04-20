@@ -37,6 +37,25 @@ const css = computed(() => `/* Generated with SeryiBaran unocss_preset_colors_to
   ${colors.value.flat(1).join('\n  ')}
 }
 `)
+
+function updateBackgroundColorization(isColorize: boolean, newOpacity: number) {
+  document.body.classList.toggle('isColorizeBackground', isColorize)
+  const app: HTMLDivElement | null = document.querySelector('#app')
+
+  if (!app)
+    return
+
+  app.style.backgroundColor = isColorize ? `color-mix(in oklch, var(--colors-brand-500) ${newOpacity}%, transparent)` : ''
+}
+
+updateBackgroundColorization(settingsStore.isColorizeBackground, settingsStore.backgroundColorizationOpacity)
+
+watch([
+  () => settingsStore.isColorizeBackground,
+  () => settingsStore.backgroundColorizationOpacity,
+], ([isColorize, newOpacity]) => {
+  updateBackgroundColorization(isColorize, newOpacity)
+})
 </script>
 
 <template>
@@ -45,7 +64,3 @@ const css = computed(() => `/* Generated with SeryiBaran unocss_preset_colors_to
     {{ css }}
   </component>
 </template>
-
-<style scoped>
-
-</style>

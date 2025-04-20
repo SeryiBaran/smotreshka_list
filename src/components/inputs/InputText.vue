@@ -12,7 +12,9 @@ const props = withDefaults(defineProps<Props>(), {
   size: 'regular',
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits<{
+  'update:modelValue': [Props['modelValue']]
+}>()
 </script>
 
 <template>

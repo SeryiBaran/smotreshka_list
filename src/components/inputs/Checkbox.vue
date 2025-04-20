@@ -15,7 +15,7 @@ const model = defineModel()
       class="checkbox_input"
       type="checkbox"
     >
-    <span class="checkbox_box"><span class="checkbox_box_icon i-tabler-check text-4 inline-block" /></span>
+    <span class="checkbox_box"><span class="checkbox_box_icon i-tabler-check text-[1em] inline-block" /></span>
     {{ props.checkboxLabel }}
   </label>
 </template>
@@ -58,7 +58,7 @@ const model = defineModel()
   border: none;
   border-radius: 5px;
 
-  @apply bg-brand-500/15 outline-brand-500/50 outline-solid outline-0 flex items-center justify-center;
+  @apply bg-brand-500/20 outline-brand-500/50 outline-solid outline-0 flex items-center justify-center;
   border: transparent solid 1px;
 }
 
