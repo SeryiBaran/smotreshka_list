@@ -13,6 +13,7 @@ export const routesNames: RouteName[] = [
   { url: '/settings', title: 'Настройки' },
   { url: '/available_channels_settings', title: 'Просмотр доступных номеров каналов' },
   { url: '/help', title: 'Справка' },
+  { url: '/easteregg', title: 'easteregg' },
 ]
 
 export const router = createRouter({

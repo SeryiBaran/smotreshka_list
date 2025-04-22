@@ -26,5 +26,6 @@ useFaviconSettings()
       <TheFooter />
     </main>
     <TheScrollToTopButton />
+    <RouterLink to="/easteregg" class="bg-transparent h-[1px] w-[1px] bottom-[0px] right-[0px] absolute hover:h-10 hover:w-10" />
   </div>
 </template>
