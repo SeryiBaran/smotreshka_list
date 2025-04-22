@@ -45,7 +45,8 @@ function updateBackgroundColorization(isColorize: boolean, newOpacity: number) {
   if (!app)
     return
 
-  app.style.backgroundColor = isColorize ? `color-mix(in oklch, var(--colors-brand-500) ${newOpacity}%, transparent)` : ''
+  document.body.classList.toggle('colorizedBackground', isColorize)
+  document.body.setAttribute('style', `--my-colors-colorizedBg: color-mix(in oklch, var(--colors-brand-500) ${newOpacity}%, transparent);`)
 }
 
 updateBackgroundColorization(settingsStore.isColorizeBackground, settingsStore.backgroundColorizationOpacity)

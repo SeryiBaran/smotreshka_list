@@ -21,6 +21,26 @@ body {
   @apply font-sans text-black dark:text-white dark:bg-neutral-800 bg-neutral-100;
 }
 
+body.colorizedBackground #app {
+  background-color: var(--my-colors-colorizedBg);
+}
+
+body.colorizedBackground .modalInsetContainer {
+  background-color: var(--my-colors-colorizedBg);
+}
+
+::-webkit-scrollbar {
+  @apply w-3;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--my-colors-colorizedBg);
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-brand-500 hover:bg-brand-400 dark:hover:bg-brand-600;
+}
+
 .colorsTransition {
   @apply transition transition-property-[background-color,color] transition-duration-200ms;
 }
