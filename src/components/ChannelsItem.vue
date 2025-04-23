@@ -98,6 +98,7 @@ watch(itemIsVisible, (newValue) => {
           <!-- TODO: figure, why this <Programs> lag, but <Programs> in modal not lags -->
           <!-- TODO: 'Загрузка программы, подождите пожалуйста...' lags and stays 3-5 seconds on phones and devices with low performance -->
           <!-- TODO: Or/and make virtual scroll -->
+          <!-- TODO: https://vuejs.org/guide/best-practices/performance.html -->
           <Programs
             v-if="itemWasVisible && props.channelsPrograms && channelPrograms !== undefined && currentProgram"
             :channel-programs="channelPrograms"
