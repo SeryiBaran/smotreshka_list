@@ -23,3 +23,5 @@ app.use(vfm)
 app.use(FloatingVue)
 
 app.mount('#app')
+
+// TODO: https://vuejs.org/guide/best-practices/accessibility.html
