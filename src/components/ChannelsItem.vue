@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { APIProgramsComposeTable, Channel, ChannelsPrograms } from '~/types'
-
 import { useChannelPrograms, useCurrentProgram, useCurrentProgramPercent, useReactiveProgramsCurrTime } from '~/composables/programs'
 import { isCurrentProgram, makeChannelPlayLink } from '~/shared'
 import { useModalStore } from '~/store/modal'
@@ -14,6 +13,8 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+const ChannelsItemEPGModal = defineAsyncComponent(() => import('~/components/ChannelsItemEPGModal.vue'))
 
 const settingsStore = useSettingsStore()
 const modalStore = useModalStore()
