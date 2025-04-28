@@ -23,7 +23,11 @@ process.env.VITE_APPGITVER_DATE = log.latest ? log.latest.date : 'NO_DATE'
 
 export default defineConfig({
   // Else MSW not working
-  base: process.env.VITEST || (process.env.NODE_ENV === 'development' && process.env.VITE_API_MOCK === 'true') ? '/' : '/smotreshka_list',
+  base:
+    process.env.VITEST
+    || (process.env.NODE_ENV === 'development' && process.env.VITE_API_MOCK === 'true')
+      ? '/'
+      : '/smotreshka_list',
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,
