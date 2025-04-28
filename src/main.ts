@@ -12,7 +12,7 @@ import 'floating-vue/dist/style.css'
 import './styles/main.css'
 
 async function enableMocking() {
-  if (import.meta.env.DEV && import.meta.env.VITE_API_MOCK !== 'true') {
+  if (!import.meta.env.DEV && import.meta.env.VITE_API_MOCK !== 'true') {
     return
   }
 
