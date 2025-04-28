@@ -11,8 +11,9 @@ import VueMacros from 'unplugin-vue-macros/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
 import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
-
 import vueDevTools from 'vite-plugin-vue-devtools'
+
+import 'dotenv/config'
 
 const log = await simpleGit().log()
 
@@ -20,7 +21,8 @@ process.env.VITE_APPGITVER_HASH = log.latest ? log.latest.hash : 'NO_HASH'
 process.env.VITE_APPGITVER_DATE = log.latest ? log.latest.date : 'NO_DATE'
 
 export default defineConfig({
-  base: '/smotreshka_list',
+  // Else MSW not working
+  base: process.env.VITEST || (process.env.NODE_ENV === 'development' && process.env.VITE_API_MOCK === 'true') ? '/' : '/smotreshka_list',
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,

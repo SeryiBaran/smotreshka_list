@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 interface Props {
-  isActive: boolean
-  isFavorite: boolean
+  isActive?: boolean
+  isFavorite?: boolean
   genreName: string
   showFavoriteButton?: boolean
 }

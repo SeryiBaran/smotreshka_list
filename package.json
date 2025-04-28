@@ -15,12 +15,15 @@
   "dependencies": {
     "@pinia/colada": "catalog:frontend",
     "@vee-validate/zod": "catalog:frontend",
+    "@vitest/ui": "catalog:dev",
     "@vueuse/core": "catalog:frontend",
     "@vueuse/integrations": "catalog:frontend",
     "dayjs": "catalog:frontend",
+    "dotenv": "catalog:dev",
     "floating-vue": "catalog:frontend",
     "fuse.js": "catalog:frontend",
     "ky": "catalog:frontend",
+    "msw": "catalog:dev",
     "nanoid": "catalog:frontend",
     "pinia": "catalog:frontend",
     "pinia-plugin-persistedstate-2": "catalog:frontend",
@@ -66,5 +69,10 @@
   },
   "lint-staged": {
     "*": "eslint --fix"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }
