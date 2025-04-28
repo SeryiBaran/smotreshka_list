@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest'
 import IndexPage from '../src/pages/index.vue'
 import { beforeTestsShared, myMount } from './shared'
 
+// TODO: write tests!
+
 describe('indexPage', () => {
   beforeTestsShared()
 

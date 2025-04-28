@@ -23,7 +23,7 @@ const emit = defineEmits<{
     >
       <div class="modalContent mx-auto my-12 border rounded-lg bg-white max-w-2xl dark:border-brand-700 dark:bg-neutral-900 2xl:max-w-5xl">
         <div class="modalInsetContainer p-4 flex flex-col space-y-2">
-          <div class="header2 justify-between">
+          <div class="header2 my-b-border justify-between">
             <p>
               {{ heading }}
             </p>

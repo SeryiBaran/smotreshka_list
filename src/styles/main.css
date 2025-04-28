@@ -82,7 +82,11 @@ li {
 }
 
 .header2 {
-  @apply text-xl pb-2 border-b-1 border-brand-500 flex items-center 2xl:text-3xl xl:text-2xl 2xl:pb-3 dark:border-brand-300/50;
+  @apply text-xl pb-2 flex items-center 2xl:text-3xl xl:text-2xl 2xl:pb-3;
+}
+
+.my-b-border {
+  @apply border-b-1 border-brand-500 dark:border-brand-300/50;
 }
 
 .v-popper__popper .v-popper__inner {

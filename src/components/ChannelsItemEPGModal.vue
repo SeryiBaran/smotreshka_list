@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Channel } from '~/types'
+import type { Channel, Keys } from '~/types'
 import { useChannelEPG } from '~/api/epg'
 
 const props = defineProps<{
@@ -10,23 +10,31 @@ const showEPG = defineModel<boolean>()
 
 const epg = useChannelEPG(props.channel.id)
 
-const [showPreviousEpg, toggleShowPreviousEpg] = useToggle(false)
+const groupsNames = {
+  previous: 'Предыдущие',
+  next: 'Следующие',
+}
 
-// TODO: move previous to top
+const groups = Object.keys(groupsNames) as Keys<typeof groupsNames>
+
+const groupsStates = reactive<{ [k in keyof typeof groupsNames]: boolean }>({
+  previous: false,
+  next: true,
+})
 </script>
 
 <template>
   <ModalLongScroll v-model="showEPG" :heading="`Программа '${props.channel.title}'`">
     <div v-if="epg.isEpg.value && !epg.isFetching.value">
-      <ChannelsItemEPGModalPrograms :channel-id="props.channel.id" :epg :filtered-epg="epg.filteredEpg" :is-next="true" />
+      <div v-for="group in groups" :key="group" class="my-b-border">
+        <!-- TODO: Create collapse with @formkit/auto-animate/vue -->
+        <button class="header2 mt-2 flex gap-1 w-full cursor-pointer" @click="groupsStates[group] = !groupsStates[group]">
+          <span class="i-carbon:chevron-right text-inherit" :class="{ iconOpened: groupsStates[group] }" />
+          {{ groupsNames[group] }}
+        </button>
 
-      <!-- TODO: Create collapse with @formkit/auto-animate/vue -->
-      <button class="header2 mt-2 flex gap-1 w-full cursor-pointer" @click="toggleShowPreviousEpg()">
-        <span class="i-carbon:chevron-right text-inherit" :class="{ previousIcon: showPreviousEpg }" />
-        Прошедшие
-      </button>
-
-      <ChannelsItemEPGModalPrograms v-if="showPreviousEpg" :channel-id="props.channel.id" :epg :filtered-epg="epg.filteredEpg" :is-next="false" />
+        <ChannelsItemEPGModalPrograms v-if="groupsStates[group]" :channel-id="props.channel.id" :epg :filtered-epg="epg.filteredEpg" :is-next="false" />
+      </div>
     </div>
     <p v-else-if="epg.isFetching" class="text-brand-500">
       Загрузка, пожалуйста, подождите...
@@ -35,7 +43,7 @@ const [showPreviousEpg, toggleShowPreviousEpg] = useToggle(false)
 </template>
 
 <style scoped>
-.previousIcon {
+.iconOpened {
   transform: rotate(90deg);
 }
 </style>
