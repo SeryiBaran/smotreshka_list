@@ -11,6 +11,8 @@ const showEPG = defineModel<boolean>()
 const epg = useChannelEPG(props.channel.id)
 
 const [showPreviousEpg, toggleShowPreviousEpg] = useToggle(false)
+
+// TODO: move previous to top
 </script>
 
 <template>
