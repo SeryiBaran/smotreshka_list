@@ -17,6 +17,7 @@ import 'dotenv/config'
 
 const log = await simpleGit().log()
 
+// I will not write fucking loop for 2 fucking lines of code, fuck off
 process.env.VITE_APPGITVER_HASH = log.latest ? log.latest.hash : 'NO_HASH'
 process.env.VITE_APPGITVER_DATE = log.latest ? log.latest.date : 'NO_DATE'
 
