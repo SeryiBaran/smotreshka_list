@@ -94,13 +94,13 @@ function resetFilters() {
     <div class="flex flex-wrap gap-4 items-center">
       <p class="my-2">
         Итого: {{ channelsFiltered?.length }} канал(а/ов)
-      </p><button class="colorsTransition btn btn-with-icon my-2" @click="() => resetFilters()">
+      </p><button id="filtersClearBtn" class="colorsTransition btn btn-with-icon my-2" @click="() => resetFilters()">
         <span
           class="colorsTransition i-tabler:cancel text-inherit block"
         />Очистить фильтры
       </button>
     </div>
-    <ul class="mt-4 flex flex-col gap-2" :class="{ isCompactMode: settingsStore.channelsListMode === 'compact', isLogosMode: settingsStore.channelsListMode === 'logos' }">
+    <ul id="channelsList" class="mt-4 flex flex-col gap-2" :class="{ isCompactMode: settingsStore.channelsListMode === 'compact', isLogosMode: settingsStore.channelsListMode === 'logos' }">
       <template v-if="channelsFiltered.length > 0">
         <ChannelsItem v-for="channel in channelsFiltered" :key="channel.id" :channel="channel" :channels-programs="programs.channelsPrograms" :is-programs-fetching="programs.isFetching.value" :programs-compose-table="programs.programsComposeTable.value" />
       </template>

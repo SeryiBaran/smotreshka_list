@@ -2,7 +2,7 @@ export const channelsMock = {
   channels: [
     {
       id: '52d555c99109550984000006',
-      title: 'Авто Плюс HD',
+      title: 'Кукумбина 3',
       keyNumber: 736,
       logoUrl:
         'http://smotreshka.server-img.lfstrm.tv/image/aHR0cDovL2ltZy5iNjEyLnRpZ2h0dmlkZW8uY29tL2NoYW5uZWxzL2F1dG8tcGx1cy5wbmc=',
@@ -17,7 +17,7 @@ export const channelsMock = {
     },
     {
       id: '52d555c9910955098400000c',
-      title: 'Петербург – 5 канал',
+      title: 'Канябуна кАНАЛ',
       keyNumber: 5,
       logoUrl:
         'http://smotreshka.server-img.lfstrm.tv/image/aHR0cDovL2ltZy5iNjEyLnRpZ2h0dmlkZW8uY29tL2NoYW5uZWxzLzVfa2FuYWxfOTA5MzEucG5n',
@@ -27,7 +27,7 @@ export const channelsMock = {
     },
     {
       id: '52d555c9910955098400000d',
-      title: 'Россия 1',
+      title: 'Тримуна 7',
       keyNumber: 2,
       logoUrl:
         'http://smotreshka.server-img.lfstrm.tv/image/aHR0cDovL2ltZy5iNjEyLnRpZ2h0dmlkZW8uY29tL2NoYW5uZWxzL3Jvc3NpYTEucG5n',
@@ -41,7 +41,7 @@ export const channelsMock = {
     },
     {
       id: '5326c46585bbf8011b000704',
-      title: 'РБК ТВ HD',
+      title: 'Кубынина 62',
       keyNumber: 62,
       logoUrl:
         'http://smotreshka.server-img.lfstrm.tv/image/aHR0cDovL2ltZy5iNjEyLnRpZ2h0dmlkZW8uY29tL2NoYW5uZWxzL3Jiay5wbmc=',
@@ -55,7 +55,7 @@ export const channelsMock = {
     },
     {
       id: '535e41fbebf8c403a10014e4',
-      title: 'Феникс плюс кино HD',
+      title: 'Киноуна',
       keyNumber: 184,
       logoUrl:
         'http://smotreshka.server-img.lfstrm.tv/image/aHR0cDovL2ltZy5iNjEyLnRpZ2h0dmlkZW8uY29tL2NoYW5uZWxzL2Zlbml4X3BsdXNfa2lub19oZC5wbmc=',
@@ -69,7 +69,7 @@ export const channelsMock = {
     },
     {
       id: '535f3a74ebf8c403a10017c5',
-      title: 'Живи! HD',
+      title: 'Ынара',
       keyNumber: 727,
       logoUrl:
         'http://smotreshka.server-img.lfstrm.tv/image/aHR0cDovL2ltZy5iNjEyLnRpZ2h0dmlkZW8uY29tL2NoYW5uZWxzL2ppdmkucG5n',

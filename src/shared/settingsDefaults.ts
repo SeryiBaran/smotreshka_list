@@ -53,6 +53,8 @@ export const defaultIsRealtimePrograms = false
 
 export const defaultIsShowProgramPopups = false
 
+export const defaultSearchDebounce = 500
+
 export const settingsDefaults = {
   brandColor: defaultBrandColor,
   isColorizeBackground: defaultIsColorizeBackground,
@@ -68,4 +70,5 @@ export const settingsDefaults = {
   tvKeyboardHideTime: defaultTvKeyboardHideTime,
   isShowProgramPopups: defaultIsShowProgramPopups,
   backgroundColorizationOpacity: defaultBackgroundColorizationOpacity,
+  searchDebounce: defaultSearchDebounce,
 }

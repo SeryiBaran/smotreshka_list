@@ -3,7 +3,7 @@ import FloatingVue from 'floating-vue'
 import { createApp } from 'vue'
 import { createVfm } from 'vue-final-modal'
 import { router } from '~/router'
-import { pinia } from '~/store'
+import { createMyPinia } from '~/store'
 import App from './App.vue'
 
 import 'uno.css'
@@ -28,7 +28,7 @@ const app = createApp(App)
 const vfm = createVfm()
 
 app.use(router)
-app.use(pinia)
+app.use(createMyPinia())
 app.use(PiniaColada, {})
 app.use(vfm)
 app.use(FloatingVue)

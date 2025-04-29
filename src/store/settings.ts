@@ -57,6 +57,7 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
   const tvKeyboardHideTime = createSetting(settingsDefaults.tvKeyboardHideTime.default)
   const isRealtimePrograms = createSetting(settingsDefaults.isRealtimePrograms)
   const isShowProgramPopups = createSetting(settingsDefaults.isShowProgramPopups)
+  const searchDebounce = createSetting(settingsDefaults.searchDebounce)
 
   function $reset() {
     resetFunctions.forEach(reset => reset())
@@ -109,6 +110,9 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
 
     isShowProgramPopups: isShowProgramPopups.setting,
     isShowProgramPopupsReset: isShowProgramPopups.reset,
+
+    searchDebounce: searchDebounce.setting,
+    searchDebounceReset: searchDebounce.reset,
 
     $reset,
   }

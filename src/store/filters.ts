@@ -1,9 +1,12 @@
 import type { GenreID } from '~/types'
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
+import { useSettingsStore } from './settings'
 
 export const useFiltersStore = defineStore('smotreshka_list__filters', () => {
+  const { searchDebounce } = storeToRefs(useSettingsStore())
+
   const searchValue = ref('')
-  const searchValueDebounced = refDebounced(searchValue, 500)
+  const searchValueDebounced = refDebounced(searchValue, searchDebounce)
   const searchValueDebouncedTrimmed = computed(() => searchValueDebounced.value.trim())
 
   function searchValueReset() {

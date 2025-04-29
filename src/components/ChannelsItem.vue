@@ -64,7 +64,7 @@ watch(itemIsVisible, (newValue) => {
 </script>
 
 <template>
-  <li ref="item" class="flex" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
+  <li ref="item" class="channelsItem flex" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
     <button v-if="settingsStore.channelsListMode !== 'logos'" class="showEpgBtn colorsTransition btn btn-with-icon" @click="() => handleShowEPG()">
       <span class="transitionColors i-tabler:list text-4 block 2xl:text-6" />
     </button>

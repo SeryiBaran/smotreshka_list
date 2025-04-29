@@ -7,13 +7,13 @@ import { afterAll, afterEach, beforeAll } from 'vitest'
 import { createVfm } from 'vue-final-modal'
 import { mockNodeServer } from '~/mocks/node'
 import { router } from '~/router'
-import { pinia } from '~/store'
+import { createMyPinia } from '~/store'
 
 export function myMount(component: Component) {
   const vfm = createVfm()
   const wrapper = mount(component, {
     global: {
-      plugins: [router, pinia, [PiniaColada, {}], vfm, FloatingVue],
+      plugins: [router, createMyPinia(), [PiniaColada, {}], vfm, FloatingVue],
     },
   })
   return wrapper
@@ -25,7 +25,9 @@ export function beforeTestsShared() {
   }))
   afterEach(() => {
     mockNodeServer.resetHandlers()
-    setActivePinia(pinia)
+    setActivePinia(createMyPinia())
   })
   afterAll(() => mockNodeServer.close())
 }
+
+export const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
