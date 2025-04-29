@@ -81,20 +81,22 @@ onKeyStroke([...allowedTvKeyboardKeys, 'Escape', 'Enter', 'Backspace'], (event: 
 
     debouncedPlayNumber()
   }
-  if (event.key === 'Escape') {
-    event.preventDefault()
+  if (showOverlay.value) {
+    if (event.key === 'Escape') {
+      event.preventDefault()
 
-    cancelTvKeyboard()
-  }
-  if (event.key === 'Enter') {
-    event.preventDefault()
+      cancelTvKeyboard()
+    }
+    if (event.key === 'Enter') {
+      event.preventDefault()
 
-    playChannel()
-  }
-  if (event.key === 'Backspace') {
-    event.preventDefault()
+      playChannel()
+    }
+    if (event.key === 'Backspace') {
+      event.preventDefault()
 
-    numbers.value.pop()
+      numbers.value.pop()
+    }
   }
 })
 
