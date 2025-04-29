@@ -19,7 +19,7 @@ catalogs:
     '@antfu/eslint-config': ^4.12.0
     '@types/node': ^22.14.1
     '@unocss/eslint-plugin': 66.1.0-beta.7
-    '@vitest/ui': ^3.1.2
+    '@vitest/ui': ^3.1.1
     '@vue-macros/volar': ^3.0.0-beta.8
     '@vue/test-utils': ^2.4.6
     dotenv: ^16.5.0
