@@ -8,6 +8,7 @@ import { beforeTestsShared, myMount, sleep } from './shared'
 
 // TODO: write tests!
 // TODO: break big tests to many small!
+// TODO: replace `describe('index page')` with many like `describe('genres')` and `describe('search')`, and replace `it('genres should work')` with `it('channels list changes with genre selection')`
 // TODO: optimize time, now one test runs 100ms
 
 function getCurrentChannelsNames(wrapper: VueWrapper) {
