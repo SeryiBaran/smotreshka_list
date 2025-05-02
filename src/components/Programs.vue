@@ -118,7 +118,7 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
 
 <style scoped>
 .list {
-  @apply w-full 2xl:text-xl flex flex-col max-md:(gap-4);
+  @apply w-full xl:text-xl 2xl:text-2xl flex flex-col max-md:(gap-4);
 }
 
 .listShowDescription {
@@ -146,11 +146,11 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
 }
 
 .progressContainer {
-  @apply bg-brand-900/15 dark:bg-brand-900/10 bottom-0 left-0 right-0 absolute dark:bg-brand-100;
+  @apply bg-brand-900/15 dark:bg-brand-900/10 bottom--1 left-0 right-0 absolute dark:bg-brand-100;
 }
 
 .progress {
-  @apply border-0 border-b-2 border-b-brand-500 border-solid;
+  @apply border-0 border-b-2 xl:border-b-4 border-b-brand-500 border-solid;
 }
 
 .popperTimetable {
