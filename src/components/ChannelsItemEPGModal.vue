@@ -28,12 +28,12 @@ const groupsStates = reactive<{ [k in keyof typeof groupsNames]: boolean }>({
     <div v-if="epg.isEpg.value && !epg.isFetching.value">
       <div v-for="group in groups" :key="group" class="my-b-border">
         <!-- TODO: Create collapse with @formkit/auto-animate/vue -->
-        <button class="header2 mt-2 flex gap-1 w-full cursor-pointer" @click="groupsStates[group] = !groupsStates[group]">
+        <button class="header2 mt-2 flex gap-1 w-full cursor-pointer" :class="[`epgCollapse__${group}`]" @click="groupsStates[group] = !groupsStates[group]">
           <span class="i-carbon:chevron-right text-inherit" :class="{ iconOpened: groupsStates[group] }" />
           {{ groupsNames[group] }}
         </button>
 
-        <ChannelsItemEPGModalPrograms v-if="groupsStates[group]" :channel-id="props.channel.id" :epg :filtered-epg="epg.filteredEpg" :is-next="false" />
+        <ChannelsItemEPGModalPrograms v-if="groupsStates[group]" :channel-id="props.channel.id" :epg :filtered-epg="epg.filteredEpg" :is-next="group === 'next'" />
       </div>
     </div>
     <p v-else-if="epg.isFetching" class="text-brand-500">

@@ -14,6 +14,7 @@ export function myMount(component: Component) {
   const wrapper = mount(component, {
     global: {
       plugins: [router, createMyPinia(), [PiniaColada, {}], vfm, FloatingVue],
+      stubs: { 'transition': true, 'transition-group': true, 'teleport': true },
     },
   })
   return wrapper

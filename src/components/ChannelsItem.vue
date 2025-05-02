@@ -40,16 +40,13 @@ const chLogoOverlayMainStyle = computed(() => ({
   backgroundSize: 'cover',
 }))
 
-const showEPG = ref<boolean>(false)
+const modalId = `epg__${props.channel.id}`
+
+const modalIsActive = computed(() => modalStore.getIsActive(modalId))
 
 function handleShowEPG() {
-  const newValue = !showEPG.value
-  showEPG.value = newValue
+  modalStore.setOrToggleModal(modalId, true)
 }
-
-watch(showEPG, (newShowEPG) => {
-  modalStore.openedModalsSetOrToggle('epg', newShowEPG)
-})
 
 const item = useTemplateRef<HTMLLIElement>('item')
 const itemWasVisible = ref(false)
@@ -64,7 +61,7 @@ watch(itemIsVisible, (newValue) => {
 </script>
 
 <template>
-  <li ref="item" class="channelsItem flex" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
+  <li ref="item" :data-modalid="modalId" class="channelsItem flex" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
     <button v-if="settingsStore.channelsListMode !== 'logos'" class="showEpgBtn colorsTransition btn btn-with-icon" @click="() => handleShowEPG()">
       <span class="transitionColors i-tabler:list text-4 block 2xl:text-6" />
     </button>
@@ -99,6 +96,7 @@ watch(itemIsVisible, (newValue) => {
           <!-- TODO: 'Загрузка программы, подождите пожалуйста...' lags and stays 3-5 seconds on phones and devices with low performance -->
           <!-- TODO: Or/and make virtual scroll -->
           <!-- TODO: https://vuejs.org/guide/best-practices/performance.html -->
+          <!-- TODO: fix what nex and prev is indentical -->
           <Programs
             v-if="itemWasVisible && props.channelsPrograms && channelPrograms !== undefined && currentProgram"
             :channel-programs="channelPrograms"
@@ -113,8 +111,14 @@ watch(itemIsVisible, (newValue) => {
         </template>
       </div>
     </a>
-    <!-- TODO: v-if="showEPG" optimizes performance and prevents smotreshka DDoS with 200+ fetch, but lost animation on modal exit -->
-    <ChannelsItemEPGModal v-if="showEPG" v-model="showEPG" :channel="props.channel" />
+    <!-- TODO: v-if="modalIsActive" optimizes performance and prevents smotreshka DDoS with 200+ fetch, but lost animation on modal exit -->
+    <ChannelsItemEPGModal
+      v-if="modalIsActive"
+      :data-modalid="modalId"
+      :model-value="modalIsActive"
+      :channel="props.channel"
+      @update:model-value="val => modalStore.setOrToggleModal(modalId, val)"
+    />
   </li>
 </template>
 

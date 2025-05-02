@@ -31,7 +31,7 @@ function createEvents(todaySchedule: string, hourPadding: number) {
     const end = `${dayjs(begin).add(eventDuration).utc().format()}`
     return {
       id: `${todaySchedule}__${(hourPadding + i)}__id`,
-      title: `${todaySchedule} ${(hourPadding + i)} id title`,
+      title: `title ${(hourPadding + i)} id title`,
       logoUrl: `https://smotreshka.server-img.lfstrm.tv/image/aHR0cHM6Ly9jbXMuc21vdHJlc2hrYS50di9hcmNoaXZlLWltZy9zdGF0aWMvbWVkaWEvN2EvNTkvN2E1OTYyNTJkYmIzZWI4ZGUyMWI4OTczNjE2NzcyNzk=`,
       scheduledFor: {
         begin,
@@ -39,7 +39,7 @@ function createEvents(todaySchedule: string, hourPadding: number) {
       },
       dvrDisabled: false,
       actuallyStartedAt: begin,
-      eventDescriptionMedium: `${todaySchedule} ${(hourPadding + i)} id description`,
+      eventDescriptionMedium: `desc ${(hourPadding + i)} id description`,
     }
   })
 }

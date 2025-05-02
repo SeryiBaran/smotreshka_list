@@ -90,8 +90,6 @@ describe('indexPage', () => {
   it('genres should work', async () => {
     const wrapper = myMount(IndexPage)
 
-    const filtersStore = useFiltersStore()
-
     await flushPromises()
 
     const genresButtons = wrapper.findAll<HTMLButtonElement>('button.genreButtonGenre')
@@ -109,10 +107,6 @@ describe('indexPage', () => {
 
       expect(btn).toBeDefined()
 
-      const previousGenre = filtersStore.selectedGenre
-
-      expect(filtersStore.selectedGenre).toBe(previousGenre)
-
       await btn?.trigger('click')
 
       expect(getCurrentChannelsNames(wrapper)).toStrictEqual(result)
@@ -125,6 +119,10 @@ describe('indexPage', () => {
 
     expect(getCurrentChannelsNames(wrapper)).toStrictEqual(initialChannelsNames)
   })
+
+  // TODO: make epg popup tests
+  // it('epg popup should work', async () => {
+  // })
 
   // it('should be interactive', async () => {
   //   const wrapper = mount(TheCounter, { props: { initial: 0 } })
