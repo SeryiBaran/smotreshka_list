@@ -1,14 +1,16 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+import ChannelsItem from '~/components/ChannelsItem.vue'
+import ChannelsItemEPGModal from '~/components/ChannelsItemEPGModal.vue'
 import { useFiltersStore } from '~/store/filters'
 import { useSettingsStore } from '~/store/settings'
 import IndexPage from '../src/pages/index.vue'
 import { beforeTestsShared, myMount, sleep } from './shared'
 
+// TODO: view video about autotests from Yandex on HolyJS YT
 // TODO: write tests!
 // TODO: break big tests to many small!
-// TODO: replace `describe('index page')` with many like `describe('genres')` and `describe('search')`, and replace `it('genres should work')` with `it('channels list changes with genre selection')`
 // TODO: optimize time, now one test runs 100ms
 
 function getCurrentChannelsNames(wrapper: VueWrapper) {
@@ -26,8 +28,47 @@ describe('indexPage', () => {
 
     expect(wrapper.text()).toContain('Вы можете начать вводить номер канала прямо на странице')
   })
+})
 
-  it('channels list should work', async () => {
+describe('channels item', () => {
+  it('epg popup should toggle', async () => {
+    const wrapper = myMount(IndexPage)
+
+    await flushPromises()
+
+    const firstChannelsItem = wrapper.findComponent(ChannelsItem)
+    const firstChannelsItemEPGBtn = firstChannelsItem.find('.showEpgBtn')
+
+    expect(firstChannelsItem.exists()).toBeTruthy()
+    expect(firstChannelsItemEPGBtn.exists()).toBeTruthy()
+
+    async function testEPGPopupToggle(closeBtnClass: string) {
+      expect(wrapper.findComponent(ChannelsItemEPGModal).exists()).toBeFalsy()
+
+      await firstChannelsItemEPGBtn.trigger('click')
+
+      await flushPromises()
+
+      expect(wrapper.findComponent(ChannelsItemEPGModal).exists()).toBeTruthy()
+
+      const modal = wrapper.findComponent(ChannelsItemEPGModal)
+      const closeEpgBtn = modal.find(`.${closeBtnClass}`)
+
+      expect(modal.exists()).toBeTruthy()
+      expect(closeEpgBtn.exists()).toBeTruthy()
+
+      await closeEpgBtn.trigger('click')
+
+      expect(wrapper.findComponent(ChannelsItemEPGModal).exists()).toBeFalsy()
+    }
+
+    await testEPGPopupToggle('closeEpgBtnHeader')
+    await testEPGPopupToggle('closeEpgBtnFooter')
+  })
+})
+
+describe('channels list', () => {
+  it('should work', async () => {
     const wrapper = myMount(IndexPage)
 
     await flushPromises()
@@ -119,23 +160,5 @@ describe('indexPage', () => {
     await filtersClearBtn.trigger('click')
 
     expect(getCurrentChannelsNames(wrapper)).toStrictEqual(initialChannelsNames)
-  })
-
-  // TODO: make epg popup tests
-  // it('epg popup should work', async () => {
-  // })
-
-  // it('should be interactive', async () => {
-  //   const wrapper = mount(TheCounter, { props: { initial: 0 } })
-  //   expect(wrapper.text()).toContain('0')
-
-  //   expect(wrapper.find('.inc').exists()).toBe(true)
-
-  //   await wrapper.get('button').trigger('click')
-
-  //   expect(wrapper.text()).toContain('1')
-  // })
-  it('very useful test', () => {
-    expect(1 + 1).toBe(2)
   })
 })

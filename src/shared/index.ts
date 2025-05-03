@@ -95,4 +95,5 @@ export function getTimeTo(scheduledFor: TimeInterval, timeToBegin: boolean, curr
   return timeFormatted[0].toLocaleUpperCase() + timeFormatted.slice(1)
 }
 
+// untested, dont change! leave `1`
 export const maxModals = 1

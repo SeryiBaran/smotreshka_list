@@ -27,14 +27,14 @@ const emit = defineEmits<{
             <p>
               {{ heading }}
             </p>
-            <button class="colorsTransition icon-btn" @click="() => emit('update:modelValue', false)">
+            <button class="closeEpgBtnHeader colorsTransition icon-btn" @click="() => emit('update:modelValue', false)">
               <div class="i-carbon:close inline-block" />
             </button>
           </div>
           <div>
             <slot />
           </div>
-          <button class="colorsTransition btn ml-auto mt-1" @click="() => emit('update:modelValue', false)">
+          <button class="colorsTransition closeEpgBtnFooter btn ml-auto mt-1" @click="() => emit('update:modelValue', false)">
             Закрыть
           </button>
         </div>
