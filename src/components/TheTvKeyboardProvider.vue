@@ -27,11 +27,11 @@ const tvKeyboardHideTimer = useTimeoutFn(() => {
   cancelTvKeyboard()
 }, 3000, { immediate: false })
 
-const keyNumber = computed(() => Number.parseInt(numbers.value.join('')) || 0)
+const keyNumber = computed(() => numbers.value.join('').length > 0 ? Number.parseInt(numbers.value.join('')) : null)
 const structuredKeyNumber = computed(() => {
   return {
-    unused: Array.from({ length: maxTvKeyboardKeyNumberLength - (keyNumber.value.toString().length) }, (_, i) => i),
-    used: keyNumber.value.toString().split(''),
+    unused: Array.from({ length: maxTvKeyboardKeyNumberLength - (keyNumber.value !== null ? keyNumber.value.toString().length : 0) }, (_, i) => i),
+    used: keyNumber.value !== null ? keyNumber.value.toString().split('') : [],
   }
 })
 
