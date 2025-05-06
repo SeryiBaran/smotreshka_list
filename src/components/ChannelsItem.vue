@@ -61,7 +61,7 @@ watch(itemIsVisible, (newValue) => {
 </script>
 
 <template>
-  <li ref="item" :data-modalid="modalId" class="channelsItem flex" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos') }">
+  <li ref="item" :data-modalid="modalId" class="channelsItem flex" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos'), notShowPrograms: !settingsStore.isShowPrograms }">
     <button v-if="settingsStore.channelsListMode !== 'logos'" class="showEpgBtn colorsTransition btn btn-with-icon" @click="() => handleShowEPG()">
       <span class="transitionColors i-tabler:list text-4 block 2xl:text-6" />
     </button>
@@ -86,10 +86,10 @@ watch(itemIsVisible, (newValue) => {
           <div class="chLogoOverlayProgressSlider" :style="{ width: `${currentProgramPercent}%` }" />
         </div>
       </div>
-      <div v-if="settingsStore.channelsListMode !== 'logos'" class="wrapper w-full">
+      <div v-if="settingsStore.channelsListMode !== 'logos'" class="channelsItemInfoWrapper wrapper w-full">
         <div class="channelTitle flex gap-5 items-center">
           <span class="channelNumber">{{ formatKeyNumber(props.channel.keyNumber) }}</span>
-          <span class="channelName text-2xl 2xl:text-4xl">{{ props.channel.title }}</span>
+          <span class="channelName">{{ props.channel.title }}</span>
         </div>
         <template v-if="(settingsStore.channelsListMode !== 'compact') && settingsStore.isShowPrograms">
           <!-- TODO: figure, why this <Programs> lag, but <Programs> in modal not lags -->
@@ -124,7 +124,7 @@ watch(itemIsVisible, (newValue) => {
 
 <style scoped>
 a.channelLink {
-  @apply border border-2 border-transparent rounded-3 hover:border-brand-500 hover:bg-brand-500/15 hover:dark:bg-brand-500/12 p-4 flex gap-4 h-full w-full overflow-hidden;
+  @apply border border-2 border-transparent rounded-3 hover:border-brand-500 hover:bg-brand-500/15 hover:dark:bg-brand-500/12 p-4 flex gap-4 xl:gap-8 h-full w-full overflow-hidden;
 }
 
 li.isCompactMode {
@@ -148,7 +148,23 @@ li.isCompactMode .channelTitle {
 }
 
 .channelNumber {
-  @apply text-3xl text-brand-800 font-semibold 2xl:text-5xl dark:text-brand-300;
+  @apply text-3xl 2xl:text-5xl text-brand-800 font-semibold dark:text-brand-300;
+}
+
+.channelName {
+  @apply text-2xl 2xl:text-4xl;
+}
+
+.notShowPrograms .channelsItemInfoWrapper {
+  @apply flex items-center;
+}
+
+.notShowPrograms .channelNumber {
+  @apply md:text-5xl 2xl:text-6xl;
+}
+
+.notShowPrograms .channelName {
+  @apply md:text-4xl 2xl:text-5xl;
 }
 
 li.isCompactMode .channelNumber {
