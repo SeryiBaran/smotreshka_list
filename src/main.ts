@@ -38,3 +38,4 @@ enableMocking().then(() => {
 })
 
 // TODO: https://vuejs.org/guide/best-practices/accessibility.html
+// TODO: show fetching errors!
