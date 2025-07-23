@@ -69,7 +69,7 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
   }
 
   const channelsImagesSize = createSetting(settingsDefaults.channelsImagesSize.default)
-  const isShowInfoOnHover = createSetting(settingsDefaults.isShowInfoOnHover)
+  const isShowProgramOverlays = createSetting(settingsDefaults.isShowProgramOverlays)
   const tvKeyboardDebounce = createSetting(settingsDefaults.tvKeyboardDebounce.default)
   const tvKeyboardHideTime = createSetting(settingsDefaults.tvKeyboardHideTime.default)
   const isRealtimePrograms = createSetting(settingsDefaults.isRealtimePrograms)
@@ -120,8 +120,8 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
     channelsImagesSize: channelsImagesSize.setting,
     channelsImagesSizeReset: channelsImagesSize.reset,
 
-    isShowInfoOnHover: isShowInfoOnHover.setting,
-    isShowInfoOnHoverReset: isShowInfoOnHover.reset,
+    isShowProgramOverlays: isShowProgramOverlays.setting,
+    isShowProgramOverlaysReset: isShowProgramOverlays.reset,
 
     tvKeyboardDebounce: tvKeyboardDebounce.setting,
     tvKeyboardDebounceReset: tvKeyboardDebounce.reset,

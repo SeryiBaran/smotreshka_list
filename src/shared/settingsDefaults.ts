@@ -33,7 +33,7 @@ export const defaultChannelsImagesSize = {
   default: 240,
 }
 
-export const defaultIsShowInfoOnHover = false
+export const defaultisShowProgramOverlays = false
 
 export const defaultTvKeyboardDebounce = {
   min: 1,
@@ -66,7 +66,7 @@ export const settingsDefaults = {
   isOpenNewTab: defaultIsOpenNewTab,
   isRealtimePrograms: defaultIsRealtimePrograms,
   isShowChannelsImages: defaultIsShowChannelsImages,
-  isShowInfoOnHover: defaultIsShowInfoOnHover,
+  isShowProgramOverlays: defaultisShowProgramOverlays,
   isShowPrograms: defaultIsShowPrograms,
   tvKeyboardDebounce: defaultTvKeyboardDebounce,
   tvKeyboardHideTime: defaultTvKeyboardHideTime,

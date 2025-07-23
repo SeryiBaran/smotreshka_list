@@ -142,7 +142,7 @@ const handleSave = handleSubmit((newValues) => {
         </select>
       </li>
       <li>
-        <Checkbox v-model="settingsStore.isShowInfoOnHover" checkbox-label="Показывать инфо о передачах при наведении" />
+        <Checkbox v-model="settingsStore.isShowProgramOverlays" checkbox-label="Показывать инфо о передачах вместо лого канала при наведении" />
       </li>
       <li>
         <span>Дебаунс ТВ клавиатуры в секундах ({{ settingsDefaults.tvKeyboardDebounce.min }} - {{ settingsDefaults.tvKeyboardDebounce.max }}):</span>
@@ -156,7 +156,7 @@ const handleSave = handleSubmit((newValues) => {
         <Checkbox v-model="settingsStore.isRealtimePrograms" checkbox-label="Постоянно обновлять программы" />
       </li>
       <li>
-        <Checkbox v-model="settingsStore.isShowProgramPopups" checkbox-label="Показывать всплывающие подсказки о передачах при наведении" />
+        <Checkbox v-model="settingsStore.isShowProgramPopups" checkbox-label="Показывать всплывающие подсказки при наведении на название/время передачи" />
       </li>
       <li>
         <Checkbox v-model="settingsStore.isSortChannelsByFavorite" checkbox-label="Сортировать каналы по избранности задом наперед (почему?)" />

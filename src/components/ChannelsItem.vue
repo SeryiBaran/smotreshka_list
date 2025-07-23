@@ -66,7 +66,7 @@ watch(itemIsVisible, (newValue) => {
       <div v-if="(minMd && settingsStore.isShowChannelsImages && !(settingsStore.channelsListMode === 'compact')) || settingsStore.channelsListMode === 'logos'" class="chLogoContainer">
         <img class="chLogo" :src="`${props.channel.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93`" :alt="`Иконка ${formatKeyNumber(props.channel.keyNumber)} ${props.channel.title}`">
         <div
-          v-if="settingsStore.isShowInfoOnHover && currentProgram && isCurrentProgram(currentProgram.scheduledFor, reactiveProgramsCurrTime.currentTime.value)"
+          v-if="settingsStore.isShowProgramOverlays && currentProgram && isCurrentProgram(currentProgram.scheduledFor, reactiveProgramsCurrTime.currentTime.value)"
           class="chLogoOverlayCommon chLogoOverlayMain"
           :style="chLogoOverlayMainStyle"
         >
@@ -77,7 +77,7 @@ watch(itemIsVisible, (newValue) => {
         </div>
 
         <div
-          v-if="settingsStore.isShowInfoOnHover && settingsStore.channelsListMode === 'logos' && currentProgram && isCurrentProgram(currentProgram.scheduledFor, reactiveProgramsCurrTime.currentTime.value)"
+          v-if="settingsStore.isShowProgramOverlays && settingsStore.channelsListMode === 'logos' && currentProgram && isCurrentProgram(currentProgram.scheduledFor, reactiveProgramsCurrTime.currentTime.value)"
           class="chLogoOverlayCommon chLogoOverlayProgress"
         >
           <div class="chLogoOverlayProgressSlider" :style="{ width: `${currentProgramPercent}%` }" />
