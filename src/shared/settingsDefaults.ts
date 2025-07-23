@@ -1,6 +1,7 @@
-import type { GenreID, UnoCSSColorName } from '~/types'
+import type { ChannelID, GenreID, UnoCSSColorName } from '~/types'
 
 export const defaultFavoriteGenres: GenreID[] = ['federal', 'kids', 'movies']
+export const defaultFavoriteChannels: ChannelID[] = []
 
 export const defaultBrandColor: UnoCSSColorName = 'orange'
 export const defaultIsColorizeBackground = false
@@ -63,6 +64,7 @@ export const settingsDefaults = {
   channelsImagesSize: defaultChannelsImagesSize,
   channelsListMode: defaultChannelsListMode,
   favoriteGenres: defaultFavoriteGenres,
+  favoriteChannels: defaultFavoriteChannels,
   isOpenNewTab: defaultIsOpenNewTab,
   isRealtimePrograms: defaultIsRealtimePrograms,
   isShowChannelsImages: defaultIsShowChannelsImages,

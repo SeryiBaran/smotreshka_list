@@ -36,7 +36,7 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
     }
   }
 
-  const favoriteChannels = createSetting<ChannelID[]>(settingsDefaults.favoriteGenres, false)
+  const favoriteChannels = createSetting<ChannelID[]>(settingsDefaults.favoriteChannels, false)
   function favoriteChannelAdd(channelId: ChannelID) {
     favoriteChannels.setting.value.push(channelId)
   }
