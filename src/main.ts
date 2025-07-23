@@ -42,3 +42,4 @@ enableMocking().then(() => {
 
 // TODO: Make setting like "load from tab: " and values: GenreID | SPECIAL_GENRES
 // TODO: Set font of channels numbers to JetBrains Mono
+// TODO: Make genres tabs as Vue Router pages (maybe)
