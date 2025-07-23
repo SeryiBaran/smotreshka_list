@@ -230,6 +230,10 @@ li.isLogosMode .chLogoContainer {
   @apply w-full rounded-0 border-0;
 }
 
+.chLogo {
+  @apply w-full object-cover;
+}
+
 .chLogoOverlayCommon {
   @apply bg-brand-200 text-white absolute bottom-0 left-0 right-0 transition transition-property-[transform,opacity] transition-duration-150ms;
   transform: translateX(100%);
