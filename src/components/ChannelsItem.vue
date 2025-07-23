@@ -88,12 +88,13 @@ watch(itemIsVisible, (newValue) => {
           <span class="channelNumber">{{ formatKeyNumber(props.channel.keyNumber) }}</span>
           <span class="channelName">{{ props.channel.title }}</span>
           <span class="channelBtns">
-            <button class="colorsTransition btn-icon channelBtn" @click.prevent="handleShowEPG()">
+            <button class="colorsTransition btn-icon channelBtn" title="Открыть программу передач" @click.prevent="handleShowEPG()">
               <span class="colorsTransition i-tabler:list text-4 block 2xl:text-6" />
             </button>
             <button
               class="colorsTransition btn-icon channelBtn" :class="{ 'btn-icon-checked': settingsStore.favoriteChannels.includes(props.channel.id),
-              }" @click.prevent="settingsStore.favoriteChannelToggle(props.channel.id)"
+              }" title="Добавить в локал избранное"
+              @click.prevent="settingsStore.favoriteChannelToggle(props.channel.id)"
             >
               <span
                 class="colorsTransition i-tabler:heart text-4 block 2xl:text-6" :class="{ 'i-tabler:heart-filled': settingsStore.favoriteChannels.includes(props.channel.id),

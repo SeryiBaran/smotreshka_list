@@ -14,6 +14,9 @@ const channelsPacksMapped = (Object.entries(channelsPacks) as Entries<typeof cha
     <p class="text-xs my-4">
       Изменено {{ useDayJS()(channelsPacksLastEdit).format("DD.MM.YYYY") }}
     </p>
+    <p class="my-4">
+      TODO: Почему-то на 311 номере 2 канала...
+    </p>
     <div v-for="channelsPack in channelsPacksMapped" :key="channelsPack.id" class="mt-4">
       <p>{{ channelsPack.name }}</p>
       <code>{{ channelsPack.numbers.join(', ') }}</code>

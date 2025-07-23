@@ -10,6 +10,8 @@ const showEPG = defineModel<boolean>()
 
 const epg = useChannelEPG(props.channel.id)
 
+const channelEpgLink = computed(() => `https://smotreshka.tv/channels/${props.channel.id}/program`)
+
 const groupsNames = {
   previous: 'Предыдущие',
   next: 'Следующие',
@@ -24,7 +26,7 @@ const groupsStates = reactive<{ [k in keyof typeof groupsNames]: boolean }>({
 </script>
 
 <template>
-  <ModalLongScroll v-model="showEPG" :heading="`Программа '${props.channel.title}'`">
+  <ModalLongScroll v-model="showEPG" :heading="`Программа '${props.channel.title}'`" :channel-epg-link>
     <div v-if="epg.isEpg.value && !epg.isFetching.value">
       <div v-for="group in groups" :key="group" class="my-b-border">
         <!-- TODO: Create collapse with @formkit/auto-animate/vue -->
