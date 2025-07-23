@@ -1,4 +1,8 @@
-export type GenreID = string
+export enum SPECIAL_GENRES {
+  LOCAL_FAVORITE = 'LOCAL_FAVORITE',
+}
+
+export type GenreID = SPECIAL_GENRES | string
 export type ChannelID = string
 
 export interface ChannelGenre {

@@ -23,9 +23,17 @@ export const useChannels = createSharedComposable(() => {
       .filter(channel => availableChannelsNumbers.includes(channel.keyNumber)) || []
   ))
 
-  const channelsSorted = computed<Channel[]>(() => (
-    channelsAvailable.value.slice().sort((a, b) => (a.keyNumber - b.keyNumber))
-  ))
+  const channelsSorted = computed<Channel[]>(() => {
+    let sorted = channelsAvailable.value.slice()
+
+    sorted = sorted.sort((a, b) => (a.keyNumber - b.keyNumber))
+
+    // TODO: why backwards?
+    if (settingsStore.isSortChannelsByFavorite)
+      sorted = sorted.sort((a, _b) => (settingsStore.favoriteChannels.includes(a.id)) ? -1 : 1)
+
+    return sorted
+  })
 
   const genres = computed<{
     [key: string]: GenreID

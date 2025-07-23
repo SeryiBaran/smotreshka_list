@@ -159,6 +159,9 @@ const handleSave = handleSubmit((newValues) => {
         <Checkbox v-model="settingsStore.isShowProgramPopups" checkbox-label="Показывать всплывающие подсказки о передачах при наведении" />
       </li>
       <li>
+        <Checkbox v-model="settingsStore.isSortChannelsByFavorite" checkbox-label="Сортировать каналы по избранности задом наперед (почему?)" />
+      </li>
+      <li>
         <RouterLink class="colorsTransition btn btn-with-icon" to="/available_channels_settings">
           <span
             class="colorsTransition i-tabler:list text-inherit"

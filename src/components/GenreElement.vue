@@ -31,7 +31,7 @@ const emit = defineEmits<{
     </button>
     <button v-if="showFavoriteButton" class="genreButton colorsTransition genreButtonFavorite" @click="() => emit('toggleFavorite')">
       <span
-        class="colorsTransition genreButtonFavoriteIcon i-tabler:heart" :class="{ 'i-tabler:heart-filled': props.isFavorite,
+        class="colorsTransition i-tabler:heart genreButtonFavoriteIcon" :class="{ 'i-tabler:heart-filled': props.isFavorite,
         }"
       />
     </button>

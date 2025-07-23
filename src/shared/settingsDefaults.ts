@@ -53,6 +53,8 @@ export const defaultIsRealtimePrograms = false
 
 export const defaultIsShowProgramPopups = false
 
+export const defaultIsSortChannelsByFavorite = false
+
 export const defaultSearchDebounce = 500
 
 export const settingsDefaults = {
@@ -69,6 +71,7 @@ export const settingsDefaults = {
   tvKeyboardDebounce: defaultTvKeyboardDebounce,
   tvKeyboardHideTime: defaultTvKeyboardHideTime,
   isShowProgramPopups: defaultIsShowProgramPopups,
+  isSortChannelsByFavorite: defaultIsSortChannelsByFavorite,
   backgroundColorizationOpacity: defaultBackgroundColorizationOpacity,
   searchDebounce: defaultSearchDebounce,
 }

@@ -27,7 +27,7 @@ const emit = defineEmits<{
             <p>
               {{ heading }}
             </p>
-            <button class="closeEpgBtnHeader colorsTransition icon-btn" @click="() => emit('update:modelValue', false)">
+            <button class="colorsTransition closeEpgBtnHeader icon-btn" @click="() => emit('update:modelValue', false)">
               <div class="i-carbon:close inline-block" />
             </button>
           </div>

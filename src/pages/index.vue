@@ -6,6 +6,7 @@ import { usePrograms } from '~/api/programs'
 import TheTvKeyboardProvider from '~/components/TheTvKeyboardProvider.vue'
 import { useFiltersStore } from '~/store/filters'
 import { useSettingsStore } from '~/store/settings'
+import { SPECIAL_GENRES } from '~/types'
 
 // T O D O: try to fix lag when navigating to that page // fixed, but butt
 
@@ -25,6 +26,11 @@ const channelsFilteredByGenre = computed(() => (
   channels.channelsSorted.value
     .filter((channel) => {
       if (filtersStore.selectedGenre) {
+        if (filtersStore.selectedGenre === SPECIAL_GENRES.LOCAL_FAVORITE) {
+          return (
+            settingsStore.favoriteChannels.includes(channel.id)
+          ) // don't ask me idk how this works
+        }
         return (
           channel.relevantGenres.map(genre => genre.genreId).flat(1).includes(filtersStore.selectedGenre)
         ) // don't ask me idk how this works
@@ -76,6 +82,13 @@ function resetFilters() {
           :is-active="filtersStore.selectedGenre === null"
           :is-favorite="false"
           @toggle-active="filtersStore.selectedGenreReset()"
+        />
+        <GenreElement
+          genre-name="Локал избранное"
+          :show-favorite-button="false"
+          :is-active="filtersStore.selectedGenre === SPECIAL_GENRES.LOCAL_FAVORITE"
+          :is-favorite="false"
+          @toggle-active="filtersStore.selectedGenreSetOrToggle(SPECIAL_GENRES.LOCAL_FAVORITE)"
         />
         <GenreElement
           v-for="[genreId, genreTitle] in channels.genresList.value"

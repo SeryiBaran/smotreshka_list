@@ -33,6 +33,7 @@ export default defineConfig({
   ],
   theme: {
     colors: {
+      ...colorsPreset,
       brand: colorsPreset[defaultBrandColor],
     },
   },

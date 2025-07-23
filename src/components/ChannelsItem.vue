@@ -62,9 +62,6 @@ watch(itemIsVisible, (newValue) => {
 
 <template>
   <li ref="item" :data-modalid="modalId" class="channelsItem flex" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos'), notShowPrograms: !settingsStore.isShowPrograms }">
-    <button v-if="settingsStore.channelsListMode !== 'logos'" class="showEpgBtn colorsTransition btn btn-with-icon" @click="() => handleShowEPG()">
-      <span class="transitionColors i-tabler:list text-4 block 2xl:text-6" />
-    </button>
     <a :href="makeChannelPlayLink(props.channel.id)" class="channelLink" :target="settingsStore.isOpenNewTab ? '_blank' : '_top'">
       <div v-if="(minMd && settingsStore.isShowChannelsImages && !(settingsStore.channelsListMode === 'compact')) || settingsStore.channelsListMode === 'logos'" class="chLogoContainer">
         <img class="chLogo" :src="`${props.channel.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93`" :alt="`Иконка ${formatKeyNumber(props.channel.keyNumber)} ${props.channel.title}`">
@@ -87,9 +84,23 @@ watch(itemIsVisible, (newValue) => {
         </div>
       </div>
       <div v-if="settingsStore.channelsListMode !== 'logos'" class="channelsItemInfoWrapper wrapper w-full">
-        <div class="channelTitle flex gap-5 items-center">
+        <div class="channelTitle limitWidth flex gap-5 items-center">
           <span class="channelNumber">{{ formatKeyNumber(props.channel.keyNumber) }}</span>
           <span class="channelName">{{ props.channel.title }}</span>
+          <span class="channelBtns">
+            <button class="colorsTransition btn-icon channelBtn" @click.prevent="handleShowEPG()">
+              <span class="colorsTransition i-tabler:list text-4 block 2xl:text-6" />
+            </button>
+            <button
+              class="colorsTransition btn-icon channelBtn" :class="{ 'btn-icon-checked': settingsStore.favoriteChannels.includes(props.channel.id),
+              }" @click.prevent="settingsStore.favoriteChannelToggle(props.channel.id)"
+            >
+              <span
+                class="colorsTransition i-tabler:heart text-4 block 2xl:text-6" :class="{ 'i-tabler:heart-filled': settingsStore.favoriteChannels.includes(props.channel.id),
+                }"
+              />
+            </button>
+          </span>
         </div>
         <template v-if="(settingsStore.channelsListMode !== 'compact') && settingsStore.isShowPrograms">
           <!-- TODO: figure, why this <Programs> lag, but <Programs> in modal not lags -->
@@ -194,7 +205,8 @@ li.isLogosMode .chLogoContainer {
 }
 
 .chLogoOverlayCommon {
-  @apply bg-brand-200 text-white absolute bottom-0 left-0 right-0;
+  @apply bg-brand-200 text-white absolute bottom-0 left-0 right-0 transition transition-property-[transform,opacity] transition-duration-150ms;
+  transform: translateX(100%);
   opacity: 0;
 }
 
@@ -215,10 +227,19 @@ li.isLogosMode .chLogoContainer {
 }
 
 a:hover .chLogoContainer .chLogoOverlayCommon {
+  transform: translateX(0%);
   opacity: 100;
 }
 
-.showEpgBtn {
-  @apply my-1 p-1;
+.channelBtns {
+  @apply flex gap-1 ml-auto flex-col sm:flex-row;
+}
+
+.channelLink .channelBtn {
+  @apply border border-transparent;
+}
+
+.channelLink:hover .channelBtn {
+  @apply border-brand-600/20;
 }
 </style>

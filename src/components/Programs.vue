@@ -50,7 +50,7 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
   <ul v-if="props.channelPrograms.programs.length && props.channelPrograms.programs.length > 0 && filteredPrograms.programs.length > 0" class="list" :class="{ listShowDescription: props.showDescription }">
     <template v-for="program in filteredPrograms.programs">
       <template v-if="program">
-        <li :key="program.id + props.channelPrograms.channelId" class="program" :class="{ programLimitWidth: !props.dontLimitWidth }">
+        <li :key="program.id + props.channelPrograms.channelId" class="program" :class="{ limitWidth: !props.dontLimitWidth }">
           <div class="programInfo">
             <Tooltip :disabled="!settingsStore.isShowProgramPopups">
               <ProgramTime :scheduled-for="program.scheduledFor" :show-date="props.showDate" />
@@ -135,10 +135,6 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
 
 .programDescription {
   @apply opacity-80 text-sm;
-}
-
-.programLimitWidth {
-  @apply max-w-3xl 2xl:max-w-4xl;
 }
 
 .programTitle {

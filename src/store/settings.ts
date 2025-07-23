@@ -1,21 +1,22 @@
 import type {
   ChannelsListMode,
 } from '~/shared'
-import type { GenreID, UnoCSSColorName } from '~/types'
+import type { ChannelID, GenreID, UnoCSSColorName } from '~/types'
 import { defineStore } from 'pinia'
 import { settingsDefaults } from '~/shared'
 
 export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
   const resetFunctions: (() => void)[] = []
 
-  function createSetting<T>(defaultValue: T) {
+  function createSetting<T>(defaultValue: T, registerReset: boolean = true) {
     const setting = ref<T>(defaultValue)
 
     function reset() {
       setting.value = defaultValue
     }
 
-    resetFunctions.push(reset)
+    if (registerReset)
+      resetFunctions.push(reset)
     return { setting, reset }
   }
 
@@ -32,6 +33,22 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
     }
     else {
       favoriteGenreAdd(genreId)
+    }
+  }
+
+  const favoriteChannels = createSetting<ChannelID[]>(settingsDefaults.favoriteGenres, false)
+  function favoriteChannelAdd(channelId: ChannelID) {
+    favoriteChannels.setting.value.push(channelId)
+  }
+  function favoriteChannelRemove(channelId: ChannelID) {
+    favoriteChannels.setting.value = favoriteChannels.setting.value.filter(favoriteChannelId => favoriteChannelId !== channelId)
+  }
+  function favoriteChannelToggle(channelId: ChannelID) {
+    if (favoriteChannels.setting.value.includes(channelId)) {
+      favoriteChannelRemove(channelId)
+    }
+    else {
+      favoriteChannelAdd(channelId)
     }
   }
 
@@ -57,6 +74,7 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
   const tvKeyboardHideTime = createSetting(settingsDefaults.tvKeyboardHideTime.default)
   const isRealtimePrograms = createSetting(settingsDefaults.isRealtimePrograms)
   const isShowProgramPopups = createSetting(settingsDefaults.isShowProgramPopups)
+  const isSortChannelsByFavorite = createSetting(settingsDefaults.isSortChannelsByFavorite)
   const searchDebounce = createSetting(settingsDefaults.searchDebounce)
 
   function $reset() {
@@ -69,6 +87,12 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
     favoriteGenreRemove,
     favoriteGenreToggle,
     favoriteGenresReset: favoriteGenres.reset,
+
+    favoriteChannels: favoriteChannels.setting,
+    favoriteChannelAdd,
+    favoriteChannelRemove,
+    favoriteChannelToggle,
+    favoriteChannelsReset: favoriteChannels.reset,
 
     brandColor: brandColor.setting,
     brandColorSet,
@@ -110,6 +134,9 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
 
     isShowProgramPopups: isShowProgramPopups.setting,
     isShowProgramPopupsReset: isShowProgramPopups.reset,
+
+    isSortChannelsByFavorite: isSortChannelsByFavorite.setting,
+    isSortChannelsByFavoriteReset: isSortChannelsByFavorite.reset,
 
     searchDebounce: searchDebounce.setting,
     searchDebounceReset: searchDebounce.reset,
