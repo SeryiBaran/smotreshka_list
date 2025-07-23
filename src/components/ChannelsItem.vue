@@ -88,7 +88,7 @@ watch(itemIsVisible, (newValue) => {
           <span class="channelNumber">{{ formatKeyNumber(props.channel.keyNumber) }}</span>
           <span class="channelName">{{ props.channel.title }}</span>
           <span class="channelBtns">
-            <button class="colorsTransition btn-icon channelBtn" title="Открыть программу передач" @click.prevent="handleShowEPG()">
+            <button class="colorsTransition btn-icon channelBtn showEpgBtn" title="Открыть программу передач" @click.prevent="handleShowEPG()">
               <span class="colorsTransition i-tabler:list text-4 block 2xl:text-6" />
             </button>
             <button
