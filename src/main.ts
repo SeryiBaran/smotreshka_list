@@ -39,3 +39,5 @@ enableMocking().then(() => {
 
 // TODO: https://vuejs.org/guide/best-practices/accessibility.html
 // TODO: show fetching errors!
+
+// Make setting like "load from tab: " and values: GenreID | SPECIAL_GENRES
