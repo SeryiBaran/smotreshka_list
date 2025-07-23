@@ -35,6 +35,8 @@ const currentProgram = useCurrentProgram(programs)
 
 const currentProgramPercent = useCurrentProgramPercent(currentProgram)
 
+const chLogoUrl = computed(() => `${props.channel.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93`)
+
 const chLogoOverlayMainStyle = computed(() => ({
   backgroundImage: currentProgram.value?.logoUrl ? `url('${currentProgram.value.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93')` : '',
   backgroundSize: 'cover',
@@ -61,16 +63,35 @@ watch(itemIsVisible, (newValue) => {
 </script>
 
 <template>
-  <li ref="item" :data-modalid="modalId" class="channelsItem flex" :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos'), notShowPrograms: !settingsStore.isShowPrograms }">
-    <a :href="makeChannelPlayLink(props.channel.id)" class="channelLink" :target="settingsStore.isOpenNewTab ? '_blank' : '_top'">
-      <div v-if="(minMd && settingsStore.isShowChannelsImages && !(settingsStore.channelsListMode === 'compact')) || settingsStore.channelsListMode === 'logos'" class="chLogoContainer">
-        <img class="chLogo" :src="`${props.channel.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93`" :alt="`Иконка ${formatKeyNumber(props.channel.keyNumber)} ${props.channel.title}`">
+  <li
+    ref="item"
+    :data-modalid="modalId"
+    class="channelsItem flex"
+    :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos'), notShowPrograms: !settingsStore.isShowPrograms }"
+  >
+    <a
+      :href="makeChannelPlayLink(props.channel.id)"
+      class="channelLink"
+      :target="settingsStore.isOpenNewTab ? '_blank' : '_top'"
+    >
+      <div
+        v-if="(minMd && settingsStore.isShowChannelsImages && !(settingsStore.channelsListMode === 'compact')) || settingsStore.channelsListMode === 'logos'"
+        class="chLogoContainer"
+      >
+        <img
+          class="chLogo"
+          :src="chLogoUrl"
+          :alt="`Иконка ${formatKeyNumber(props.channel.keyNumber)} ${props.channel.title}`"
+        >
         <div
           v-if="settingsStore.isShowProgramOverlays && currentProgram && isCurrentProgram(currentProgram.scheduledFor, reactiveProgramsCurrTime.currentTime.value)"
           class="chLogoOverlayCommon chLogoOverlayMain"
           :style="chLogoOverlayMainStyle"
         >
-          <div v-if="settingsStore.channelsListMode === 'logos'" class="bg-neutral-900/60 h-full">
+          <div
+            v-if="settingsStore.channelsListMode === 'logos'"
+            class="bg-neutral-900/60 h-full"
+          >
             <p class="chLogoOverlayMainChannelTitle"><span class="text-brand-500">{{ formatKeyNumber(channel.keyNumber) }}</span> {{ channel.title }}</p>
             <p class="text-sm leading-4 px-2.5 py-1.8">{{ currentProgram.title }}</p>
           </div>
