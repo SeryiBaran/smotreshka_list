@@ -105,7 +105,7 @@ watch(itemIsVisible, (newValue) => {
         </div>
       </div>
       <div v-if="settingsStore.channelsListMode !== 'logos'" class="channelsItemInfoWrapper wrapper w-full">
-        <div class="channelTitle limitWidth flex gap-5 items-center">
+        <div class="channelTitle limitWidth">
           <span class="channelNumber">{{ formatKeyNumber(props.channel.keyNumber) }}</span>
           <span class="channelName">{{ props.channel.title }}</span>
           <span class="channelBtns">
@@ -158,6 +158,10 @@ watch(itemIsVisible, (newValue) => {
 <style scoped>
 a.channelLink {
   @apply border border-2 border-transparent rounded-3 hover:border-brand-500 hover:bg-brand-500/15 hover:dark:bg-brand-500/12 p-4 flex gap-4 xl:gap-8 h-full w-full overflow-hidden;
+}
+
+.channelTitle {
+  @apply w-full flex gap-5 items-center;
 }
 
 li.isCompactMode {
@@ -254,7 +258,7 @@ a:hover .chLogoContainer .chLogoOverlayCommon {
 }
 
 .channelBtns {
-  @apply flex gap-1 ml-auto flex-col sm:flex-row;
+  @apply justify-self-end flex gap-1 ml-auto flex-col sm:flex-row;
 }
 
 .channelLink .channelBtn {
