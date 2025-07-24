@@ -49,7 +49,7 @@ body.colorizedBackground .modalInsetContainer {
   @apply max-w-3xl 2xl:max-w-[56rem]; /* 4xl doesn't works :( */
 }
 
-:where(.btn, a, button, input, .btn-with-icon, .btn-icon):not(.no-outline) {
+:where(.btn, a, button, input, select, .btn-with-icon, .btn-icon):not(.no-outline) {
   @apply outline-brand-600/40 dark:outline-brand-500/50 outline-solid outline-0 focus:outline-4;
 }
 
