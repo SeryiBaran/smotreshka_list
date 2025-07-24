@@ -75,7 +75,7 @@ watch(itemIsVisible, (newValue) => {
       :target="settingsStore.isOpenNewTab ? '_blank' : '_top'"
     >
       <div
-        v-if="(minMd && settingsStore.isShowChannelsImages && !(settingsStore.channelsListMode === 'compact')) || settingsStore.channelsListMode === 'logos'"
+        v-if="((minMd || !settingsStore.isHideLogosOnSmallScreen) && settingsStore.isShowChannelsImages && !(settingsStore.channelsListMode === 'compact')) || settingsStore.channelsListMode === 'logos'"
         class="chLogoContainer"
       >
         <img
@@ -108,7 +108,7 @@ watch(itemIsVisible, (newValue) => {
         <div class="channelTitle limitWidth">
           <span class="channelNumber">{{ formatKeyNumber(props.channel.keyNumber) }}</span>
           <span class="channelName">{{ props.channel.title }}</span>
-          <span class="channelBtns">
+          <span v-if="settingsStore.channelsListMode !== 'compact'" class="channelBtns">
             <button class="colorsTransition btn-icon channelBtn showEpgBtn" title="Открыть программу передач" @click.prevent="handleShowEPG()">
               <span class="colorsTransition i-tabler:list text-4 block 2xl:text-6" />
             </button>
@@ -157,11 +157,11 @@ watch(itemIsVisible, (newValue) => {
 
 <style scoped>
 a.channelLink {
-  @apply border border-2 border-transparent rounded-3 hover:border-brand-500 hover:bg-brand-500/15 hover:dark:bg-brand-500/12 p-4 flex gap-4 xl:gap-8 h-full w-full overflow-hidden;
+  @apply border border-2 border-transparent rounded-3 hover:border-brand-500 hover:bg-brand-500/15 hover:dark:bg-brand-500/12 p-4 flex gap-4 xl:gap-8 h-full w-full overflow-hidden max-md:(flex-col gap-2);
 }
 
 .channelTitle {
-  @apply w-full flex gap-5 items-center;
+  @apply w-full flex gap-2 sm:gap-5 items-center;
 }
 
 li.isCompactMode {
@@ -185,11 +185,11 @@ li.isCompactMode .channelTitle {
 }
 
 .channelNumber {
-  @apply text-3xl 2xl:text-5xl text-brand-800 font-semibold dark:text-brand-300;
+  @apply text-3xl 2xl:text-5xl text-brand-800 font-mono font-semibold dark:text-brand-300;
 }
 
 .channelName {
-  @apply text-2xl 2xl:text-4xl;
+  @apply text-xl md:text-2xl 2xl:text-4xl break-all;
 }
 
 .notShowPrograms .channelsItemInfoWrapper {
@@ -223,7 +223,7 @@ li.isLogosMode a {
 }
 
 .chLogoContainer {
-  @apply overflow-hidden border border-1 border-brand-500 rounded-3 w-50 aspect-video transform self-start relative object-cover 2xl:w-65;
+  @apply overflow-hidden border border-1 border-brand-500 rounded-3 w-50 aspect-video transform self-start relative object-cover 2xl:w-65 max-md:(w-full);
 }
 
 li.isLogosMode .chLogoContainer {

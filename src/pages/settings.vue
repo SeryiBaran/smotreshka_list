@@ -162,6 +162,9 @@ const handleSave = handleSubmit((newValues) => {
         <Checkbox v-model="settingsStore.isSortChannelsByFavorite" checkbox-label="Сортировать каналы по избранности задом наперед (почему?)" />
       </li>
       <li>
+        <Checkbox v-model="settingsStore.isHideLogosOnSmallScreen" checkbox-label="Скрывать лого каналов на маленьких экранах" />
+      </li>
+      <li>
         <RouterLink class="colorsTransition btn btn-with-icon" to="/available_channels_settings">
           <span
             class="colorsTransition i-tabler:list text-inherit"

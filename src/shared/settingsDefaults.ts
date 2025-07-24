@@ -58,6 +58,8 @@ export const defaultIsSortChannelsByFavorite = false
 
 export const defaultSearchDebounce = 500
 
+export const defaultIsHideLogosOnSmallScreen = true
+
 export const settingsDefaults = {
   brandColor: defaultBrandColor,
   isColorizeBackground: defaultIsColorizeBackground,
@@ -76,4 +78,5 @@ export const settingsDefaults = {
   isSortChannelsByFavorite: defaultIsSortChannelsByFavorite,
   backgroundColorizationOpacity: defaultBackgroundColorizationOpacity,
   searchDebounce: defaultSearchDebounce,
+  isHideLogosOnSmallScreen: defaultIsHideLogosOnSmallScreen,
 }

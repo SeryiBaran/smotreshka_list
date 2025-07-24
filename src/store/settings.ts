@@ -76,6 +76,7 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
   const isShowProgramPopups = createSetting(settingsDefaults.isShowProgramPopups)
   const isSortChannelsByFavorite = createSetting(settingsDefaults.isSortChannelsByFavorite)
   const searchDebounce = createSetting(settingsDefaults.searchDebounce)
+  const isHideLogosOnSmallScreen = createSetting(settingsDefaults.isHideLogosOnSmallScreen)
 
   function $reset() {
     resetFunctions.forEach(reset => reset())
@@ -140,6 +141,9 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
 
     searchDebounce: searchDebounce.setting,
     searchDebounceReset: searchDebounce.reset,
+
+    isHideLogosOnSmallScreen: isHideLogosOnSmallScreen.setting,
+    isHideLogosOnSmallScreenReset: isHideLogosOnSmallScreen.reset,
 
     $reset,
   }
