@@ -26,16 +26,20 @@ const settingsStore = useSettingsStore()
 
 const schemaNumberInputsNames = ['channelsImagesSize', 'tvKeyboardDebounce', 'tvKeyboardHideTime', 'backgroundColorizationOpacity'] as const
 
+function createZNumberInput(inputName: (typeof schemaNumberInputsNames)[number]) {
+  return z.number({ message: 'Введите число!' })
+    .min(settingsDefaults[inputName].min, `Число должно быть больше ${settingsDefaults[inputName].min - 1}!`)
+    .max(settingsDefaults[inputName].max, `Число должно быть меньше ${settingsDefaults[inputName].max + 1}!`)
+}
+
+const zSchema = z.object({
+  ...schemaNumberInputsNames.reduce((acc, current) => {
+    return { ...acc, [current]: createZNumberInput(current) }
+  }, {}),
+})
+
 // TODO: remove vee-validate, or pass all inputs (checkboxes and selects) through vee-validate too and make submit on blur
-const schema = toTypedSchema(
-  z.object({
-    ...schemaNumberInputsNames.reduce((acc, current) => {
-      return { ...acc, [current]: z.number({ message: 'Введите число!' })
-        .min(settingsDefaults[current].min, `Число должно быть больше ${settingsDefaults[current].min - 1}!`)
-        .max(settingsDefaults[current].max, `Число должно быть меньше ${settingsDefaults[current].max + 1}!`) }
-    }, {}),
-  }),
-)
+const schema = toTypedSchema(zSchema)
 
 const { errors, resetForm, handleSubmit, setValues } = useForm({
   validationSchema: schema,
@@ -54,7 +58,7 @@ let resetPlanned = false
 
 settingsStore.$subscribe((_event, newState) => {
   if (resetPlanned) {
-    setValues(newState, false)
+    setValues(newState as any, false) // TODO: WATAFAK? z.infer<typeof zSchema> not works, придумать something!!!
     resetPlanned = false
   }
 })
