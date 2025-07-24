@@ -142,7 +142,7 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
 }
 
 .progressContainer {
-  @apply bg-brand-900/15 dark:bg-brand-900/10 bottom--1 left-0 right-0 absolute dark:bg-brand-100;
+  @apply bg-brand-900/15 bottom--1 left-0 right-0 absolute dark:bg-brand-100/15;
 }
 
 .progress {

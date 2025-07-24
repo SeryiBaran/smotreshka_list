@@ -5,7 +5,7 @@ import { appGitVerDate, appGitVerHash, useDayJS } from '~/shared'
 <template>
   <div class="mb-4 pb-4 border-b-1 border-brand-500 dark:border-brand-300/50">
     <div class="flex gap-2 justify-between">
-      <RouterLink to="/" class="colorsTransition headerMainLink inline-flex gap-4 items-center">
+      <RouterLink to="/" class="colorsTransition no-outline headerMainLink inline-flex gap-4 items-center">
         <span class="colorsTransition headerLogoGontainer p-2 border-1 border-brand-700 rounded-2 border-solid bg-brand-100 flex items-center justify-center dark:border-transparent">
           <span class="colorsTransition headerLogo i-tabler:device-tv-old text-3xl text-brand-700 block sm:text-4xl" />
         </span>

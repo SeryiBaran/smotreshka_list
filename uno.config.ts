@@ -21,9 +21,12 @@ export default defineConfig({
     }),
     presetWebFonts({
       fonts: {
-        sans: 'DM Sans',
+        sans: {
+          name: 'Roboto',
+          weights: [300, 400, 600, 700, 800],
+        },
         serif: 'DM Serif Display',
-        mono: 'DM Mono',
+        mono: 'JetBrains Mono',
       },
     }),
   ],
