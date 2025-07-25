@@ -42,24 +42,26 @@ const chLogoOverlayMainStyle = computed(() => ({
   backgroundSize: 'cover',
 }))
 
-const modalId = `epg__${props.channel.id}`
-
-const modalIsActive = computed(() => modalStore.getIsActive(modalId))
-
-function handleShowEPG() {
-  modalStore.setOrToggleModal(modalId, true)
-}
-
 const item = useTemplateRef<HTMLLIElement>('item')
 const itemWasVisible = ref(false)
 const itemIsVisible = useElementVisibility(item, {
   rootMargin: '0px 0px 1024px 0px',
 })
+const epgWasClicked = ref(false)
 
 watch(itemIsVisible, (newValue) => {
   if (newValue)
     itemWasVisible.value = true
 })
+
+const modalId = `epg__${props.channel.id}`
+
+const modalIsActive = computed(() => epgWasClicked.value && modalStore.getIsActive(modalId))
+
+function handleShowEPG() {
+  epgWasClicked.value = true
+  modalStore.setOrToggleModal(modalId, true)
+}
 </script>
 
 <template>
