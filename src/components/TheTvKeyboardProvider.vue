@@ -2,6 +2,7 @@
 import type { Channel } from '~/types'
 import { makeChannelPlayLink, maxTvKeyboardKeyNumberLength } from '~/shared'
 import { useModalStore } from '~/store/modal'
+import { useSettingsStore } from '~/store/settings'
 
 // TODO: move channels into pinia
 const props = defineProps<{
@@ -10,6 +11,7 @@ const props = defineProps<{
 
 // oh shit
 
+const settingsStore = useSettingsStore()
 const modalStore = useModalStore()
 
 const showOverlay = ref(false)
@@ -25,7 +27,7 @@ function cancelTvKeyboard() {
 
 const tvKeyboardHideTimer = useTimeoutFn(() => {
   cancelTvKeyboard()
-}, 3000, { immediate: false })
+}, settingsStore.tvKeyboardHideTime, { immediate: false })
 
 const keyNumber = computed(() => numbers.value.join('').length > 0 ? Number.parseInt(numbers.value.join('')) : null)
 const structuredKeyNumber = computed(() => {
@@ -59,7 +61,7 @@ function playChannel() {
 
 const debouncedPlayNumber = useDebounceFn(() => {
   playChannel()
-}, 5000)
+}, settingsStore.tvKeyboardDebounce)
 
 const allowedTvKeyboardKeys = Array.from({ length: 10 }, (_, i) => i.toString())
 
@@ -101,6 +103,8 @@ onKeyStroke([...allowedTvKeyboardKeys, 'Escape', 'Enter', 'Backspace'], (event: 
 })
 
 const findChannelResult = computed(() => props.channelsAvailable.find(channel => channel.keyNumber === keyNumber.value))
+
+// TODO: make a progress bar, maybe around numbers
 </script>
 
 <template>
