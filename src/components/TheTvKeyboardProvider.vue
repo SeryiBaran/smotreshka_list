@@ -27,7 +27,7 @@ function cancelTvKeyboard() {
 
 const tvKeyboardHideTimer = useTimeoutFn(() => {
   cancelTvKeyboard()
-}, settingsStore.tvKeyboardHideTime, { immediate: false })
+}, settingsStore.tvKeyboardHideTime * 1000, { immediate: false })
 
 const keyNumber = computed(() => numbers.value.join('').length > 0 ? Number.parseInt(numbers.value.join('')) : null)
 const structuredKeyNumber = computed(() => {
@@ -61,7 +61,7 @@ function playChannel() {
 
 const debouncedPlayNumber = useDebounceFn(() => {
   playChannel()
-}, settingsStore.tvKeyboardDebounce)
+}, settingsStore.tvKeyboardDebounce * 1000)
 
 const allowedTvKeyboardKeys = Array.from({ length: 10 }, (_, i) => i.toString())
 
