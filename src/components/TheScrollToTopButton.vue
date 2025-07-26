@@ -34,11 +34,19 @@ function handleToTopClick() {
     }
   }
 }
+
+const buttonTitle = computed(() => directionToTop.value ? 'Проскроллить Наверх' : 'Проскроллить обратно')
 </script>
 
 <template>
   <!-- TODO: remove true and test -->
-  <button v-show="true || (lastScrollY !== null) || (directionToTop && (y > 100)) || !directionToTop" class="colorsTransition btn btn-circle toTopButton" @click="() => handleToTopClick()">
+  <button
+    v-show="true || (lastScrollY !== null) || (directionToTop && (y > 100)) || !directionToTop"
+    class="colorsTransition btn btn-circle toTopButton"
+    :aria-label="buttonTitle"
+    :title="buttonTitle"
+    @click="() => handleToTopClick()"
+  >
     <span class="i-tabler:arrow-up h-10 w-10 block" :class="{ directionToBottom: !directionToTop }" />
   </button>
 </template>

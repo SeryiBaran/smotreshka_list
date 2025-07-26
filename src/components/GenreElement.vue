@@ -16,6 +16,8 @@ const emit = defineEmits<{
   toggleActive: []
   toggleFavorite: []
 }>()
+
+const favoriteButtonTitle = computed(() => props.isFavorite ? `Убрать ${props.genreName} из избранного` : `Добавить ${props.genreName} в избранное`)
 </script>
 
 <template>
@@ -26,10 +28,16 @@ const emit = defineEmits<{
       showFavoriteButton: props.showFavoriteButton,
     }"
   >
-    <button class="colorsTransition genreButton genreButtonGenre no-outline" @click="() => emit('toggleActive')">
+    <button class="colorsTransition genreButton genreButtonGenre" @click="() => emit('toggleActive')">
       {{ genreName }}
     </button>
-    <button v-if="showFavoriteButton" class="genreButton colorsTransition no-outline genreButtonFavorite" @click="() => emit('toggleFavorite')">
+    <button
+      v-if="showFavoriteButton"
+      class="genreButton colorsTransition genreButtonFavorite"
+      :aria-label="favoriteButtonTitle"
+      :title="favoriteButtonTitle"
+      @click="() => emit('toggleFavorite')"
+    >
       <span
         class="colorsTransition genreButtonFavoriteIcon i-tabler:heart" :class="{ 'i-tabler:heart-filled': props.isFavorite,
         }"

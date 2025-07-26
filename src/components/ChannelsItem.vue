@@ -62,6 +62,13 @@ function handleShowEPG() {
   epgWasClicked.value = true
   modalStore.setOrToggleModal(modalId, true)
 }
+
+// TODO: 137:        <template v-if="(settingsStore.channelsListMode !== 'compact') && settingsStore.isShowPrograms">
+// TODO: figure, why this <Programs> lag, but <Programs> in modal not lags
+// TODO: 'Загрузка программы, подождите пожалуйста...' lags and stays 3-5 seconds on phones and devices with low performance
+// TODO: Or/and make virtual scroll
+// TODO: https://vuejs.org/guide/best-practices/performance.html
+// TODO: fix what nex and prev is indentical
 </script>
 
 <template>
@@ -75,6 +82,7 @@ function handleShowEPG() {
       :href="makeChannelPlayLink(props.channel.id)"
       class="channelLink"
       :target="settingsStore.isOpenNewTab ? '_blank' : '_top'"
+      :title="`Ссылка на канал ${props.channel.title}`"
     >
       <div
         v-if="((minMd || !settingsStore.isHideLogosOnSmallScreen) && settingsStore.isShowChannelsImages && !(settingsStore.channelsListMode === 'compact')) || settingsStore.channelsListMode === 'logos'"
@@ -127,11 +135,6 @@ function handleShowEPG() {
           </span>
         </div>
         <template v-if="(settingsStore.channelsListMode !== 'compact') && settingsStore.isShowPrograms">
-          <!-- TODO: figure, why this <Programs> lag, but <Programs> in modal not lags -->
-          <!-- TODO: 'Загрузка программы, подождите пожалуйста...' lags and stays 3-5 seconds on phones and devices with low performance -->
-          <!-- TODO: Or/and make virtual scroll -->
-          <!-- TODO: https://vuejs.org/guide/best-practices/performance.html -->
-          <!-- TODO: fix what nex and prev is indentical -->
           <Programs
             v-if="itemWasVisible && props.channelsPrograms && channelPrograms !== undefined && currentProgram"
             :channel-programs="channelPrograms"

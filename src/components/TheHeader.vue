@@ -19,10 +19,15 @@ import { appGitVerDate, appGitVerHash, useDayJS } from '~/shared'
         </div>
       </RouterLink>
       <div class="headerButtons flex gap-1 items-center justify-center max-[32rem]:flex-col">
-        <button class="colorsTransition icon-btn" @click="toggleDark()">
+        <button
+          class="colorsTransition icon-btn"
+          aria-label="Переключить тему"
+          title="Переключить тему"
+          @click="toggleDark()"
+        >
           <div class="i-carbon-sun dark:i-carbon-moon text-3xl inline-block md:text-5xl" />
         </button>
-        <RouterLink to="/settings" class="colorsTransition icon-btn">
+        <RouterLink to="/settings" class="colorsTransition icon-btn" title="Настройки" aria-label="Настройки">
           <span class="i-carbon:settings text-3xl inline-block md:text-5xl" />
         </RouterLink>
       </div>
