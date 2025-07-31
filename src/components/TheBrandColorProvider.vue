@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { computed, watch } from 'vue'
 import { unoPresetColors } from '~/shared'
 import { useSettingsStore } from '~/store/settings'
 

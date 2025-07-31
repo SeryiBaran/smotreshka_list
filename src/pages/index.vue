@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useFuse } from '@vueuse/integrations/useFuse'
 import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
 import { useChannels } from '~/api/channels'
 import { usePrograms } from '~/api/programs'
 import TheTvKeyboardProvider from '~/components/TheTvKeyboardProvider.vue'
@@ -8,7 +9,7 @@ import { useFiltersStore } from '~/store/filters'
 import { useSettingsStore } from '~/store/settings'
 import { SPECIAL_GENRES } from '~/types'
 
-// T O D O: try to fix lag when navigating to that page // fixed, but butt
+// TODO: try to fix lag when navigating to that page // fixed, but butt
 
 defineOptions({
   name: 'IndexPage',

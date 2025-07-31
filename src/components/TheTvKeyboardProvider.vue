@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import type { Channel } from '~/types'
+import { onKeyStroke, useDebounceFn, useTimeoutFn } from '@vueuse/core'
+import { computed, ref } from 'vue'
 import { makeChannelPlayLink, maxTvKeyboardKeyNumberLength } from '~/shared'
 import { useModalStore } from '~/store/modal'
 import { useSettingsStore } from '~/store/settings'

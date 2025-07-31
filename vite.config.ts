@@ -5,7 +5,6 @@ import process from 'node:process'
 import Vue from '@vitejs/plugin-vue'
 import { simpleGit } from 'simple-git'
 import UnoCSS from 'unocss/vite'
-import Components from 'unplugin-vue-components/vite'
 import VueMacros from 'unplugin-vue-macros/vite'
 import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
@@ -67,9 +66,9 @@ export default defineConfig({
     // }),
 
     // https://github.com/antfu/vite-plugin-components
-    Components({
-      dts: true,
-    }),
+    // Components({
+    //   dts: true,
+    // }),
 
     // https://github.com/antfu/unocss
     // see uno.config.ts for config

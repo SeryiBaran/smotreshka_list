@@ -1,5 +1,7 @@
 import type { UnoCSSColorObj } from '~/types'
+import { useFavicon } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
+import { watch } from 'vue'
 import { createFaviconSvg, createFaviconUrl, unoPresetColors } from '~/shared'
 import { useSettingsStore } from '~/store/settings'
 

@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
 import { maxModals } from '~/shared'
 
 export type ModalID = string

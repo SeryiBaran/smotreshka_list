@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { useChannelEPG } from '~/api/epg'
 import type { ChannelID } from '~/types'
+import { computed } from 'vue'
+import { useCurrentProgram } from '~/composables/programs'
 import { isCurrentProgram } from '~/shared'
 
 const props = defineProps<{

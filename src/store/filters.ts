@@ -1,5 +1,7 @@
 import type { GenreID } from '~/types'
+import { refDebounced } from '@vueuse/core'
 import { defineStore, storeToRefs } from 'pinia'
+import { computed, ref } from 'vue'
 import { useSettingsStore } from './settings'
 
 export const useFiltersStore = defineStore('smotreshka_list__filters', () => {

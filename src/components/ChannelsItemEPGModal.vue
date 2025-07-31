@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { Channel, Keys } from '~/types'
+import { computed, reactive } from 'vue'
 import { useChannelEPG } from '~/api/epg'
 
 const props = defineProps<{

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { Ref } from 'vue'
 import type { TimeInterval } from '~/types'
 import { defaultIsRealtimePrograms, useDayJS } from '~/shared'
 
