@@ -8,7 +8,7 @@ import { useFiltersStore } from '~/store/filters'
 import { useSettingsStore } from '~/store/settings'
 import { SPECIAL_GENRES } from '~/types'
 
-// T O D O: try to fix lag when navigating to that page // fixed, but butt
+// TODO: try to fix lag when navigating to that page // fixed, but butt
 
 defineOptions({
   name: 'IndexPage',
