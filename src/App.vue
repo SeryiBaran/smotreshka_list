@@ -1,8 +1,6 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
-
 import { ModalsContainer } from 'vue-final-modal'
-import { useRoute } from 'vue-router'
+
 import { routesNames } from '~/router'
 import { useFaviconSettings } from './composables/favicon'
 

@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
-
 interface Props {
   isActive?: boolean
   isFavorite?: boolean
@@ -41,7 +39,7 @@ const favoriteButtonTitle = computed(() => props.isFavorite ? `Убрать ${pr
       @click="() => emit('toggleFavorite')"
     >
       <span
-        class="colorsTransition i-tabler:heart genreButtonFavoriteIcon" :class="{ 'i-tabler:heart-filled': props.isFavorite,
+        class="colorsTransition genreButtonFavoriteIcon i-tabler:heart" :class="{ 'i-tabler:heart-filled': props.isFavorite,
         }"
       />
     </button>

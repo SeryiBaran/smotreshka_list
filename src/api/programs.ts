@@ -1,8 +1,6 @@
 import type { APIPrograms, APIProgramsComposeTable } from '~/types'
 import { useQuery } from '@pinia/colada'
-import { createSharedComposable, useTimeoutFn } from '@vueuse/core'
 import ky from 'ky'
-import { computed } from 'vue'
 import { useChannels } from '~/api/channels'
 import { programsComposeTableFetchURL, programsFetchURL, programsRefetchTimeout } from '~/shared'
 import { useSettingsStore } from '~/store/settings'

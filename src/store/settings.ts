@@ -3,7 +3,6 @@ import type {
 } from '~/shared'
 import type { ChannelID, GenreID, UnoCSSColorName } from '~/types'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
 import { settingsDefaults } from '~/shared'
 
 export const useSettingsStore = defineStore('smotreshka_list__settings', () => {

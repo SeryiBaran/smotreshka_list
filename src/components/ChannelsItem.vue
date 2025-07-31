@@ -1,8 +1,5 @@
 <script lang="ts" setup>
-import type { Ref } from 'vue'
 import type { APIProgramsComposeTable, Channel, ChannelsPrograms } from '~/types'
-import { useElementVisibility, useMediaQuery } from '@vueuse/core'
-import { computed, defineAsyncComponent, ref, useTemplateRef, watch } from 'vue'
 import { useChannelPrograms, useCurrentProgram, useCurrentProgramPercent, useReactiveProgramsCurrTime } from '~/composables/programs'
 import { isCurrentProgram, makeChannelPlayLink } from '~/shared'
 import { useModalStore } from '~/store/modal'

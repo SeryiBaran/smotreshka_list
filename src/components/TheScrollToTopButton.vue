@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import { useWindowScroll } from '@vueuse/core'
-import { computed, ref } from 'vue'
-
 const lastScrollY = ref<number | null>(null)
 const directionToTop = ref<boolean>(true)
 const myIsScrolling = ref<boolean>(false)

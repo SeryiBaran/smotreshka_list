@@ -1,8 +1,6 @@
 import type { APIChannels, Channel, GenreID } from '~/types'
 import { useQuery } from '@pinia/colada'
-import { createSharedComposable } from '@vueuse/core'
 import ky from 'ky'
-import { computed } from 'vue'
 import { availableChannelsNumbers, channelsFetchURL } from '~/shared'
 import { useSettingsStore } from '~/store/settings'
 

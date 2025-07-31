@@ -1,8 +1,6 @@
 <script lang="ts" setup>
-import type { Ref } from 'vue'
 import type { ChannelPrograms } from '~/types'
 import { Tooltip } from 'floating-vue'
-import { computed } from 'vue'
 import { useCurrentProgram, useCurrentProgramPercent, useIsRealtime, useReactiveProgramsCurrTime } from '~/composables/programs'
 import { defaultIsRealtimePrograms, getTimeTo, isCurrentProgram, useDayJS } from '~/shared'
 import { useSettingsStore } from '~/store/settings'

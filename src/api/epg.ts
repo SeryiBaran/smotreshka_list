@@ -1,11 +1,8 @@
 import type { Dayjs } from 'dayjs'
-import type { MaybeRef } from 'vue'
 import type { APIEPG, APIEPGEvent, ChannelID, ProgramEvent, ScheduleID } from '~/types'
 import { useQuery } from '@pinia/colada'
 import ky from 'ky'
-import { computed } from 'vue'
 import { usePrograms } from '~/api/programs'
-import { useReactiveProgramsCurrTime } from '~/composables/programs'
 import { useDayJS } from '~/shared'
 
 export function getChannelEPG(todaySchedule: ScheduleID | null) {
@@ -17,7 +14,7 @@ function filterByTime(event: ProgramEvent, isNext: boolean, currentTime: Dayjs) 
   return isNext ? currentTime.isBefore(begin) : currentTime.isAfter(begin)
 }
 
-export function useChannelEPG(channelId: ChannelID, isRealtime?: MaybeRef<boolean>) {
+export function useChannelEPG(channelId: ChannelID, isRealtime?: Ref<boolean> | boolean) {
   const reactiveProgramsCurrTime = useReactiveProgramsCurrTime(isRealtime)
 
   const programs = usePrograms()

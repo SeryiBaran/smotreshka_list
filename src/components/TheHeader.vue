@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { toggleDark } from '~/composables/dark'
 import { appGitVerDate, appGitVerHash, useDayJS } from '~/shared'
 </script>
 

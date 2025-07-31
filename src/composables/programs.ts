@@ -1,8 +1,5 @@
 import type { Dayjs } from 'dayjs'
-import type { MaybeRef } from 'vue'
 import type { APIEPGPageWithEvents, ChannelID, ChannelPrograms, ChannelsPrograms, ProgramEvent } from '~/types'
-import { useTimeoutFn } from '@vueuse/core'
-import { computed, ref, toValue } from 'vue'
 import { isCurrentProgram, useDayJS } from '~/shared'
 import { useSettingsStore } from '~/store/settings'
 
@@ -17,7 +14,7 @@ const timeout = useTimeoutFn(() => {
 timeout.start()
 
 export function useReactiveProgramsCurrTime(isRealtime?: MaybeRef<boolean>) {
-  let returnedCurrentTime: MaybeRef<Dayjs>
+  let returnedCurrentTime: Ref<Dayjs> | Dayjs
 
   if (toValue(isRealtime)) {
     returnedCurrentTime = computed(() => currentTime.value)
