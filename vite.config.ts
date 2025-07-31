@@ -5,8 +5,10 @@ import process from 'node:process'
 import Vue from '@vitejs/plugin-vue'
 import { simpleGit } from 'simple-git'
 import UnoCSS from 'unocss/vite'
+import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import VueMacros from 'unplugin-vue-macros/vite'
+import { VueRouterAutoImports } from 'unplugin-vue-router'
 import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
 import vueDevTools from 'vite-plugin-vue-devtools'
@@ -49,22 +51,22 @@ export default defineConfig({
     VueRouter(),
 
     // https://github.com/antfu/unplugin-auto-import
-    // AutoImport({
-    //   imports: [
-    //     'vue',
-    //     '@vueuse/core',
-    //     VueRouterAutoImports,
-    //     {
-    //       // add any other imports you were relying on
-    //       'vue-router/auto': ['useLink'],
-    //     },
-    //   ],
-    //   dts: true,
-    //   dirs: [
-    //     './src/composables',
-    //   ],
-    //   vueTemplate: true,
-    // }),
+    AutoImport({
+      imports: [
+        'vue',
+        '@vueuse/core',
+        VueRouterAutoImports,
+        {
+          // add any other imports you were relying on
+          'vue-router/auto': ['useLink'],
+        },
+      ],
+      dts: true,
+      dirs: [
+        './src/composables',
+      ],
+      vueTemplate: true,
+    }),
 
     // https://github.com/antfu/vite-plugin-components
     Components({
