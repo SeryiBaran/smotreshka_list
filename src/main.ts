@@ -43,3 +43,4 @@ enableMocking().then(() => {
 // TODO: Make setting like "load from tab: " and values: GenreID | SPECIAL_GENRES
 // TODO: Make genres tabs as Vue Router pages (maybe)
 // TODO: transfer from dayjs to https://vueuse.org/shared/useDateFormat/
+// TODO: rewrite fully, without using UnoCSS/TailWind

@@ -23,7 +23,11 @@ const emit = defineEmits<{
   <component
     :is="isTextarea ? 'textarea' : 'input'"
     v-bind="($attrs as Partial<InputHTMLAttributes>)"
-    :value="props.modelValue" class="input max-w-sm w-full" :class="[`input_${props.size}`, { isTextarea }]" :type="props.type" @input="(event: InputEvent) => emit('update:modelValue', (event.target as HTMLInputElement).value)"
+    :value="props.modelValue"
+    class="input max-w-sm w-full"
+    :class="[`input_${props.size}`, { isTextarea }]"
+    :type="props.type"
+    @input="(event: InputEvent) => emit('update:modelValue', (event.target as HTMLInputElement).value)"
   />
 </template>
 
