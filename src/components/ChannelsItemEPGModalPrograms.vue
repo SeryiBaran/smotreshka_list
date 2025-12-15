@@ -13,12 +13,19 @@ const props = defineProps<{
 const currentProgram = useCurrentProgram(props.epg.epg)
 
 const programs = computed(() => {
-  const otherPrograms = props.filteredEpg[props.isNext ? 'next' : 'previous'].value.filter(program => props.isNext ? true : !isCurrentProgram(program.scheduledFor))
+  const otherPrograms = props.filteredEpg[
+    props.isNext ? 'next' : 'previous'
+  ].value.filter(program =>
+    props.isNext ? true : !isCurrentProgram(program.scheduledFor),
+  )
 
   return {
     channelId: props.channelId,
     scheduleId: '0',
-    programs: props.isNext && currentProgram.value ? [currentProgram.value, ...otherPrograms] : otherPrograms,
+    programs:
+      props.isNext && currentProgram.value
+        ? [currentProgram.value, ...otherPrograms]
+        : otherPrograms,
   }
 })
 </script>
@@ -26,10 +33,11 @@ const programs = computed(() => {
 <template>
   <Programs
     :channel-programs="programs"
-    :show-all="true" :show-date="true" :dont-limit-width="true" :show-description="true"
+    :show-all="true"
+    :show-date="true"
+    :dont-limit-width="true"
+    :show-description="true"
   />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

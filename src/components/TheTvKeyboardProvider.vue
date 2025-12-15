@@ -25,14 +25,29 @@ function cancelTvKeyboard() {
   overlayError.value = null
 }
 
-const tvKeyboardHideTimer = useTimeoutFn(() => {
-  cancelTvKeyboard()
-}, settingsStore.tvKeyboardHideTime * 1000, { immediate: false })
+const tvKeyboardHideTimer = useTimeoutFn(
+  () => {
+    cancelTvKeyboard()
+  },
+  settingsStore.tvKeyboardHideTime * 1000,
+  { immediate: false },
+)
 
-const keyNumber = computed(() => numbers.value.join('').length > 0 ? Number.parseInt(numbers.value.join('')) : null)
+const keyNumber = computed(() =>
+  numbers.value.join('').length > 0
+    ? Number.parseInt(numbers.value.join(''))
+    : null,
+)
 const structuredKeyNumber = computed(() => {
   return {
-    unused: Array.from({ length: maxTvKeyboardKeyNumberLength - (keyNumber.value !== null ? keyNumber.value.toString().length : 0) }, (_, i) => i),
+    unused: Array.from(
+      {
+        length:
+          maxTvKeyboardKeyNumberLength
+          - (keyNumber.value !== null ? keyNumber.value.toString().length : 0),
+      },
+      (_, i) => i,
+    ),
     used: keyNumber.value !== null ? keyNumber.value.toString().split('') : [],
   }
 })
@@ -40,7 +55,9 @@ const structuredKeyNumber = computed(() => {
 const ignoreTags = ['SELECT', 'INPUT', 'TEXTAREA']
 
 function playChannel() {
-  const channel = props.channelsAvailable.find(channel => channel.keyNumber === keyNumber.value)
+  const channel = props.channelsAvailable.find(
+    channel => channel.keyNumber === keyNumber.value,
+  )
 
   if (channel) {
     const link = makeChannelPlayLink(channel.id)
@@ -63,46 +80,58 @@ const debouncedPlayNumber = useDebounceFn(() => {
   playChannel()
 }, settingsStore.tvKeyboardDebounce * 1000)
 
-const allowedTvKeyboardKeys = Array.from({ length: 10 }, (_, i) => i.toString())
+const allowedTvKeyboardKeys = Array.from({ length: 10 }, (_, i) =>
+  i.toString())
 
-onKeyStroke([...allowedTvKeyboardKeys, 'Escape', 'Enter', 'Backspace'], (event: KeyboardEvent) => {
-  if (modalStore.openedModals.length > 0)
-    return
+onKeyStroke(
+  [...allowedTvKeyboardKeys, 'Escape', 'Enter', 'Backspace'],
+  (event: KeyboardEvent) => {
+    if (modalStore.openedModals.length > 0)
+      return
 
-  tvKeyboardHideTimer.stop()
-  overlayError.value = null
-  if (allowedTvKeyboardKeys.includes(event.key) && document.activeElement?.tagName && !ignoreTags.includes(document.activeElement.tagName)) {
-    event.preventDefault()
-
-    showOverlay.value = true
-
-    if (numbers.value.length >= maxTvKeyboardKeyNumberLength) {
-      numbers.value.shift()
-    }
-    numbers.value.push(Number(event.key))
-
-    debouncedPlayNumber()
-  }
-  if (showOverlay.value) {
-    if (event.key === 'Escape') {
+    tvKeyboardHideTimer.stop()
+    overlayError.value = null
+    if (
+      allowedTvKeyboardKeys.includes(event.key)
+      && document.activeElement?.tagName
+      && !ignoreTags.includes(document.activeElement.tagName)
+    ) {
       event.preventDefault()
 
-      cancelTvKeyboard()
-    }
-    if (event.key === 'Enter') {
-      event.preventDefault()
+      showOverlay.value = true
 
-      playChannel()
-    }
-    if (event.key === 'Backspace') {
-      event.preventDefault()
+      if (numbers.value.length >= maxTvKeyboardKeyNumberLength) {
+        numbers.value.shift()
+      }
+      numbers.value.push(Number(event.key))
 
-      numbers.value.pop()
+      debouncedPlayNumber()
     }
-  }
-})
+    if (showOverlay.value) {
+      if (event.key === 'Escape') {
+        event.preventDefault()
 
-const findChannelResult = computed(() => props.channelsAvailable.find(channel => channel.keyNumber === keyNumber.value))
+        cancelTvKeyboard()
+      }
+      if (event.key === 'Enter') {
+        event.preventDefault()
+
+        playChannel()
+      }
+      if (event.key === 'Backspace') {
+        event.preventDefault()
+
+        numbers.value.pop()
+      }
+    }
+  },
+)
+
+const findChannelResult = computed(() =>
+  props.channelsAvailable.find(
+    channel => channel.keyNumber === keyNumber.value,
+  ),
+)
 
 // TODO: make a progress bar, maybe around numbers
 </script>
@@ -111,23 +140,41 @@ const findChannelResult = computed(() => props.channelsAvailable.find(channel =>
   <div v-if="showOverlay" class="tvKeyboardOverlay">
     <div class="flex flex-col gap-2 max-w-md items-center">
       <div class="rounded-4 bg-neutral-200 overflow-hidden dark:bg-neutral-800">
-        <p class="text-8xl text-black font-mono px-4 py-2 bg-brand-500/20 dark:text-white">
-          <span v-for="(unusedNumber, i) in structuredKeyNumber.unused" :key="unusedNumber.toString() + unusedNumber + i" class="opacity-50">-</span>
-          <span v-for="(usedNumber, i) in structuredKeyNumber.used" :key="usedNumber.toString() + usedNumber + i">{{ usedNumber }}</span>
+        <p
+          class="text-8xl text-black font-mono px-4 py-2 bg-brand-500/20 dark:text-white"
+        >
+          <span
+            v-for="(unusedNumber, i) in structuredKeyNumber.unused"
+            :key="unusedNumber.toString() + unusedNumber + i"
+            class="opacity-50"
+          >-</span>
+          <span
+            v-for="(usedNumber, i) in structuredKeyNumber.used"
+            :key="usedNumber.toString() + usedNumber + i"
+          >{{ usedNumber }}</span>
         </p>
       </div>
       <p class="text-brand-500">
-        {{ findChannelResult ? findChannelResult.title : '...' }}
+        {{ findChannelResult ? findChannelResult.title : "..." }}
       </p>
       <p v-if="overlayError" class="text-red">
         {{ overlayError }}
       </p>
       <ul class="list-circle">
         <li>Отмена - <kbd>ESC</kbd></li>
-        <li>Открыть сразу - <kbd>Enter <span class="i-tabler:corner-down-left text-size-base inline-block" /></kbd></li>
-        <li>Стереть - <kbd>Backspace <span class="i-tabler:backspace text-size-base inline-block" /></kbd></li>
         <li>
-          Если не работает, <RouterLink to="/help" class="link">
+          Открыть сразу -
+          <kbd>Enter
+            <span class="i-tabler:corner-down-left text-size-base inline-block" /></kbd>
+        </li>
+        <li>
+          Стереть -
+          <kbd>Backspace
+            <span class="i-tabler:backspace text-size-base inline-block" /></kbd>
+        </li>
+        <li>
+          Если не работает,
+          <RouterLink to="/help" class="link">
             разрешите сайту открывать всплывающие окна и вкладки
           </RouterLink>
         </li>

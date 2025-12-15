@@ -4,6 +4,7 @@ import { storeToRefs } from 'pinia'
 import { useChannels } from '~/api/channels'
 import { usePrograms } from '~/api/programs'
 import TheTvKeyboardProvider from '~/components/TheTvKeyboardProvider.vue'
+import { channelsPacksLastEdit, useDayJS } from '~/shared'
 import { useFiltersStore } from '~/store/filters'
 import { useSettingsStore } from '~/store/settings'
 import { SPECIAL_GENRES } from '~/types'
@@ -68,6 +69,9 @@ function resetFilters() {
 <template>
   <div class="flex grow flex-col">
     <TheTvKeyboardProvider :channels-available="channels.channelsAvailable.value" />
+    <p class="text-sm mt-1">
+      Последнее обновление списка произошло <span :title="useDayJS()(channelsPacksLastEdit).format()">{{ useDayJS()(channelsPacksLastEdit).fromNow() }}</span>
+    </p>
     <p class="text-sm my-4 mt-1">
       Вы можете начать вводить номер канала прямо на странице, у вас будет на это {{ settingsStore.tvKeyboardDebounce }} секунд.
       <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->

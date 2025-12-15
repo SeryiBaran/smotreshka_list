@@ -15,5 +15,12 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <span class="font-600 whitespace-nowrap"> <template v-if="props.showDate">{{ useDayJS()(props.scheduledFor.begin).format('YYYY.MM.DD') }}</template> {{ useDayJS()(props.scheduledFor.begin).format('HH:mm') }} <template v-if="!props.showDate">/ {{ useDayJS()(props.scheduledFor.end).format('HH:mm') }}</template> - </span>
+  <span class="font-600 whitespace-nowrap">
+    <template v-if="props.showDate">{{
+      useDayJS()(props.scheduledFor.begin).format("YYYY.MM.DD")
+    }}</template>
+    {{ useDayJS()(props.scheduledFor.begin).format("HH:mm") }}
+    <template v-if="!props.showDate">/ {{ useDayJS()(props.scheduledFor.end).format("HH:mm") }}</template>
+    -
+  </span>
 </template>

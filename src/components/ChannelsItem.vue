@@ -1,6 +1,15 @@
 <script lang="ts" setup>
-import type { APIProgramsComposeTable, Channel, ChannelsPrograms } from '~/types'
-import { useChannelPrograms, useCurrentProgram, useCurrentProgramPercent, useReactiveProgramsCurrTime } from '~/composables/programs'
+import type {
+  APIProgramsComposeTable,
+  Channel,
+  ChannelsPrograms,
+} from '~/types'
+import {
+  useChannelPrograms,
+  useCurrentProgram,
+  useCurrentProgramPercent,
+  useReactiveProgramsCurrTime,
+} from '~/composables/programs'
 import { isCurrentProgram, makeChannelPlayLink } from '~/shared'
 import { useModalStore } from '~/store/modal'
 import { useSettingsStore } from '~/store/settings'
@@ -14,7 +23,9 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const ChannelsItemEPGModal = defineAsyncComponent(() => import('~/components/ChannelsItemEPGModal.vue'))
+const ChannelsItemEPGModal = defineAsyncComponent(
+  () => import('~/components/ChannelsItemEPGModal.vue'),
+)
 
 const settingsStore = useSettingsStore()
 const modalStore = useModalStore()
@@ -27,7 +38,10 @@ function formatKeyNumber(keyNumber: number) {
 
 const reactiveProgramsCurrTime = useReactiveProgramsCurrTime()
 
-const channelPrograms = useChannelPrograms(props.channel.id, props.channelsPrograms)
+const channelPrograms = useChannelPrograms(
+  props.channel.id,
+  props.channelsPrograms,
+)
 
 const programs = computed(() => channelPrograms.value?.programs)
 
@@ -35,10 +49,15 @@ const currentProgram = useCurrentProgram(programs)
 
 const currentProgramPercent = useCurrentProgramPercent(currentProgram)
 
-const chLogoUrl = computed(() => `${props.channel.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93`)
+const chLogoUrl = computed(
+  () =>
+    `${props.channel.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93`,
+)
 
 const chLogoOverlayMainStyle = computed(() => ({
-  backgroundImage: currentProgram.value?.logoUrl ? `url('${currentProgram.value.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93')` : '',
+  backgroundImage: currentProgram.value?.logoUrl
+    ? `url('${currentProgram.value.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93')`
+    : '',
   backgroundSize: 'cover',
 }))
 
@@ -56,7 +75,9 @@ watch(itemIsVisible, (newValue) => {
 
 const modalId = `epg__${props.channel.id}`
 
-const modalIsActive = computed(() => epgWasClicked.value && modalStore.getIsActive(modalId))
+const modalIsActive = computed(
+  () => epgWasClicked.value && modalStore.getIsActive(modalId),
+)
 
 function handleShowEPG() {
   epgWasClicked.value = true
@@ -76,7 +97,11 @@ function handleShowEPG() {
     ref="item"
     :data-modalid="modalId"
     class="channelsItem flex"
-    :class="{ isCompactMode: (settingsStore.channelsListMode === 'compact'), isLogosMode: (settingsStore.channelsListMode === 'logos'), notShowPrograms: !settingsStore.isShowPrograms }"
+    :class="{
+      isCompactMode: settingsStore.channelsListMode === 'compact',
+      isLogosMode: settingsStore.channelsListMode === 'logos',
+      notShowPrograms: !settingsStore.isShowPrograms,
+    }"
   >
     <a
       :href="makeChannelPlayLink(props.channel.id)"
@@ -85,7 +110,12 @@ function handleShowEPG() {
       :title="`Ссылка на канал ${props.channel.title}`"
     >
       <div
-        v-if="((minMd || !settingsStore.isHideLogosOnSmallScreen) && settingsStore.isShowChannelsImages && !(settingsStore.channelsListMode === 'compact')) || settingsStore.channelsListMode === 'logos'"
+        v-if="
+          ((minMd || !settingsStore.isHideLogosOnSmallScreen)
+            && settingsStore.isShowChannelsImages
+            && !(settingsStore.channelsListMode === 'compact'))
+            || settingsStore.channelsListMode === 'logos'
+        "
         class="chLogoContainer"
       >
         <img
@@ -94,7 +124,14 @@ function handleShowEPG() {
           :alt="`Иконка ${formatKeyNumber(props.channel.keyNumber)} ${props.channel.title}`"
         >
         <div
-          v-if="settingsStore.isShowProgramOverlays && currentProgram && isCurrentProgram(currentProgram.scheduledFor, reactiveProgramsCurrTime.currentTime.value)"
+          v-if="
+            settingsStore.isShowProgramOverlays
+              && currentProgram
+              && isCurrentProgram(
+                currentProgram.scheduledFor,
+                reactiveProgramsCurrTime.currentTime.value,
+              )
+          "
           class="chLogoOverlayCommon chLogoOverlayMain"
           :style="chLogoOverlayMainStyle"
         >
@@ -102,41 +139,93 @@ function handleShowEPG() {
             v-if="settingsStore.channelsListMode === 'logos'"
             class="bg-neutral-900/60 h-full"
           >
-            <p class="chLogoOverlayMainChannelTitle"><span class="text-brand-500">{{ formatKeyNumber(channel.keyNumber) }}</span> {{ channel.title }}</p>
-            <p class="text-sm leading-4 px-2.5 py-1.8">{{ currentProgram.title }}</p>
+            <p class="chLogoOverlayMainChannelTitle">
+              <span class="text-brand-500">{{
+                formatKeyNumber(channel.keyNumber)
+              }}</span>
+              {{ channel.title }}
+            </p>
+            <p class="text-sm leading-4 px-2.5 py-1.8">
+              {{ currentProgram.title }}
+            </p>
           </div>
         </div>
 
         <div
-          v-if="settingsStore.isShowProgramOverlays && settingsStore.channelsListMode === 'logos' && currentProgram && isCurrentProgram(currentProgram.scheduledFor, reactiveProgramsCurrTime.currentTime.value)"
+          v-if="
+            settingsStore.isShowProgramOverlays
+              && settingsStore.channelsListMode === 'logos'
+              && currentProgram
+              && isCurrentProgram(
+                currentProgram.scheduledFor,
+                reactiveProgramsCurrTime.currentTime.value,
+              )
+          "
           class="chLogoOverlayCommon chLogoOverlayProgress"
         >
-          <div class="chLogoOverlayProgressSlider" :style="{ width: `${currentProgramPercent}%` }" />
+          <div
+            class="chLogoOverlayProgressSlider"
+            :style="{ width: `${currentProgramPercent}%` }"
+          />
         </div>
       </div>
-      <div v-if="settingsStore.channelsListMode !== 'logos'" class="channelsItemInfoWrapper wrapper w-full">
+      <div
+        v-if="settingsStore.channelsListMode !== 'logos'"
+        class="channelsItemInfoWrapper wrapper w-full"
+      >
         <div class="channelTitle limitWidth">
-          <span class="channelNumber">{{ formatKeyNumber(props.channel.keyNumber) }}</span>
+          <span class="channelNumber">{{
+            formatKeyNumber(props.channel.keyNumber)
+          }}</span>
           <span class="channelName">{{ props.channel.title }}</span>
-          <span v-if="settingsStore.channelsListMode !== 'compact'" class="channelBtns">
-            <button class="colorsTransition btn-icon channelBtn showEpgBtn" title="Открыть программу передач" @click.prevent="handleShowEPG()">
-              <span class="colorsTransition i-tabler:list text-4 block 2xl:text-6" />
-            </button>
+          <span
+            v-if="settingsStore.channelsListMode !== 'compact'"
+            class="channelBtns"
+          >
             <button
-              class="colorsTransition btn-icon channelBtn" :class="{ 'btn-icon-checked': settingsStore.favoriteChannels.includes(props.channel.id),
-              }" title="Добавить в локал избранное"
-              @click.prevent="settingsStore.favoriteChannelToggle(props.channel.id)"
+              class="colorsTransition btn-icon channelBtn showEpgBtn"
+              title="Открыть программу передач"
+              @click.prevent="handleShowEPG()"
             >
               <span
-                class="colorsTransition i-tabler:heart text-4 block 2xl:text-6" :class="{ 'i-tabler:heart-filled': settingsStore.favoriteChannels.includes(props.channel.id),
+                class="colorsTransition i-tabler:list text-4 block 2xl:text-6"
+              />
+            </button>
+            <button
+              class="colorsTransition btn-icon channelBtn"
+              :class="{
+                'btn-icon-checked': settingsStore.favoriteChannels.includes(
+                  props.channel.id,
+                ),
+              }"
+              title="Добавить в локал избранное"
+              @click.prevent="
+                settingsStore.favoriteChannelToggle(props.channel.id)
+              "
+            >
+              <span
+                class="colorsTransition i-tabler:heart text-4 block 2xl:text-6"
+                :class="{
+                  'i-tabler:heart-filled':
+                    settingsStore.favoriteChannels.includes(props.channel.id),
                 }"
               />
             </button>
           </span>
         </div>
-        <template v-if="(settingsStore.channelsListMode !== 'compact') && settingsStore.isShowPrograms">
+        <template
+          v-if="
+            settingsStore.channelsListMode !== 'compact'
+              && settingsStore.isShowPrograms
+          "
+        >
           <Programs
-            v-if="itemWasVisible && props.channelsPrograms && channelPrograms !== undefined && currentProgram"
+            v-if="
+              itemWasVisible
+                && props.channelsPrograms
+                && channelPrograms !== undefined
+                && currentProgram
+            "
             :channel-programs="channelPrograms"
             :show-progress="true"
             class="mt-2 2xl:mt-4"
@@ -155,7 +244,7 @@ function handleShowEPG() {
       :data-modalid="modalId"
       :model-value="modalIsActive"
       :channel="props.channel"
-      @update:model-value="val => modalStore.setOrToggleModal(modalId, val)"
+      @update:model-value="(val) => modalStore.setOrToggleModal(modalId, val)"
     />
   </li>
 </template>
