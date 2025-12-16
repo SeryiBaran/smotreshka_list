@@ -8,4 +8,12 @@ export default antfu(
 
     ignores: ['public/mockServiceWorker.js'],
   },
+  {
+    files: ['pnpm-workspace.yaml'],
+    rules: {
+      'pnpm/yaml-enforce-settings': ['error', {
+        settings: { shellEmulator: true, trustPolicy: 'off', catalogMode: 'prefer' },
+      }],
+    },
+  },
 )
