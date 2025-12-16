@@ -2,12 +2,9 @@ catalogMode: prefer
 
 shellEmulator: true
 
-# fix later
-
 trustPolicy: no-downgrade
 
 packages: []
-
 catalogs:
   build:
     '@iconify-json/carbon': ^1.2.15
@@ -21,12 +18,11 @@ catalogs:
     unplugin-vue-macros: ^2.14.5
     unplugin-vue-router: ^0.19.1
     vite: ^7.3.0
-
   dev:
     '@antfu/eslint-config': ^6.7.1
-    '@types/node': ^25.0.2
+    '@types/node': catalog:dev
     '@unocss/eslint-plugin': ^66.5.10
-    '@vitest/ui': ^4.0.15
+    '@vitest/ui': catalog:dev
     '@vue-macros/volar': ^3.1.1
     '@vue/test-utils': ^2.4.6
     dotenv: ^17.2.3
@@ -37,17 +33,15 @@ catalogs:
     simple-git: ^3.30.0
     simple-git-hooks: ^2.13.1
     taze: ^19.9.2
-    typescript: ^5.9.3
+    typescript: catalog:dev
     vite-plugin-vue-devtools: ^8.0.5
-    vitest: ^4.0.15
+    vitest: catalog:dev
     vue-tsc: ^3.1.8
-
   frontend:
     '@pinia/colada': ^0.18.1
     '@vee-validate/zod': ^4.15.1
     '@vueuse/core': ^14.1.0
     '@vueuse/integrations': ^14.1.0
-
     dayjs: ^1.11.19
     floating-vue: ^5.2.2
     fuse.js: ^7.1.0
@@ -60,7 +54,6 @@ catalogs:
     vue-final-modal: ^4.5.5
     vue-router: ^4.6.4
     zod: ^4.2.1
-
 onlyBuiltDependencies:
   - esbuild
   - simple-git-hooks

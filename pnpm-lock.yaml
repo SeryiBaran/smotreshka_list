@@ -38,13 +38,13 @@ catalogs:
       specifier: ^6.7.1
       version: 6.7.1
     '@types/node':
-      specifier: ^25.0.2
+      specifier: catalog:dev
       version: 25.0.2
     '@unocss/eslint-plugin':
       specifier: ^66.5.10
       version: 66.5.10
     '@vitest/ui':
-      specifier: ^4.0.15
+      specifier: catalog:dev
       version: 4.0.16
     '@vue-macros/volar':
       specifier: ^3.1.1
@@ -77,13 +77,13 @@ catalogs:
       specifier: ^19.9.2
       version: 19.9.2
     typescript:
-      specifier: ^5.9.3
+      specifier: catalog:dev
       version: 5.9.3
     vite-plugin-vue-devtools:
       specifier: ^8.0.5
       version: 8.0.5
     vitest:
-      specifier: ^4.0.15
+      specifier: catalog:dev
       version: 4.0.16
     vue-tsc:
       specifier: ^3.1.8
