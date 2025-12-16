@@ -2,9 +2,9 @@ catalogMode: prefer
 
 shellEmulator: true
 
-trustPolicy: no-downgrade
+# fix later
 
-# trustPolicy: no-downgrade
+trustPolicy: no-downgrade
 
 packages: []
 
