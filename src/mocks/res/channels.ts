@@ -3,7 +3,7 @@ export const channelsMock = {
     {
       id: '52d555c99109550984000006',
       title: 'Кукумбина 3',
-      keyNumber: 736,
+      keyNumber: 7360,
       logoUrl:
         'http://smotreshka.server-img.lfstrm.tv/image/aHR0cDovL2ltZy5iNjEyLnRpZ2h0dmlkZW8uY29tL2NoYW5uZWxzL2F1dG8tcGx1cy5wbmc=',
       relevantGenres: [
@@ -56,7 +56,7 @@ export const channelsMock = {
     {
       id: '535e41fbebf8c403a10014e4',
       title: 'Киноуна',
-      keyNumber: 184,
+      keyNumber: 1840,
       logoUrl:
         'http://smotreshka.server-img.lfstrm.tv/image/aHR0cDovL2ltZy5iNjEyLnRpZ2h0dmlkZW8uY29tL2NoYW5uZWxzL2Zlbml4X3BsdXNfa2lub19oZC5wbmc=',
       relevantGenres: [
@@ -70,7 +70,7 @@ export const channelsMock = {
     {
       id: '535f3a74ebf8c403a10017c5',
       title: 'Ынара',
-      keyNumber: 727,
+      keyNumber: 7270,
       logoUrl:
         'http://smotreshka.server-img.lfstrm.tv/image/aHR0cDovL2ltZy5iNjEyLnRpZ2h0dmlkZW8uY29tL2NoYW5uZWxzL2ppdmkucG5n',
       relevantGenres: [
