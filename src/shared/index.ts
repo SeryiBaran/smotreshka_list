@@ -30,7 +30,7 @@ export const channelsPacksNames = {
   kids: 'Детский',
 }
 
-const channelsPacksLastEditString = '23.07.2025'
+const channelsPacksLastEditString = '24.12.2025'
 export const channelsPacksLastEdit = useDayJS()(channelsPacksLastEditString, 'DD.MM.YYYY')
 
 export const channelsPacks = {
