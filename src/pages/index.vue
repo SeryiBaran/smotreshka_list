@@ -72,9 +72,6 @@ function resetFilters() {
     <p class="text-sm mt-1">
       Последнее обновление списка произошло <span :title="useDayJS()(channelsPacksLastEdit).format()">{{ useDayJS()(channelsPacksLastEdit).fromNow() }}</span>
     </p>
-    <p class="text-sm mt-1">
-      ВНИМАНИЕ: В списке присутствуют каналы, которые перестанут быть доступны после новогодних праздников. Попросите Ивана обновить список в январе.
-    </p>
     <p class="text-sm my-4 mt-1">
       Вы можете начать вводить номер канала прямо на странице, у вас будет на это {{ settingsStore.tvKeyboardDebounce }} секунд.
       <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
