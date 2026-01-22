@@ -78,6 +78,8 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
   const searchDebounce = createSetting(settingsDefaults.searchDebounce)
   const isHideLogosOnSmallScreen = createSetting(settingsDefaults.isHideLogosOnSmallScreen)
 
+  const searchByProgram = createSetting(settingsDefaults.searchByProgram)
+
   function $reset() {
     resetFunctions.forEach(reset => reset())
   }
@@ -144,6 +146,9 @@ export const useSettingsStore = defineStore('smotreshka_list__settings', () => {
 
     isHideLogosOnSmallScreen: isHideLogosOnSmallScreen.setting,
     isHideLogosOnSmallScreenReset: isHideLogosOnSmallScreen.reset,
+
+    searchByProgram: searchByProgram.setting,
+    searchByProgramReset: searchByProgram.reset,
 
     $reset,
   }

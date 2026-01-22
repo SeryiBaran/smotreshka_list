@@ -12,6 +12,7 @@ import { beforeTestsShared, myMount, sleep } from './shared'
 // TODO: write tests!
 // TODO: break big tests to many small!
 // TODO: optimize time, now one test runs 100ms
+// TODO: write tests for searchByProgram
 
 function getCurrentChannelsNames(wrapper: VueWrapper) {
   const channelsItems = wrapper.findAll('#channelsList .channelsItem')

@@ -60,6 +60,8 @@ export const defaultSearchDebounce = 500
 
 export const defaultIsHideLogosOnSmallScreen = true
 
+const defaultSearchByProgram = false
+
 export const settingsDefaults = {
   brandColor: defaultBrandColor,
   isColorizeBackground: defaultIsColorizeBackground,
@@ -79,4 +81,5 @@ export const settingsDefaults = {
   backgroundColorizationOpacity: defaultBackgroundColorizationOpacity,
   searchDebounce: defaultSearchDebounce,
   isHideLogosOnSmallScreen: defaultIsHideLogosOnSmallScreen,
+  searchByProgram: defaultSearchByProgram,
 }

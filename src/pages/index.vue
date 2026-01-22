@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import type { UseFuseOptions } from '@vueuse/integrations/useFuse'
+import type { Channel } from '~/types'
 import { useFuse } from '@vueuse/integrations/useFuse'
 import { storeToRefs } from 'pinia'
 import { useChannels } from '~/api/channels'
 import { usePrograms } from '~/api/programs'
+import Checkbox from '~/components/inputs/Checkbox.vue'
 import TheTvKeyboardProvider from '~/components/TheTvKeyboardProvider.vue'
-import { channelsPacksLastEdit, useDayJS } from '~/shared'
+import { channelsPacksLastEdit, isCurrentProgram, useDayJS } from '~/shared'
 import { useFiltersStore } from '~/store/filters'
 import { useSettingsStore } from '~/store/settings'
 import { SPECIAL_GENRES } from '~/types'
@@ -40,16 +43,28 @@ const channelsFilteredByGenre = computed(() => (
     })
 ))
 
-const find = useFuse(searchValueDebouncedTrimmed, channelsFilteredByGenre, {
+const searchByProgram = ref(false)
+
+const fuseOptions = computed<UseFuseOptions<Channel>>(() => ({
   fuseOptions: {
-    keys: ['title', {
-      name: 'keyNumber',
-      getFn(e) {
-        return (e.keyNumber.toString())
-      },
-    }],
+    keys: ['title', searchByProgram.value
+      ? {
+          name: 'currentProgram',
+          getFn(e) {
+            const a = programs.channelsPrograms.value.find(program => program.channelId === e.id)?.programs.find(program => isCurrentProgram(program.scheduledFor))?.title || ''
+            return a
+          },
+        }
+      : {
+          name: 'keyNumber',
+          getFn(e) {
+            return (e.keyNumber.toString())
+          },
+        }],
   },
-})
+}))
+
+const find = useFuse(searchValueDebouncedTrimmed, channelsFilteredByGenre, fuseOptions)
 
 const channelsFiltered = computed(() => {
   let filtered = channelsFilteredByGenre.value
@@ -77,6 +92,7 @@ function resetFilters() {
       <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
       <RouterLink to="/help" class="link">Если не работает, разрешите сайту открывать всплывающие окна и вкладки</RouterLink>.
     </p>
+    <Checkbox v-model="searchByProgram" checkbox-label="Искать по передаче" class="mb-2" />
     <InputText v-model="filtersStore.searchValue" class="searchBar" placeholder="Введите запрос..." />
     <div class="text-lg mt-4 flex flex-wrap gap-x-2 gap-y-2">
       <template v-if="channels.genresList.value && channels.genresList.value.length > 0">
