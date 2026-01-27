@@ -126,7 +126,7 @@ function resetFilters() {
     </div>
     <div class="flex flex-wrap gap-4 items-center">
       <p class="my-2">
-        Итого: {{ channelsFiltered.length }} канал(а/ов)
+        Итого каналов: {{ channelsFiltered.length }}
       </p><button id="filtersClearBtn" class="colorsTransition btn btn-with-icon my-2" @click="resetFilters()">
         <span
           class="colorsTransition i-tabler:cancel text-inherit block"
