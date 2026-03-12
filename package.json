@@ -1,7 +1,7 @@
 {
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@10.26.0",
+  "packageManager": "pnpm@10.32.1",
   "scripts": {
     "build": "vite build",
     "dev": "vite --port 3333 --open",
@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@pinia/colada": "catalog:frontend",
+    "@types/node": "catalog:dev",
     "@vee-validate/zod": "catalog:frontend",
     "@vitest/ui": "catalog:dev",
     "@vueuse/core": "catalog:frontend",
@@ -29,7 +30,9 @@
     "pinia": "catalog:frontend",
     "pinia-plugin-persistedstate-2": "catalog:frontend",
     "simple-git": "catalog:dev",
+    "typescript": "catalog:dev",
     "vee-validate": "catalog:frontend",
+    "vitest": "catalog:dev",
     "vue": "catalog:frontend",
     "vue-final-modal": "catalog:frontend",
     "vue-router": "catalog:frontend",
@@ -39,7 +42,6 @@
     "@antfu/eslint-config": "catalog:dev",
     "@iconify-json/carbon": "catalog:build",
     "@iconify-json/tabler": "catalog:build",
-    "@types/node": "catalog:dev",
     "@unocss/eslint-plugin": "catalog:dev",
     "@vitejs/plugin-vue": "catalog:build",
     "@vue-macros/volar": "catalog:dev",
@@ -50,7 +52,6 @@
     "lint-staged": "catalog:dev",
     "simple-git-hooks": "catalog:dev",
     "taze": "catalog:dev",
-    "typescript": "catalog:dev",
     "unocss": "catalog:build",
     "unplugin-auto-import": "catalog:build",
     "unplugin-vue-components": "catalog:build",
@@ -58,7 +59,6 @@
     "unplugin-vue-router": "catalog:build",
     "vite": "catalog:build",
     "vite-plugin-vue-devtools": "catalog:dev",
-    "vitest": "catalog:dev",
     "vue-tsc": "catalog:dev"
   },
   "resolutions": {
