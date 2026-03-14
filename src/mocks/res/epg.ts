@@ -23,6 +23,8 @@ const tomorrow = tomorrowDate
   .format(`YYYY-MM-DD`) // 2025-04-29
 // const nowInFuckedFormat = dayjs().utc().format(`YYYY-MM-DD[t]12[d]12[h]`)
 
+const pageIdTimeRegex = /T\d{2}:\d{2}:\d{2}Z/g
+
 function createEvents(todaySchedule: string, hourPadding: number) {
   const length = 12
   return Array.from({ length }, (_, i) => i).map((_, i) => {
@@ -48,7 +50,7 @@ function createPagesWithEvents(todaySchedule: string) {
   const length = 3
   return Array.from({ length }, (_, i) => i).map((_, i) => {
     return {
-      pageId: todayDate.add(12 * i, 'hour').format().replaceAll(/T\d{2}:\d{2}:\d{2}Z/g, `T${todayDate.hour}`), // TODO: realise how this time notation fuckin works!
+      pageId: todayDate.add(12 * i, 'hour').format().replaceAll(pageIdTimeRegex, `T${todayDate.hour}`), // TODO: realise how this time notation fuckin works!
       coveredInterval: {
         begin: todayDate.add(12 * i, 'hour').format(),
         end: todayDate.add(12 * i + 1, 'hour').format(),
