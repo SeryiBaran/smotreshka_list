@@ -46,3 +46,4 @@ enableMocking().then(() => {
 // TODO: rewrite fully, without using UnoCSS/TailWind
 
 // SeryiBaran is dumb
+// also he's big fan of Jayfeather :3
