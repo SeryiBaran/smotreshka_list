@@ -143,7 +143,6 @@ function resetFilters() {
           v-for="channel in channelsFiltered"
           :key="channel.id"
           :channel="channel"
-          :channels-programs="programs.channelsPrograms"
           :is-programs-fetching="programs.isFetching.value"
           :programs-compose-table="programs.programsComposeTable.value"
         />

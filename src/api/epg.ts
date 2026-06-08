@@ -14,7 +14,7 @@ function filterByTime(event: ProgramEvent, isNext: boolean, currentTime: Dayjs) 
   return isNext ? currentTime.isBefore(begin) : currentTime.isAfter(begin)
 }
 
-export function useChannelEPG(channelId: ChannelID, isRealtime?: Ref<boolean> | boolean) {
+export function useChannelEPG(channelId: ChannelID, isRealtime?: MaybeRef<boolean>) {
   const reactiveProgramsCurrTime = useReactiveProgramsCurrTime(isRealtime)
 
   const programs = usePrograms()
@@ -34,7 +34,7 @@ export function useChannelEPG(channelId: ChannelID, isRealtime?: Ref<boolean> | 
     query: () => getChannelEPG(todaySchedule.value),
   })
 
-  const epg = computed(() => query.data.value?.pagesWithEvents.reduce<APIEPGEvent[]>((acc, page) => [...acc, ...page.events], []) || [])
+  const epg = computed(() => query.data.value?.pagesWithEvents?.reduce<APIEPGEvent[]>((acc, page) => [...acc, ...page.events], []) || [])
 
   function filterEpg(epgForFilter: APIEPGEvent[] | undefined, isNext: boolean, currentTime: Dayjs) {
     return epgForFilter?.filter(event => filterByTime(event, isNext, currentTime)) || []
@@ -49,7 +49,7 @@ export function useChannelEPG(channelId: ChannelID, isRealtime?: Ref<boolean> | 
     }),
   }
 
-  const isEpg = computed(() => filteredEpg.next.value && filteredEpg.previous.value)
+  const isEpg = computed(() => !!filteredEpg.next.value && !!filteredEpg.previous.value)
 
   return {
     query,

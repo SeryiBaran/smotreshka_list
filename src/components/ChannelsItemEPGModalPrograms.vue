@@ -32,7 +32,8 @@ const programs = computed(() => {
 
 <template>
   <Programs
-    :channel-programs="programs"
+    :channel-id="programs.channelId"
+    :programs="programs.programs"
     :show-all="true"
     :show-date="true"
     :dont-limit-width="true"

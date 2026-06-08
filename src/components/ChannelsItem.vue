@@ -2,10 +2,11 @@
 import type {
   APIProgramsComposeTable,
   Channel,
-  ChannelsPrograms,
+  // ChannelsPrograms,
 } from '~/types'
+import { useChannelEPG } from '~/api/epg'
 import {
-  useChannelPrograms,
+  // useChannelPrograms,
   useCurrentProgram,
   useCurrentProgramPercent,
   useReactiveProgramsCurrTime,
@@ -16,7 +17,7 @@ import { useSettingsStore } from '~/store/settings'
 
 interface Props {
   channel: Channel
-  channelsPrograms: Ref<ChannelsPrograms | null>
+  // channelsPrograms: Ref<ChannelsPrograms | null>
   isProgramsFetching: boolean
   programsComposeTable: APIProgramsComposeTable | undefined
 }
@@ -38,12 +39,15 @@ function formatKeyNumber(keyNumber: number) {
 
 const reactiveProgramsCurrTime = useReactiveProgramsCurrTime()
 
-const channelPrograms = useChannelPrograms(
-  props.channel.id,
-  props.channelsPrograms,
-)
+// const channelPrograms = useChannelPrograms(
+//   props.channel.id,
+//   props.channelsPrograms,
+// )
+// const programs = computed(() => channelPrograms.value?.programs)
 
-const programs = computed(() => channelPrograms.value?.programs)
+// Descriptions only in epg's
+const epg = useChannelEPG(props.channel.id)
+const programs = epg.epg
 
 const currentProgram = useCurrentProgram(programs)
 
@@ -222,11 +226,13 @@ function handleShowEPG() {
           <Programs
             v-if="
               itemWasVisible
-                && props.channelsPrograms
-                && channelPrograms !== undefined
+                // && props.channelsPrograms
+                && epg.isEpg
+                && !epg.isFetching.value
                 && currentProgram
             "
-            :channel-programs="channelPrograms"
+            :channel-id="props.channel.id"
+            :programs="epg.epg.value"
             :show-progress="true"
             class="mt-2 2xl:mt-4"
             :is-realtime="settingsStore.isRealtimePrograms"
@@ -244,6 +250,7 @@ function handleShowEPG() {
       :data-modalid="modalId"
       :model-value="modalIsActive"
       :channel="props.channel"
+      :epg
       @update:model-value="(val) => modalStore.setOrToggleModal(modalId, val)"
     />
   </li>

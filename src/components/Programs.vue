@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import type { ChannelPrograms } from '~/types'
+import type { ChannelID, ProgramEvent } from '~/types'
 import { Tooltip } from 'floating-vue'
 import { useCurrentProgram, useCurrentProgramPercent, useIsRealtime, useReactiveProgramsCurrTime } from '~/composables/programs'
 import { defaultIsRealtimePrograms, getTimeTo, isCurrentProgram, useDayJS } from '~/shared'
 import { useSettingsStore } from '~/store/settings'
 
 interface Props {
-  channelPrograms: ChannelPrograms
+  channelId: ChannelID
+  programs: ProgramEvent[]
   showAll?: boolean
   showDate?: boolean
   showProgress?: boolean
@@ -30,11 +31,11 @@ const isRealtime = useIsRealtime(props.isRealtime)
 
 const reactiveProgramsCurrTime = useReactiveProgramsCurrTime(isRealtime)
 
-const filteredPrograms = computed<ChannelPrograms>(() => {
-  const programs = props.channelPrograms.programs
+const filteredPrograms = computed(() => {
+  const programs = props.programs
   const currentProgramIndex = programs.findIndex(program => isCurrentProgram(program.scheduledFor, reactiveProgramsCurrTime.currentTime.value))
 
-  const result = { channelId: props.channelPrograms.channelId, scheduleId: props.channelPrograms.scheduleId, programs: props.showAll ? programs : programs.slice(currentProgramIndex, currentProgramIndex + 2) }
+  const result = { channelId: props.channelId, programs: props.showAll ? programs : programs.slice(currentProgramIndex, currentProgramIndex + 2) }
 
   return result
 })
@@ -47,10 +48,10 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
 </script>
 
 <template>
-  <ul v-if="props.channelPrograms.programs.length && props.channelPrograms.programs.length > 0 && filteredPrograms.programs.length > 0" class="list" :class="{ listShowDescription: props.showDescription }">
+  <ul v-if="props.programs.length && props.programs.length > 0 && filteredPrograms.programs.length > 0" class="list" :class="{ listShowDescription: props.showDescription }">
     <template v-for="program in filteredPrograms.programs">
       <template v-if="program">
-        <li :key="program.id + props.channelPrograms.channelId" class="program" :class="{ limitWidth: !props.dontLimitWidth }">
+        <li :key="program.id + props.channelId" class="program" :class="{ limitWidth: !props.dontLimitWidth }">
           <div class="programInfo">
             <Tooltip :disabled="!settingsStore.isShowProgramPopups">
               <ProgramTime :scheduled-for="program.scheduledFor" :show-date="props.showDate" />
@@ -80,7 +81,7 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
             <Tooltip :disabled="!settingsStore.isShowProgramPopups">
               <span class="programTitle">{{ program.title }}</span>
               <template #popper>
-                <div class="max-w-50 w-full">
+                <div class="prgImgContainer">
                   <img class="prgImg" :src="`${program.logoUrl}?width=${settingsStore.channelsImagesSize}&height=${Math.floor(settingsStore.channelsImagesSize / (16 / 9))}&quality=93`" :alt="`Иконка ${program.title}`">
                   <div class="px-3 py-2">
                     <p class="text-brand-200 leading-4">
@@ -139,6 +140,11 @@ const currentProgramPercent = useCurrentProgramPercent(currentProgram, isRealtim
 
 .programTitle {
   @apply text-brand-800 dark:text-brand-300;
+}
+
+.prgImgContainer {
+  max-width: min(32vh, 32rem);
+  @apply w-full;
 }
 
 .progressContainer {

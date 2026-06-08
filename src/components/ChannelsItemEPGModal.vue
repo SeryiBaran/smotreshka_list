@@ -1,14 +1,13 @@
 <script lang="ts" setup>
+import type { useChannelEPG } from '~/api/epg'
 import type { Channel, Keys } from '~/types'
-import { useChannelEPG } from '~/api/epg'
 
 const props = defineProps<{
   channel: Channel
+  epg: ReturnType<typeof useChannelEPG>
 }>()
 
 const showEPG = defineModel<boolean>()
-
-const epg = useChannelEPG(props.channel.id)
 
 const channelEpgLink = computed(() => `https://smotreshka.tv/channels/${props.channel.id}/program`)
 
@@ -27,7 +26,7 @@ const groupsStates = reactive<{ [k in keyof typeof groupsNames]: boolean }>({
 
 <template>
   <ModalLongScroll v-model="showEPG" :heading="`Программа '${props.channel.title}'`" :channel-epg-link>
-    <div v-if="epg.isEpg.value && !epg.isFetching.value">
+    <div v-if="props.epg.isEpg.value && !props.epg.isFetching.value">
       <div v-for="group in groups" :key="group" class="my-b-border">
         <!-- TODO: Create collapse with @formkit/auto-animate/vue -->
         <button
@@ -42,10 +41,10 @@ const groupsStates = reactive<{ [k in keyof typeof groupsNames]: boolean }>({
           {{ groupsNames[group] }}
         </button>
 
-        <ChannelsItemEPGModalPrograms v-if="groupsStates[group]" :channel-id="props.channel.id" :epg :filtered-epg="epg.filteredEpg" :is-next="group === 'next'" />
+        <ChannelsItemEPGModalPrograms v-if="groupsStates[group]" :channel-id="props.channel.id" :epg :filtered-epg="props.epg.filteredEpg" :is-next="group === 'next'" />
       </div>
     </div>
-    <p v-else-if="epg.isFetching" class="text-brand-500">
+    <p v-else-if="props.epg.isFetching" class="text-brand-500">
       Загрузка, пожалуйста, подождите...
     </p>
   </ModalLongScroll>
