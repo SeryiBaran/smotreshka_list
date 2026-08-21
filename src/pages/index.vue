@@ -85,6 +85,11 @@ function resetFilters() {
   <div class="flex grow flex-col">
     <TheTvKeyboardProvider :channels-available="channels.channelsAvailable.value" />
     <p class="text-sm mt-1">
+      Если список в коде обновить возможности нет, прошу обратить внимание на последнюю галочку на странице <RouterLink to="/settings" class="link">
+        Настройки
+      </RouterLink>
+    </p>
+    <p class="text-sm mt-1">
       Последнее обновление списка произошло <span :title="useDayJS()(channelsPacksLastEdit).format()">{{ useDayJS()(channelsPacksLastEdit).fromNow() }}</span>
     </p>
     <p class="text-sm my-4 mt-1">
