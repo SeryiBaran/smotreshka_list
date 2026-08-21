@@ -3,6 +3,9 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import { z } from 'zod'
 
+import gif1 from '~/assets/1.gif'
+import gif2 from '~/assets/2.gif'
+
 import {
   channelsListModesNames,
   denyBrandColors,
@@ -168,6 +171,14 @@ const handleSave = handleSubmit((newValues) => {
       <li>
         <Checkbox v-model="settingsStore.isHideLogosOnSmallScreen" checkbox-label="Скрывать лого каналов на маленьких экранах" />
       </li>
+      <li class="bruhSetting">
+        <Checkbox v-model="settingsStore.isShowAllChannels" checkbox-label="Показывать все каналы, включая недоступные (на случай внезапного (или не очень) прекращения обновления списка заведующим данным сайтом 😀)" />
+        <div class="bruhSettingContent">
+          <p>Лучше все же попросите<br>заведующего обновить<br>список. Так будет поудобнее</p>
+          <img :src="gif1">
+          <img :src="gif2">
+        </div>
+      </li>
       <li>
         <RouterLink class="colorsTransition btn btn-with-icon" to="/available_channels_settings">
           <span
@@ -187,5 +198,33 @@ li {
 
 li.verticalLi {
   @apply flex-col items-start;
+}
+
+.bruhSetting {
+  position: relative;
+}
+
+.bruhSettingContent {
+  position: absolute;
+  top: 100%;
+  left: 5rem;
+  font-size: 1.2em;
+  background: #000;
+  color: #fff;
+  padding: 1em;
+  border-radius: 1em;
+
+  opacity: 0;
+}
+
+.bruhSetting:not(:hover) .bruhSettingContent {
+  visibility: hidden;
+  user-select: none;
+  pointer-events: none;
+}
+
+.bruhSetting:hover .bruhSettingContent {
+  @apply transition transition-property-[opacity] transition-duration-2000ms;
+  opacity: 100;
 }
 </style>

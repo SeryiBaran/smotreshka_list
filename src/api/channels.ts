@@ -19,8 +19,10 @@ export const useChannels = createSharedComposable(() => {
   })
 
   const channelsAvailable = computed<Channel[]>(() => (
-    query.data.value?.channels
-      .filter(channel => availableChannelsNumbers.includes(channel.keyNumber)) || []
+    (settingsStore.isShowAllChannels
+      ? query.data.value?.channels
+      : query.data.value?.channels
+          .filter(channel => availableChannelsNumbers.includes(channel.keyNumber))) || []
   ))
 
   const channelsSorted = computed<Channel[]>(() => {
